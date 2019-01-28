@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ndu.sanghiang.kners.MainActivity"
+    android:orientation="vertical">
+
+    <!-- Load the toolbar here -->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tToolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/white"
+        android:background="?attr/colorPrimary">
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_main_text"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/button_produk_knowledge"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_produk_knowledge"
+        android:enabled="false"/>
+
+    <Button
+        android:id="@+id/kner_browser"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_kner_browser"
+        android:onClick="goToBrowser"/>
+
+    <Button
+        android:id="@+id/button_inventory_manager"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_inventory_manager"
+        android:enabled="false"/>
+
+    <Button
+        android:id="@+id/button_code_match_inspection"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_code_match_inspection"
+        android:onClick="codeMatchActivity"/>
+
+    <Button
+        android:id="@+id/button_history"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_history"
+        android:onClick="barcodeListActivity"/>
+
+    <Button
+        android:id="@+id/button_ocr_activity"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_ocr_activity"
+        android:onClick="ocrCaptureActivity"/>
+
+    <Button
+        android:id="@+id/show_camera_activity_java_surface_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_camera_ocr"
+        android:enabled="true"/>
+
+    <Button
+        android:id="@+id/button_about"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_about"/>
+
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+    </com.google.android.gms.ads.AdView>
+
+</LinearLayout>

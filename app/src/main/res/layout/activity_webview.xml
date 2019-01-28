@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- CoordinatorLayout is used to create scrolling and "floating" effects within a layout -->
+<!-- This is typically the root layout which wraps the app bar and content -->
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ndu.sanghiang.kners.WebViewActivity">
+    <!-- AppBarLayout is a wrap_content for a Toolbar in order to apply scrolling effects. -->
+    <!-- Note that AppBarLayout expects to be the first child nested within a CoordinatorLayout -->
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+        <!-- Toolbar is the actual app bar with text and the action items -->
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:titleTextColor="@android:color/white">
+        </android.support.v7.widget.Toolbar>
+
+
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:background="@android:color/transparent"
+            android:layout_height="3dp">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="-3dp"
+                android:layout_gravity="center_horizontal"
+                android:progress="25"
+                android:visibility="visible"
+                android:max="100"
+                android:indeterminate="true"/>
+
+        </FrameLayout>
+    </android.support.design.widget.AppBarLayout>
+    <!--Swipe to refresh layout-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/swipeRefreshLayout">
+
+
+        <com.ndu.sanghiang.kners.ObservableWebView
+            android:id="@+id/observableWebView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        </com.ndu.sanghiang.kners.ObservableWebView>
+    </android.support.v4.widget.SwipeRefreshLayout >
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--Sumber Tutorial http://www.androidhive.info/2013/11/android-working-with-action-bar/
+
+    App Icon – App branding logo or icon will be displayed here.
+    View Control – A dedicated space to display app title. Also provides option to switch between views by adding spinner or tabbed navigation.
+    Action Buttons – Some important actions of the app can be added here.
+    Action Overflow – All unimportant action will be shown as a menu.
+
+    -->
+
+    <!-- Forward -->
+    <item android:id="@+id/action_forward"
+        android:icon="@drawable/ic_navigate_next_white_24dp"
+        android:title="@string/action_forward"
+        app:showAsAction="never"
+        android:onClick="onForward"/>
+
+    <!-- Back -->
+    <item android:id="@+id/action_back"
+        android:icon="@drawable/ic_navigate_before_white_24dp"
+        android:title="@string/action_back"
+        app:showAsAction="never"
+        android:onClick="onGoBack"/>
+
+    <!-- Bookmark -->
+    <item android:id="@+id/action_bookmark"
+        android:icon="@drawable/ic_bookmark_border_white_24dp"
+        android:title="@string/action_bookmark"
+        app:showAsAction="never" />
+
+    <!-- Info -->
+    <item android:id="@+id/action_info"
+        android:icon="@drawable/ic_error_outline_white_24dp"
+        android:title="@string/action_info"
+        app:showAsAction="never"
+        android:onClick="onInfo" />
+
+    <item android:id="@+id/action_search"
+        android:title="@string/action_search"
+        android:icon="@drawable/ic_search_white_24dp"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
+
+
+</menu>

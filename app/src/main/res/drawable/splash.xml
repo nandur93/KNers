@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--Warna Bacground-->
+    <item
+        android:drawable="@color/colorPrimary"/>
+    <!--Gambar Utama-->
+    <item>
+        <bitmap
+            android:src="@drawable/ic_launcher"
+            android:gravity="center"/>
+    </item>
+    <!--Teks-->
+    <item>
+        <bitmap
+            android:src="@drawable/ic_developer_name"
+            android:gravity="bottom"/>
+    </item>
+</layer-list>
