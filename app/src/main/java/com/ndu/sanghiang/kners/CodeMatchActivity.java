@@ -3,11 +3,9 @@ package com.ndu.sanghiang.kners;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Vibrator;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,18 +25,14 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.Date;
+import java.io.ByteArrayOutputStream;
 
 import static android.widget.Toast.LENGTH_SHORT;
-//import static com.ndu.sanghiang.kners.R.string.text_scan;
 
 
 public class CodeMatchActivity extends AppCompatActivity {
     TextView act_code, result;
     EditText verif_code, act_code_edit, no_bo;
-    private ImageView screenshot;
     Button save_ss;
     private DrawerLayout mDrawerLayout;
     //    public static final String SCAN_RESULT = "com.ndu.sanghiang.kners";
@@ -55,11 +48,8 @@ public class CodeMatchActivity extends AppCompatActivity {
         no_bo = findViewById(R.id.edit_text_no_bo);
         act_code_edit = findViewById(R.id.edit_text_actual_code);
         result = findViewById(R.id.textViewResult);
-        screenshot=findViewById(R.id.screenShot);
         save_ss=findViewById(R.id.button_save);
         mDrawerLayout = findViewById(R.id.drawer_layout);
-
-        //permission marshmello
 
         // Sample AdMob app ID: ca-app-pub-4368595636314473~7130779124
         MobileAds.initialize(this, "ca-app-pub-3940256099942544~6300978111");
@@ -73,9 +63,8 @@ public class CodeMatchActivity extends AppCompatActivity {
         setSupportActionBar(tToolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
+        //Menampilkan garis horizontal 3
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
-        //Menampilkan panah Back ←
-
 
 
         // Get intent, action and MIME type
@@ -95,12 +84,6 @@ public class CodeMatchActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-
-
-
-
-                // jika ada maka bolehkan
-                // */
 
                 // String s1 = act_code.getText().toString();
                 String s2 = verif_code.getText().toString(); //hasil scan code yang di improve
@@ -142,19 +125,13 @@ public class CodeMatchActivity extends AppCompatActivity {
         save_ss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //klik tombol save_ss
-                screenshot(); //jalankanmethode screenshot
+                screenshot(); //jalankanmethode screenshot lalu kirim ke result
             }
         });
     }
 
    private void screenshot() {//metode screenshot
-        String bo = no_bo.getText().toString();//dapatkan text dalam kolom no bo
-        Date now = new Date();//isi tanggal dengan format dibawah
-        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
-
         try {
-            // image naming and path  to include sd card  appending name you choose for file
-            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + bo + ".jpeg";
 
             // create bitmap screen capture
             View v1 = getWindow().getDecorView().getRootView();
@@ -162,20 +139,16 @@ public class CodeMatchActivity extends AppCompatActivity {
             Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
             v1.setDrawingCacheEnabled(false);
 
-            File imageFile = new File(mPath);
 
-            FileOutputStream outputStream = new FileOutputStream(imageFile);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
             int quality = 100;
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-            outputStream.flush();
-            outputStream.close();
-
-            //setting screenshot in imageview
-            String filePath = imageFile.getPath();
-
-            Bitmap ssbitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-            screenshot.setImageBitmap(ssbitmap);
-            String sharePath = filePath;
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+            baos.flush();
+            baos.close();
+            byte[] b = baos.toByteArray();
+            Intent intent=new Intent(CodeMatchActivity.this,ScreenshotActivity.class);
+            intent.putExtra("picture", b);
+            startActivity(intent);
 
         } catch (Throwable e) {
             // Several error may come out with file handling or DOM
