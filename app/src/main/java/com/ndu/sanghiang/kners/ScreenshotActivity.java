@@ -1,6 +1,8 @@
 package com.ndu.sanghiang.kners;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
@@ -8,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,7 +26,6 @@ import java.util.Random;
 
 public class ScreenshotActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,6 @@ public class ScreenshotActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         }
-
 
         //Menambahkan View Image dari tombol SAVE
         Bundle extras = getIntent().getExtras();
@@ -49,7 +50,57 @@ public class ScreenshotActivity extends AppCompatActivity {
         }
         imageView.setImageBitmap(bitmap);
 
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
 
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                handleSendText(intent); // Handle text being sent //memerima text yang dikirim dari aplikasi lain
+            }
+        }
+
+
+    }
+
+    private void handleSendText(Intent intent) {
+        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+        if (sharedText != null) {
+            // Update UI to reflect text being shared
+            String noBO = "";
+            noBO.equals(sharedText);
+            Toast.makeText(this, "BO " + sharedText, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //Permission Marshmelo
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    saveImage();
+                    backToCodeMatch();
+                    Toast.makeText(getApplicationContext(), "Image Saved", Toast.LENGTH_SHORT).show();
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(ScreenshotActivity.this, "Akses ke SDCARD tidak diijinkan, aplikasi tidak bisa menyimpan gambar", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     //menambahkan menu
@@ -66,12 +117,17 @@ public class ScreenshotActivity extends AppCompatActivity {
             case R.id.action_save:
                 //TODO buat popup dan yakinkan kalau gambar mau di save,
                 //Karena isi akan terreset
-                Toast.makeText(getApplicationContext(), "Image Saved", Toast.LENGTH_SHORT).show();
-                SaveImage();
+                //Permission Marshmelo
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    ActivityCompat.requestPermissions(ScreenshotActivity.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            1);
+                }
                 return true;
             case R.id.action_delete:
                 //TODO buat popup yang sama
-                DeleteImage();
+                deleteImage();
+                backToCodeMatch();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -79,17 +135,18 @@ public class ScreenshotActivity extends AppCompatActivity {
         }
     }
 
-    private void DeleteImage() {
+    private void deleteImage() {
+        Toast.makeText(getApplicationContext(), "Image Deleted", Toast.LENGTH_SHORT).show(); //Delete Image methode
+    }
 
-        Toast.makeText(getApplicationContext(), "Image Deleted", Toast.LENGTH_SHORT).show();
-//Delete Image methode
-        Intent produkIntent = new
+    private void backToCodeMatch() {
+        Intent codeMatchIntent = new
                 Intent(ScreenshotActivity.this,CodeMatchActivity.class);
-        startActivity(produkIntent);
+        startActivity(codeMatchIntent);
     }
 
 
-    private void SaveImage() {
+    private void saveImage() {
             String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
             File myDir = new File(root + "/Verifikasi Kode");
             myDir.mkdirs();
@@ -107,6 +164,7 @@ public class ScreenshotActivity extends AppCompatActivity {
                 imageView.setDrawingCacheEnabled(true);
                 imageView.buildDrawingCache();
                 Bitmap bitmap = Bitmap.createBitmap(imageView.getDrawingCache());
+                imageView.setDrawingCacheEnabled(false);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
                 out.flush();
                 out.close();

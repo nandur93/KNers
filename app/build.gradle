@@ -8,7 +8,7 @@ android {
         minSdkVersion 14 //ICS
         targetSdkVersion 27 //MM
         versionCode 1 //Naikkan 1 angka jika mau revisi dan upload ke playstore
-        versionName "1.1" //Naikkan bebas dan kode ini yang ditunjukkan ke User
+        versionName "1.2" //Naikkan bebas dan kode ini yang ditunjukkan ke User
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -51,6 +51,7 @@ dependencies {
     implementation "com.android.support:cardview-v7:$versionV7"
     implementation "com.android.support:recyclerview-v7:$versionV7"
     implementation "com.android.support:support-v4:$versionV7"
+    implementation "com.android.support:preference-v7:$versionV7"
     implementation "com.android.support:support-vector-drawable:$versionV7"
     implementation "com.android.support:design:$versionV7"
     implementation 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
@@ -68,5 +69,5 @@ dependencies {
 }
 
 dependencies {
-    implementation 'com.android.support.constraint:constraint-layout:+'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }

@@ -18,15 +18,9 @@
         app:showAsAction="never" />
 
     <!-- Check For Updates -->
-    <item android:id="@+id/action_check_updates"
+    <item android:id="@+id/action_update"
         android:icon="@drawable/ic_action_update"
         android:title="@string/action_update"
-        app:showAsAction="never"/>
-
-    <!-- Settings -->
-    <item android:id="@+id/action_settings"
-        android:icon="@drawable/ic_action_update"
-        android:title="@string/action_settings"
         app:showAsAction="never"/>
 
     <!-- About -->

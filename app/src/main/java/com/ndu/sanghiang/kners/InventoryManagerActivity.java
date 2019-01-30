@@ -43,9 +43,6 @@ public class InventoryManagerActivity extends AppCompatActivity {
                 if(i == 3){
                     myIntent = new Intent(view.getContext(), CodeMatchActivity.class);
                 }
-                if(i == 4){
-                    myIntent = new Intent(view.getContext(), SettingsActivity.class);
-                }
 
                 //lain2
 

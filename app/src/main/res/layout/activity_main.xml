@@ -17,68 +17,80 @@
         android:background="?attr/colorPrimary">
     </android.support.v7.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_main_text"
-        android:layout_gravity="center"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-    <Button
-        android:id="@+id/button_produk_knowledge"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_produk_knowledge"
-        android:enabled="false"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/kner_browser"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_kner_browser"
-        android:onClick="goToBrowser"/>
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_main_text"
+                android:layout_gravity="center"/>
 
-    <Button
-        android:id="@+id/button_inventory_manager"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_inventory_manager"
-        android:enabled="false"/>
+            <Button
+                android:id="@+id/button_produk_knowledge"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_produk_knowledge"
+                android:enabled="false"/>
 
-    <Button
-        android:id="@+id/button_code_match_inspection"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_code_match_inspection"
-        android:onClick="codeMatchActivity"/>
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_kner_browser"
+                android:onClick="goToBrowser"/>
 
-    <Button
-        android:id="@+id/button_history"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_history"
-        android:onClick="barcodeListActivity"/>
+            <Button
+                android:id="@+id/button_inventory_manager"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_inventory_manager"
+                android:enabled="false"/>
 
-    <Button
-        android:id="@+id/button_ocr_activity"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_ocr_activity"
-        android:onClick="ocrCaptureActivity"/>
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_code_match_inspection"
+                android:onClick="codeMatchActivity"/>
 
-    <Button
-        android:id="@+id/show_camera_activity_java_surface_view"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_camera_ocr"
-        android:enabled="true"/>
+            <Button
+                android:id="@+id/button_history"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_history"
+                android:onClick="barcodeListActivity"/>
 
-    <Button
-        android:id="@+id/button_about"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_about"/>
+            <Button
+                android:id="@+id/button_ocr_activity"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_ocr_activity"
+                android:onClick="ocrCaptureActivity"/>
 
+            <Button
+                android:id="@+id/show_camera_activity_java_surface_view"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_camera_ocr"
+                android:enabled="true"/>
+
+            <Button
+                android:id="@+id/button_about"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_about"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"

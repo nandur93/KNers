@@ -22,7 +22,6 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/editText"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:ems="13"
@@ -30,7 +29,6 @@
             android:hint="Item Code" />
 
         <ImageButton
-            android:id="@+id/imageButton"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             app:srcCompat="@drawable/ic_developer_name" />
@@ -38,7 +36,6 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/editText2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -46,19 +43,16 @@
         android:hint="Product Name"/>
 
     <TextView
-        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Kategori" />
 
     <Spinner
-        android:id="@+id/spinner2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Kategori"/>
 
     <EditText
-        android:id="@+id/editText3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -66,7 +60,6 @@
         android:hint="Lokasi" />
 
     <EditText
-        android:id="@+id/editText4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -74,7 +67,6 @@
         android:hint="Harga" />
 
     <EditText
-        android:id="@+id/editText6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -82,7 +74,6 @@
         android:hint="Stock Awal" />
 
     <EditText
-        android:id="@+id/editText7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -90,7 +81,6 @@
         android:hint="Stock Masuk" />
 
     <EditText
-        android:id="@+id/editText8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -98,7 +88,6 @@
         android:hint="Stock Keluar" />
 
     <EditText
-        android:id="@+id/editText9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -113,7 +102,6 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button2"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -121,7 +109,6 @@
             android:text="Simpan" />
 
         <Button
-            android:id="@+id/button3"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
