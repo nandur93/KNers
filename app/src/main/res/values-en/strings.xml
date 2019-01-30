@@ -1,21 +1,17 @@
 <resources>
-    <string name="search_hint">Hints</string>
     <string name="button_produk_knowledge">Products Knowledge (In Depelopment)</string>
     <string name="title_produk_knowledge">Products Knowledge</string>
     <string name="button_diabetasol">Diabetasol</string>
     <string name="button_inventory_manager">Inventory Manager (In Depelopment)</string>
     <string name="button_camera_ocr">Camera OCR (In Development)</string>
     <string name="button_verify">Verify</string>
-    <string name="button_scan">Scan Barcode</string>
-    <string name="title_splashscreen">Created and Developed by: NDU</string>
+    <string name="button_scan">Scan QR CODE</string>
     <string name="app_about">About KNers App</string>
     <string name="action_search">Search</string>
     <string name="action_info">Info</string>
     <string name="title_info">About KNers Browser</string>
     <string name="sum_info">KNers Browser adalah custom browser yang dikembangkan oleh NDU sebagai alat untuk memuat data pada internet dengan pengaturan yang disesuaikan agar tidak memberatkan aplikasi</string>
-    <string name="action_help">Help</string>
     <string name="action_about">About</string>
-    <string name="action_settings">Settings</string>
     <string name="button_about">About</string>
     <string name="sum_about">KNers App adalah aplikasi yang dikembangkan oleh NDU (Nandur93) untuk membantu memanajemen aktifitas di Kalbe Nutritionals.
         Jika ada ide untuk pengembangan Aplikasi ini, maka silahkan hubungi NDU di EXT 210/207.
@@ -30,92 +26,17 @@
     <string name="text_verify_code">Code Verification</string>
     <string name="text_result">VERIFICATION RESULT</string>
     <string name="text_equal">CODE IS RIGHT</string>
-    <string name="text_scan">Arahkan ke Barcode atau QR Code untuk SCAN</string>
     <string name="text_not_equal">CODE IS WRONG</string>
     <string name="text_null">CODE IS EMPTY</string>
     <string name="bo_null">BO number is empty</string>
     <string name="title_code_match">Code Match Inspection</string>
-    <string name="menu_refresh">Refresh</string>
     <string name="app_main_text">Products Knowledge</string>
     <string name="action_bookmark">Bookmark</string>
     <string name="action_back">Back</string>
     <string name="action_forward">Forward</string>
-    <string name="title_activity_settings">Settings</string>
     <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
     <string name="low_storage_error">Ocr dependencies cannot be downloaded due to low device storage</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
-
-    <!-- Strings related to Settings -->
-
-    <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
-
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
-        based on your message history
-    </string>
-
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
-
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
-
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_sync_frequency_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>180</item>
-        <item>360</item>
-        <item>-1</item>
-    </string-array>
-
-    <string-array name="list_preference_entries">
-        <item>Entry 1</item>
-        <item>Entry 2</item>
-        <item>Entry 3</item>
-    </string-array>
-
-    <string-array name="list_preference_entry_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
-    <string-array name="multi_select_list_preference_default_value" />
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
-
-    <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
-
-    <string name="pref_title_new_message_notifications">New message notifications</string>
-
-    <string name="pref_title_ringtone">Ringtone</string>
-    <string name="pref_ringtone_silent">Silent</string>
-
-    <string name="pref_title_vibrate">Vibrate</string>
     <string name="sum_search">Usage of SearchView in an ActionBar as a menu item. Implementing SearchView in action bar. Add search function to list view in android. Learn to Styling the ActionBar SearchView in android app or game</string>
     <string name="button_export">EXPORT BARCODE</string>
     <string name="list_scanned_barcode">List Scanned Barcode</string>
@@ -126,8 +47,10 @@
     <string name="button_code_match_inspection">Code Match Inspection</string>
     <string name="button_kner_browser">KNer Browser</string>
     <string name="button_history">History</string>
-    <string name="text_view_result">Choose code to import</string>
     <string name="button_ocr_activity">OCR Google Vision</string>
     <string name="hint_no_bo">Input BO Number</string>
-    <string name="button_save">Save</string>
+    <string name="button_preview">Preview</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_save">Save</string>
+    <string name="app_screenshot">Result</string>
 </resources>
