@@ -1,6 +1,7 @@
 package com.ndu.sanghiang.kners;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +11,7 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -33,6 +35,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.Objects;
 
 import static android.widget.Toast.LENGTH_SHORT;
+import static com.ndu.sanghiang.kners.R.id.edit_text_actual_code;
 
 
 public class CodeMatchActivity extends AppCompatActivity {
@@ -43,6 +46,7 @@ public class CodeMatchActivity extends AppCompatActivity {
     //    public static final String SCAN_RESULT = "com.ndu.sanghiang.kners";
 //    String str_act_code, str_verif_code;
 
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +55,7 @@ public class CodeMatchActivity extends AppCompatActivity {
         actCode = findViewById(R.id.text_view_actual_code);
         verifCode = findViewById(R.id.edit_text_code);
         noBo = findViewById(R.id.edit_text_no_bo);
-        actCodeEdit = findViewById(R.id.edit_text_actual_code);
+        actCodeEdit = findViewById(edit_text_actual_code);
         result = findViewById(R.id.textViewResult);
         preView = findViewById(R.id.button_preview);
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -89,77 +93,65 @@ public class CodeMatchActivity extends AppCompatActivity {
 
 
         Button button = findViewById(R.id.button_verify);
-        button.setOnClickListener( new View.OnClickListener() {
+        button.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            // String s1 = actCode.getText().toString();
+            String s2 = verifCode.getText().toString(); //hasil scan code yang di improve
+            String s3 = actCodeEdit.getText().toString(); //aktual pembanding kode hasil scan barcode/qrcode
 
-                // String s1 = actCode.getText().toString();
-                String s2 = verifCode.getText().toString(); //hasil scan code yang di improve
-                String s3 = actCodeEdit.getText().toString(); //aktual pembanding kode hasil scan barcode/qrcode
+            if (s3.equals("null")){
+                result.setText(getString(R.string.text_null)); //ketika aktual kode kosong, maka "teks kosong"
+            // penambahan anti no bo kosong
+                // ketika tombol verifikasi di klik
+                // cek apakah no bo kosong
+            } else if("".equals(noBo.getText().toString().trim())) {
+                // ganti result text ke
+                result.setText(getString(R.string.bo_null));
+                // jika kosong maka toast "no bo tidak boleh kosong"/tambahkan trim untuk blank space
+                Toast.makeText(getApplicationContext(), "No BO tidak boleh kosong", Toast.LENGTH_SHORT).show();
 
-                if (s3.equals("null")){
-                    result.setText(getString(R.string.text_null)); //ketika aktual kode kosong, maka "teks kosong"
-                // penambahan anti no bo kosong
-                    // ketika tombol verifikasi di klik
-                    // cek apakah no bo kosong
-                } else if("".equals(noBo.getText().toString().trim())) {
-                    // ganti result text ke
-                    result.setText(getString(R.string.bo_null));
-                    // jika kosong maka toast "no bo tidak boleh kosong"/tambahkan trim untuk blank space
-                    Toast.makeText(getApplicationContext(), "No BO tidak boleh kosong", Toast.LENGTH_SHORT).show();
+            } else if(s2.equals(s3)) { //ketika  s2 dan s3 sama
+                result.setText(getString(R.string.text_equal)); //tampilkan teks "kode benar"
+                result.setTextColor(Color.BLUE); //warna teks menjadi biru
+                Toast.makeText(getApplicationContext(), "Kode Benar", Toast.LENGTH_SHORT).show();
+                correct.start(); //bunyikan suara benar
 
-                } else if(s2.equals(s3)) { //ketika  s2 dan s3 sama
-                    result.setText(getString(R.string.text_equal)); //tampilkan teks "kode benar"
-                    result.setTextColor(Color.BLUE); //warna teks menjadi biru
-                    Toast.makeText(getApplicationContext(), "Kode Benar", Toast.LENGTH_SHORT).show();
-                    correct.start(); //bunyikan suara benar
+            } else {
+                //ketika s2 dan s3 tidak cocok
+                result.setText(getString(R.string.text_not_equal)); //tampilkan teks "kode salah"
+                result.setTextColor(Color.RED); //warna teks menjadi merah
+                Toast.makeText(getApplicationContext(), "Kode Salah", Toast.LENGTH_SHORT).show();
 
-                } else if (!s2.equals(s3)) { //ketika s2 dan s3 tidak cocok
-                    result.setText(getString(R.string.text_not_equal)); //tampilkan teks "kode salah"
-                    result.setTextColor(Color.RED); //warna teks menjadi merah
-                    Toast.makeText(getApplicationContext(), "Kode Salah", Toast.LENGTH_SHORT).show();
+                Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                assert vib != null;
+                vib.vibrate(100); //getar 100 millisecond
 
-                    Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    assert vib != null;
-                    vib.vibrate(100); //getar 100 millisecond
-
-                    wrong.start(); //bunyikan suara salah
-                } else {
-                    Toast.makeText(getApplicationContext(), "Error", LENGTH_SHORT).show();
-                }
+                wrong.start(); //bunyikan suara salah
             }
         });
 //Simpan preView pakai tombol
-        preView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { //klik tombol preView
-                hideToolbar();
-                preView(); //jalankanmethode preView lalu kirim ke result
-            }
+        preView.setOnClickListener(v -> { //klik tombol preView
+            hideToolbar();
+            preView(); //jalankanmethode preView lalu kirim ke result
         });
     }
 //Permission Result
 @Override
 public void onRequestPermissionsResult(int requestCode,
-                                       String permissions[], int[] grantResults) {
-    switch (requestCode) {
-        case 1: {
+                                       @NonNull String[] permissions, @NonNull int[] grantResults) {
+    // If request is cancelled, the result arrays are empty.
+    if (requestCode == 1) {
+        if (grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-            // If request is cancelled, the result arrays are empty.
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            qrScanner();
+            // permission was granted, yay! Do the
+            // contacts-related task you need to do.
+        } else {
 
-                qrScanner();
-                // permission was granted, yay! Do the
-                // contacts-related task you need to do.
-            } else {
-
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
-                Toast.makeText(CodeMatchActivity.this, "Kamera tidak diijinkan, SCAN QR Code tidak akan bisa digunakan", Toast.LENGTH_SHORT).show();
-            }
-            return;
+            // permission denied, boo! Disable the
+            // functionality that depends on this permission.
+            Toast.makeText(CodeMatchActivity.this, "Kamera tidak diijinkan, SCAN QR Code tidak akan bisa digunakan", LENGTH_SHORT).show();
         }
 
         // other 'case' lines to check for other
@@ -255,11 +247,9 @@ public void onRequestPermissionsResult(int requestCode,
 
     public void onClickScan(View view) {
         //Permission Marshmello
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            ActivityCompat.requestPermissions(CodeMatchActivity.this,
-                    new String[]{Manifest.permission.CAMERA},
-                    1);
-        }
+        ActivityCompat.requestPermissions(CodeMatchActivity.this,
+                new String[]{Manifest.permission.CAMERA},
+                1);
     }
 
     private void qrScanner() {
@@ -274,10 +264,9 @@ public void onRequestPermissionsResult(int requestCode,
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            mDrawerLayout.openDrawer(GravityCompat.START);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
