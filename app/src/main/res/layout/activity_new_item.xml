@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ndu.sanghiang.kners.NewItemActivity"
+    tools:context="com.ndu.sanghiang.kners.indevelopment.NewItemActivity"
     android:orientation="vertical"
     android:layout_weight="0"
     android:weightSum="1">
@@ -31,7 +31,8 @@
         <ImageButton
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:srcCompat="@drawable/ic_developer_name" />
+            app:srcCompat="@drawable/ic_developer_name"
+            android:contentDescription="TODO" />
 
     </LinearLayout>
 

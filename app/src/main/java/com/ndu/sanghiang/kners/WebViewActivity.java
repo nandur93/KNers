@@ -30,6 +30,8 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 
 public class WebViewActivity extends AppCompatActivity {
 
@@ -51,11 +53,11 @@ public class WebViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //Sumber dari XML
         setContentView(R.layout.activity_webview);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar);
         progressBar.setMax(100);
         progressBar.setProgress(12);
         //Simple WebView
-        webView = (ObservableWebView) findViewById(R.id.observableWebView);
+        webView = findViewById(R.id.observableWebView);
         //WebView Settings
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setSupportZoom(true);
@@ -72,44 +74,34 @@ public class WebViewActivity extends AppCompatActivity {
         registerForContextMenu(webView);
 
             //Assign Toolbar to the activity
-        tToolbar = (Toolbar) findViewById(R.id.tToolbar);
+        tToolbar = findViewById(R.id.tToolbar);
         setSupportActionBar(tToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setTitle(R.string.title_webview);
 
         //back forward
-        AppBarLayout appBarLayout = (AppBarLayout)findViewById(R.id.appBar);
+        AppBarLayout appBarLayout = findViewById(R.id.appBar);
         appBarLayout.setExpanded(true, true);
 
 
-        webView.setOnScrollChangedCallback(new ObservableWebView.OnScrollChangedCallback(){
-
-            public void onScroll(int l, int t){
-                //Do stuff
-                Log.d(TAG,"We Scrolled etc...");
-            }
+        webView.setOnScrollChangedCallback((l, t) -> {
+            //Do stuff
+            Log.d(TAG,"We Scrolled etc...");
         });
 
 
         //KodeBaru
-        frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
-        final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        frameLayout = findViewById(R.id.frameLayout);
+        final SwipeRefreshLayout refreshLayout = findViewById(R.id.swipeRefreshLayout);
         refreshLayout.setColorSchemeResources(R.color.refresh,R.color.refresh1,R.color.refresh2);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshLayout.setRefreshing(true);
-                tToolbar.setTitle(Title);
-                frameLayout.setVisibility(View.VISIBLE);
-                (new Handler()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshLayout.setRefreshing(false);
-                        webView.reload();// start refresh
-                    }
-                },3000);
-            }
-
+        refreshLayout.setOnRefreshListener(() -> {
+            refreshLayout.setRefreshing(true);
+            tToolbar.setTitle(Title);
+            frameLayout.setVisibility(View.VISIBLE);
+            (new Handler()).postDelayed(() -> {
+                refreshLayout.setRefreshing(false);
+                webView.reload();// start refresh
+            },3000);
         });
         final Activity activity = this;
         webView.setWebChromeClient(new WebChromeClient() {
@@ -153,28 +145,25 @@ public class WebViewActivity extends AppCompatActivity {
             contextMenu.setHeaderTitle("Download Image");
 
             contextMenu.add(0, 1, 0, "Save - Download Image")
-                    .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem menuItem) {
+                    .setOnMenuItemClickListener(menuItem -> {
 
-                            String DownloadImageURL = webViewHitTestResult.getExtra();
+                        String DownloadImageURL = webViewHitTestResult.getExtra();
 
-                            if(URLUtil.isValidUrl(DownloadImageURL)){
+                        if(URLUtil.isValidUrl(DownloadImageURL)){
 
-                                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(DownloadImageURL));
-                                request.allowScanningByMediaScanner();
-                                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                                DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-                                downloadManager.enqueue(request);
+                            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(DownloadImageURL));
+                            request.allowScanningByMediaScanner();
+                            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                            DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                            downloadManager.enqueue(request);
 
-                                Toast.makeText(WebViewActivity.this,"Image Downloaded Successfully.",Toast.LENGTH_LONG).show();
-                            }
-                            else {
-                                Toast.makeText(WebViewActivity.this,"Sorry.. Something Went Wrong.",Toast.LENGTH_LONG).show();
-                            }
-                            return false;
-
+                            Toast.makeText(WebViewActivity.this,"Image Downloaded Successfully.",Toast.LENGTH_LONG).show();
                         }
+                        else {
+                            Toast.makeText(WebViewActivity.this,"Sorry.. Something Went Wrong.",Toast.LENGTH_LONG).show();
+                        }
+                        return false;
+
                     });
         }
 
@@ -267,6 +256,7 @@ public class WebViewActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.webview_menu, menu);

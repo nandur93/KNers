@@ -1,8 +1,12 @@
-package com.ndu.sanghiang.kners;
+package com.ndu.sanghiang.kners.indevelopment;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
+import com.ndu.sanghiang.kners.R;
+
+import java.util.Objects;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -15,7 +19,7 @@ public class HistoryActivity extends AppCompatActivity {
         Toolbar tToolbar = findViewById(R.id.tToolbar);
         setSupportActionBar(tToolbar);
         //Menampilkan panah Back ←
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
 
                 }

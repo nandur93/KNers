@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ndu.sanghiang.kners;
+package com.ndu.sanghiang.kners.ocr;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
-import com.ndu.sanghiang.kners.GraphicOverlay;
 import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
+import com.ndu.sanghiang.kners.GraphicOverlay;
 
 import java.util.List;
 

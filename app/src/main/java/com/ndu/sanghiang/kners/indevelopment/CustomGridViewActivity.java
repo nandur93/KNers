@@ -1,4 +1,4 @@
-package com.ndu.sanghiang.kners;
+package com.ndu.sanghiang.kners.indevelopment;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,13 +8,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ndu.sanghiang.kners.R;
+
 public class CustomGridViewActivity extends BaseAdapter {
 
     private Context mContext;
     private final String[] gridViewString;
     private final int[] gridViewImageId;
 
-    public CustomGridViewActivity(Context context, String[] gridViewString, int[] gridViewImageId) {
+    CustomGridViewActivity(Context context, String[] gridViewString, int[] gridViewImageId) {
         mContext = context;
         this.gridViewImageId = gridViewImageId;
         this.gridViewString = gridViewString;
@@ -45,8 +47,8 @@ public class CustomGridViewActivity extends BaseAdapter {
 
             gridViewAndroid = new View(mContext);
             gridViewAndroid = inflater.inflate(R.layout.gridview_layout, null);
-            TextView textViewAndroid = (TextView) gridViewAndroid.findViewById(R.id.android_gridview_text);
-            ImageView imageViewAndroid = (ImageView) gridViewAndroid.findViewById(R.id.android_gridview_image);
+            TextView textViewAndroid = gridViewAndroid.findViewById(R.id.android_gridview_text);
+            ImageView imageViewAndroid = gridViewAndroid.findViewById(R.id.android_gridview_image);
             textViewAndroid.setText(gridViewString[i]);
             imageViewAndroid.setImageResource(gridViewImageId[i]);
         } else {

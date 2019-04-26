@@ -1,11 +1,13 @@
 package com.ndu.sanghiang.kners;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
+
+import java.util.Objects;
 
 public class AboutActivity extends AppCompatActivity {
     WebView webview;
@@ -14,10 +16,10 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        Toolbar tToolbar = (Toolbar) findViewById(R.id.tToolbar);
+        Toolbar tToolbar = findViewById(R.id.tToolbar);
         setSupportActionBar(tToolbar);
         //Menampilkan panah Back ←
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
     }
     @Override
@@ -29,14 +31,11 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         //Tentukan actionnya setiap klik
-        switch (item.getItemId()){
-            case R.id.action_search:
-                return true;
+        if (item.getItemId() == R.id.action_search) {
+            return true;
             /*case R.id.action_check_updates:
                 in developement */
-            default:
-                return super.onOptionsItemSelected(item);
-
         }
+        return super.onOptionsItemSelected(item);
     }
 }

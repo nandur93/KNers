@@ -1,17 +1,16 @@
 apply plugin: 'com.android.application'
-
 android {
     compileSdkVersion 28
     buildToolsVersion '29.0.0 rc2'
     defaultConfig {
         applicationId "com.ndu.sanghiang.kners"
-        minSdkVersion 25 //ICS
+        minSdkVersion 22 //ICS
         targetSdkVersion 28 //MM
-        versionCode 1 //Naikkan 1 angka jika mau revisi dan upload ke playstore
-        versionName '1.3' //Naikkan bebas dan kode ini yang ditunjukkan ke User
+        versionCode 2 //Naikkan 1 angka jika mau revisi dan upload ke playstore
+        versionName '1.4' //Naikkan bebas dan kode ini yang ditunjukkan ke User
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        maxSdkVersion 27
+        maxSdkVersion 28
     }
     buildTypes {
         release {
@@ -57,27 +56,25 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$versionV7"
     implementation "com.android.support:support-v4:$versionV7"
     implementation "com.android.support:preference-v7:$versionV7"
-    implementation "com.android.support:support-vector-drawable:28.0.0"
+    implementation "com.android.support:support-vector-drawable:$versionV7"
+    implementation "com.android.support:support-v4:$versionV7"
+    implementation "com.android.support:support-vector-drawable:$versionV7"
     implementation "com.android.support:design:$versionV7"
+    implementation "com.android.support.constraint:constraint-layout:2.0.0-alpha5"
     implementation 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
     implementation 'com.google.zxing:core:3.3.3'
     implementation 'com.google.android.gms:play-services-vision:17.0.2'
     implementation 'com.google.android.gms:play-services-ads:17.2.0'
-}
-dependencies {
+    implementation 'com.google.firebase:firebase-core:16.0.8'
+    implementation 'com.google.firebase:firebase-messaging:17.6.0'
+    implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:support-annotations:28.0.0'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation 'com.android.support.constraint:constraint-layout:2.0.0-alpha4'
     testImplementation 'junit:junit:4.13-beta-2'
 }
 
-dependencies {
-    implementation 'com.android.support.constraint:constraint-layout:2.0.0-alpha4'
-}
-
-dependencies {
-    implementation 'com.android.support:support-v4:28.0.0'
-    implementation 'com.android.support:support-vector-drawable:28.0.0'
-}
+apply plugin: 'com.google.gms.google-services'

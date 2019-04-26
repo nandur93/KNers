@@ -3,9 +3,8 @@
     <string name="title_produk_knowledge">Products Knowledge</string>
     <string name="button_diabetasol">Diabetasol</string>
     <string name="button_inventory_manager">Inventory Manager (In Depelopment)</string>
-    <string name="button_camera_ocr">Camera OCR (In Development)</string>
     <string name="button_verify">Verify</string>
-    <string name="button_scan">Scan QR CODE</string>
+    <string name="button_scan">Scan Standard QR CODE</string>
     <string name="app_about">About KNers App</string>
     <string name="action_search">Search</string>
     <string name="action_info">Info</string>
@@ -20,7 +19,7 @@
     <string name="title_webview">KNers Browser</string>
     <string name="title_new_item">New Item</string>
     <string name="title_code_received">Actual Code</string>
-    <string name="title_text_received">Code Verification</string>
+    <string name="title_text_received">Standard Code</string>
     <string name="text_open_ocr">[Open OCR]</string>
     <string name="text_actual_code">Actual Code</string>
     <string name="text_verify_code">Code Verification</string>
@@ -38,19 +37,18 @@
     <string name="low_storage_error">Ocr dependencies cannot be downloaded due to low device storage</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="sum_search">Usage of SearchView in an ActionBar as a menu item. Implementing SearchView in action bar. Add search function to list view in android. Learn to Styling the ActionBar SearchView in android app or game</string>
-    <string name="button_export">EXPORT BARCODE</string>
-    <string name="list_scanned_barcode">List Scanned Barcode</string>
-    <string name="checkbox_barcode_produk_edexport">ED Export</string>
-    <string name="checkbox_barcode_produk_edlokal">ED Local</string>
-    <string name="checkbox_barcode_produk_code">Production Code</string>
-    <string name="checkbox_barcode_produk_name">Product Name</string>
     <string name="button_code_match_inspection">Code Match Inspection</string>
     <string name="button_kner_browser">KNer Browser</string>
     <string name="button_history">History</string>
     <string name="button_ocr_activity">OCR Google Vision</string>
-    <string name="hint_no_bo">Input BO Number</string>
+    <string name="hint_no_bo">BO Number</string>
     <string name="button_preview">Preview</string>
     <string name="action_delete">Delete</string>
     <string name="action_save">Save</string>
     <string name="app_screenshot">Result</string>
+    <string name="app_login">Login</string>
+    <string name="button_login">Login</string>
+    <string name="textview_nobo_title">BO Number:</string>
+
+    <!--String Preferences -->
 </resources>

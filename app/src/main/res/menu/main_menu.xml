@@ -18,7 +18,7 @@
         app:showAsAction="never" />
 
     <!-- Check For Updates -->
-    <item android:id="@+id/action_update"
+    <item
         android:icon="@drawable/ic_action_update"
         android:title="@string/action_update"
         app:showAsAction="never"/>
@@ -28,6 +28,9 @@
         android:icon="@drawable/ic_action_about"
         android:title="@string/action_about"
         app:showAsAction="never" />
+
+    <item android:id="@+id/action_setting"
+        android:title="@string/action_setting"/>
 
 
 </menu>

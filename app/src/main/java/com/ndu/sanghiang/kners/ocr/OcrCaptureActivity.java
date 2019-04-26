@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ndu.sanghiang.kners;
+package com.ndu.sanghiang.kners.ocr;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
-import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
@@ -44,6 +43,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.ndu.sanghiang.kners.CameraSource;
+import com.ndu.sanghiang.kners.CameraSourcePreview;
+import com.ndu.sanghiang.kners.CodeMatchActivity;
+import com.ndu.sanghiang.kners.GraphicOverlay;
+import com.ndu.sanghiang.kners.R;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -108,15 +112,12 @@ public final class OcrCaptureActivity extends AppCompatActivity {
 
         // Set up the Text To Speech engine.
         TextToSpeech.OnInitListener listener =
-                new TextToSpeech.OnInitListener() {
-                    @Override
-                    public void onInit(final int status) {
-                        if (status == TextToSpeech.SUCCESS) {
-                            Log.d("OnInitListener", "Text to speech engine started successfully.");
-                            tts.setLanguage(Locale.US);
-                        } else {
-                            Log.d("OnInitListener", "Error starting the text to speech engine.");
-                        }
+                status -> {
+                    if (status == TextToSpeech.SUCCESS) {
+                        Log.d("OnInitListener", "Text to speech engine started successfully.");
+                        tts.setLanguage(Locale.US);
+                    } else {
+                        Log.d("OnInitListener", "Error starting the text to speech engine.");
                     }
                 };
         tts = new TextToSpeech(this.getApplicationContext(), listener);
@@ -140,13 +141,8 @@ public final class OcrCaptureActivity extends AppCompatActivity {
 
         final Activity thisActivity = this;
 
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ActivityCompat.requestPermissions(thisActivity, permissions,
-                        RC_HANDLE_CAMERA_PERM);
-            }
-        };
+        View.OnClickListener listener = view -> ActivityCompat.requestPermissions(thisActivity, permissions,
+                RC_HANDLE_CAMERA_PERM);
 
         Snackbar.make(mGraphicOverlay, R.string.permission_camera_rationale,
                 Snackbar.LENGTH_INDEFINITE)
@@ -287,11 +283,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         Log.e(TAG, "Permission not granted: results len = " + grantResults.length +
                 " Result code = " + (grantResults.length > 0 ? grantResults[0] : "(empty)"));
 
-        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                finish();
-            }
-        };
+        DialogInterface.OnClickListener listener = (dialog, id) -> finish();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Multitracker sample")
@@ -341,14 +333,17 @@ public final class OcrCaptureActivity extends AppCompatActivity {
             if (text != null && text.getValue() != null) {
                 Log.d(TAG, "text data is being spoken! " + text.getValue());
                 // Share Text
-               Intent intent = new Intent(this, CodeMatchActivity.class);
+                String value=text.getValue();
+                Intent i = new Intent(OcrCaptureActivity.this, CodeMatchActivity.class);
+                i.putExtra("CODE_RESULT",value);
+                startActivity(i);
+
+/*               Intent intent = new Intent(this, CodeMatchActivity.class);
                 String results = text.getValue();
                 intent.putExtra(SCAN_RESULT, results);
-                startActivity(intent);
+                startActivity(intent);*/
                 // Speak the string.
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    tts.speak(text.getValue(), TextToSpeech.QUEUE_ADD, null, "DEFAULT");
-                }
+                //tts.speak(text.getValue(), TextToSpeech.QUEUE_ADD, null, "DEFAULT");
             }
             else {
                 Log.d(TAG, "text data is null");

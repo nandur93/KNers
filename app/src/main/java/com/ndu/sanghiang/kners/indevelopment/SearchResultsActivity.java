@@ -1,7 +1,9 @@
-package com.ndu.sanghiang.kners;
+package com.ndu.sanghiang.kners.indevelopment;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import com.ndu.sanghiang.kners.R;
 
 public class SearchResultsActivity extends AppCompatActivity {
 

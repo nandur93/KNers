@@ -29,7 +29,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/app_main_text"
@@ -76,11 +75,10 @@
                 android:onClick="ocrCaptureActivity"/>
 
             <Button
-                android:id="@+id/show_camera_activity_java_surface_view"
+                android:id="@+id/button_login"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/button_camera_ocr"
-                android:enabled="true"/>
+                android:text="@string/button_login"/>
 
             <Button
                 android:id="@+id/button_about"
@@ -93,6 +91,7 @@
     </ScrollView>
 
     <com.google.android.gms.ads.AdView
+        android:visibility="gone"
         xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
         android:layout_width="match_parent"

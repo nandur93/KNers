@@ -3,10 +3,10 @@ package com.ndu.sanghiang.kners;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,17 +14,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.ndu.sanghiang.kners.firebase.LoginActivity;
+import com.ndu.sanghiang.kners.indevelopment.HistoryActivity;
+import com.ndu.sanghiang.kners.indevelopment.InventoryManagerActivity;
+import com.ndu.sanghiang.kners.indevelopment.ProdukKnowledgeActivity;
+import com.ndu.sanghiang.kners.ocr.OcrCaptureActivity;
 
 public class MainActivity extends AppCompatActivity {
-    Button buttonProdukKnowledge;
-    Button buttonAbout;
-    Button buttonInventoryManager;
-    Button buttonCameraOcr;
-    Button buttonBarcodeList;
-    Button buttonOcrCapture;
+    Button buttonProdukKnowledge, buttonAbout, buttonInventoryManager, buttonBarcodeList, buttonOcrCapture, buttonLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,50 +39,40 @@ public class MainActivity extends AppCompatActivity {
         buttonProdukKnowledge = findViewById(R.id.button_produk_knowledge);
         buttonInventoryManager = findViewById(R.id.button_inventory_manager);
         buttonAbout = findViewById(R.id.button_about);
-        buttonCameraOcr = findViewById(R.id.show_camera_activity_java_surface_view);
         buttonBarcodeList = findViewById(R.id.button_history);
         buttonOcrCapture = findViewById(R.id.button_ocr_activity);
+        buttonLogin = findViewById(R.id.button_login);
         Toolbar tToolbar = findViewById(R.id.tToolbar);
         setSupportActionBar(tToolbar);
 
         //Permission Marshmelo
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.INTERNET},
-                    1);
-        }
+        ActivityCompat.requestPermissions(MainActivity.this,
+                new String[]{Manifest.permission.INTERNET},
+                1);
 
-        buttonProdukKnowledge.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view) {
-                Intent produkIntent = new
-                        Intent(MainActivity.this,ProdukKnowledgeActivity.class);
-                startActivity(produkIntent);
-            }
+        buttonProdukKnowledge.setOnClickListener(view -> {
+            Intent produkIntent = new
+                    Intent(MainActivity.this, ProdukKnowledgeActivity.class);
+            startActivity(produkIntent);
         });
 
-        buttonInventoryManager.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-                Intent inventIntent = new
-                        Intent(MainActivity.this,InventoryManagerActivity.class);
-                startActivity(inventIntent);
-            }
+        buttonInventoryManager.setOnClickListener(view -> {
+            Intent inventIntent = new
+                    Intent(MainActivity.this, InventoryManagerActivity.class);
+            startActivity(inventIntent);
         });
 
-        buttonCameraOcr.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-                Intent inventIntent = new
-                        Intent(MainActivity.this,CameraOcrActivity.class);
-                startActivity(inventIntent);
-            }
+        buttonAbout.setOnClickListener(view -> {
+
+            Intent aboutIntent = new
+                    Intent(MainActivity.this,AboutActivity.class);
+            startActivity(aboutIntent);
         });
 
-        buttonAbout.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-
-                Intent aboutIntent = new
-                        Intent(MainActivity.this,AboutActivity.class);
-                startActivity(aboutIntent);
-            }
+        buttonLogin.setOnClickListener(view ->{
+            Intent loginIntent = new
+                    Intent(MainActivity.this, LoginActivity.class);
+            startActivity(loginIntent);
         });
 
     }
@@ -120,23 +110,20 @@ public class MainActivity extends AppCompatActivity {
     //Permission Marshmelo
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+        // If request is cancelled, the textViewResult arrays are empty.
+        if (requestCode == 1) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                //Toast.makeText(MainActivity.this, "Internet diijinkan", Toast.LENGTH_SHORT).show();
+            } else {
 
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Toast.makeText(MainActivity.this, "Ijin untuk mengakses internet ditolak", Toast.LENGTH_SHORT).show();
-                }
-                return;
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+                Toast.makeText(MainActivity.this, "Ijin untuk mengakses internet ditolak", Toast.LENGTH_SHORT).show();
             }
 
             // other 'case' lines to check for other
@@ -175,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
     public void ocrCaptureActivity(View view) {
         //activity baru
         Intent myIntent = new
-                Intent(MainActivity.this,OcrCaptureActivity.class);
+                Intent(MainActivity.this, OcrCaptureActivity.class);
         startActivity(myIntent);
     }
 

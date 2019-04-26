@@ -3,7 +3,6 @@
     <string name="title_produk_knowledge">Pengetahuan Tentang Produk</string>
     <string name="button_diabetasol">Diabetasol</string>
     <string name="button_inventory_manager">Inventory Manager (Tahap Pengembangan)</string>
-    <string name="button_camera_ocr">Camera OCR (Tahap Pengembangan)</string>
     <string name="button_verify">Verifikasi</string>
     <string name="button_scan">Scan QR CODE</string>
     <string name="app_about">Tentang KNers App</string>
@@ -20,7 +19,7 @@
     <string name="title_webview">KNers Browser</string>
     <string name="title_new_item">Item Baru</string>
     <string name="title_code_received">Aktual Kode</string>
-    <string name="title_text_received">Verifikasi Kode</string>
+    <string name="title_text_received">Standard  Kode</string>
     <string name="text_open_ocr">[Buka OCR]</string>
     <string name="text_actual_code">Aktual Kode Disini</string>
     <string name="text_verify_code">Verifikasi Kode</string>
@@ -37,20 +36,17 @@
     <string name="low_storage_error">Ocr dependencies cannot be downloaded due to low device storage</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="sum_search">Usage of SearchView in an ActionBar as a menu item. Implementing SearchView in action bar. Add search function to list view in android. Learn to Styling the ActionBar SearchView in android app or game</string>
-    <string name="button_export">EXPORT BARCODE</string>
-    <string name="list_scanned_barcode">Daftar Barcode</string>
-    <string name="checkbox_barcode_produk_edexport">ED Export</string>
-    <string name="checkbox_barcode_produk_edlokal">ED Lokal</string>
-    <string name="checkbox_barcode_produk_code">Kode Produksi</string>
-    <string name="checkbox_barcode_produk_name">Nama Produk</string>
     <string name="button_code_match_inspection">Aplikasi Verifikasi Kode</string>
     <string name="button_kner_browser">KNer Browser</string>
     <string name="button_history">Riwayat</string>
     <string name="button_ocr_activity">OCR Google Vision</string>
-    <string name="hint_no_bo">Masukkan no BO</string>
+    <string name="hint_no_bo">Nomor BO</string>
     <string name="button_preview">Pratinjau</string>
     <string name="bo_null">No BO tidak boleh kosong</string>
     <string name="action_delete">Hapus</string>
     <string name="action_save">Simpan</string>
     <string name="app_screenshot">Hasil</string>
+    <string name="app_login">Login</string>
+    <string name="button_login">Login</string>
+    <string name="textview_nobo_title">BO Number:</string>
 </resources>

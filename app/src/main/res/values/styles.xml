@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -8,10 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="SplashScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash</item>
-        <item name="android:colorPrimaryDark" tools:targetApi="lollipop">@color/colorPrimaryDark</item>
-    </style>
+    <style name="SplashScreenTheme" parent="Theme.AppCompat.Light.NoActionBar" />
 
     <style name="Theme.AllCustomTheme" parent="AppTheme">
         <item name="android:homeAsUpIndicator">@drawable/ic_clear_white_24dp</item>

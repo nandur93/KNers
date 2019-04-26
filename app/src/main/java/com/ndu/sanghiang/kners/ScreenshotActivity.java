@@ -6,13 +6,13 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,10 +21,13 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
-import java.util.Random;
 
 public class ScreenshotActivity extends AppCompatActivity {
+
+    private String numberBO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +37,15 @@ public class ScreenshotActivity extends AppCompatActivity {
         setSupportActionBar(tToolbar);
         ImageView imageView = findViewById(R.id.screenShot);
         //Menampilkan panah Back ←
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        }
-
+        //Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         //Menambahkan View Image dari tombol SAVE
+
         Bundle extras = getIntent().getExtras();
+        String nOBO = null;
+        if (extras != null) {
+            nOBO = extras.getString("NOBO");
+        }
+        numberBO = String.valueOf(nOBO);
         byte[] b = new byte[0];
         if (extras != null) {
             b = extras.getByteArray("picture");
@@ -49,53 +55,49 @@ public class ScreenshotActivity extends AppCompatActivity {
             bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
         }
         imageView.setImageBitmap(bitmap);
-
+/*
         Intent intent = getIntent();
         String action = intent.getAction();
-        String type = intent.getType();
+        String type = intent.getType();*/
 
-        if (Intent.ACTION_SEND.equals(action) && type != null) {
+/*        if (Intent.ACTION_SEND.equals(action) && type != null) {
             if ("text/plain".equals(type)) {
                 handleSendText(intent); // Handle text being sent //memerima text yang dikirim dari aplikasi lain
             }
-        }
+        }*/
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Hasil dari BO: "+nOBO);
 
 
     }
 
-    private void handleSendText(Intent intent) {
+/*    private void handleSendText(Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null) {
             // Update UI to reflect text being shared
             String noBO = "";
             noBO.equals(sharedText);
-            Toast.makeText(this, "BO " + sharedText, Toast.LENGTH_SHORT).show();
+            intent.getExtras();
         }
-    }
+    }*/
 
     //Permission Marshmelo
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+        // If request is cancelled, the textViewResult arrays are empty.
+        if (requestCode == 1) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getApplicationContext(), "Akses diijinkan", Toast.LENGTH_SHORT).show();
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+            } else {
 
-                    saveImage();
-                    backToCodeMatch();
-                    Toast.makeText(getApplicationContext(), "Image Saved", Toast.LENGTH_SHORT).show();
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Toast.makeText(ScreenshotActivity.this, "Akses ke SDCARD tidak diijinkan, aplikasi tidak bisa menyimpan gambar", Toast.LENGTH_SHORT).show();
-                }
-                return;
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+                Toast.makeText(ScreenshotActivity.this, "Akses ke SDCARD tidak diijinkan, aplikasi tidak bisa menyimpan gambar", Toast.LENGTH_SHORT).show();
             }
 
             // other 'case' lines to check for other
@@ -115,17 +117,15 @@ public class ScreenshotActivity extends AppCompatActivity {
         //Tentukan actionnya setiap klik
         switch (item.getItemId()) {
             case R.id.action_save:
-                //TODO buat popup dan yakinkan kalau gambar mau di save,
                 //Karena isi akan terreset
                 //Permission Marshmelo
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    ActivityCompat.requestPermissions(ScreenshotActivity.this,
-                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                            1);
-                }
+                ActivityCompat.requestPermissions(ScreenshotActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        1);
+                saveImage();
+                backToCodeMatch();
                 return true;
             case R.id.action_delete:
-                //TODO buat popup yang sama
                 deleteImage();
                 backToCodeMatch();
                 return true;
@@ -142,18 +142,24 @@ public class ScreenshotActivity extends AppCompatActivity {
     private void backToCodeMatch() {
         Intent codeMatchIntent = new
                 Intent(ScreenshotActivity.this,CodeMatchActivity.class);
+        codeMatchIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(codeMatchIntent);
+        finish();
     }
 
-
     private void saveImage() {
+        Date d = new Date();
+        CharSequence timestamp  = DateFormat.format("MM-dd-yy HH:mm:ss", d.getTime());
+        int yYear = Calendar.getInstance().get(Calendar.YEAR);
             String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
-            File myDir = new File(root + "/Verifikasi Kode");
+            File myDir = new File(root + "/Verifikasi Kode/"+yYear);
             myDir.mkdirs();
-            Random generator = new Random();
-            int n = 10000;
-            n = generator.nextInt(n);
-            String fname = "Image-" + n + ".jpg";
+/*        Random generator = new Random();
+        int n = 10000;
+        n = generator.nextInt(n);*/
+        Toast.makeText(this, "BO " + numberBO, Toast.LENGTH_LONG).show();
+
+            String fname = "Verifikasi BO " + numberBO + " " + timestamp + ".jpg";
             File file = new File(myDir, fname);
             if (file.exists())
                 file.delete();
@@ -171,14 +177,13 @@ public class ScreenshotActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            Toast.makeText(getApplicationContext(),"Hasil disimpan di "+file, Toast.LENGTH_LONG).show();
             // Tell the media scanner about the new file so that it is
             // immediately available to the user.
             MediaScannerConnection.scanFile(this, new String[]{file.toString()}, null,
-                    new MediaScannerConnection.OnScanCompletedListener() {
-                        public void onScanCompleted(String path, Uri uri) {
-                            Log.i("ExternalStorage", "Scanned " + path + ":");
-                            Log.i("ExternalStorage", "-> uri=" + uri);
-                        }
+                    (path, uri) -> {
+                        Log.i("ExternalStorage", "Scanned " + path + ":");
+                        Log.i("ExternalStorage", "-> uri=" + uri);
                     });
         }
 

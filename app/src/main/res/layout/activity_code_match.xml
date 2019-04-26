@@ -17,148 +17,174 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true" />
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <!-- Load the toolbar here -->
-    <include
-        layout="@layout/toolbar_main"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textViewResult"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:text="@string/text_result"
-        android:textSize="25sp"
-        android:textStyle="bold" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fillViewport="true">
+        <!-- Load the toolbar here -->
+        <include
+            layout="@layout/toolbar_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
+        <TextView
+            android:layout_weight="1"
+            android:gravity="right"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:id="@+id/text_view_nobo_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/textview_nobo_title" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/title_code_received"
-                android:textIsSelectable="true" />
-
-            <TextView
-                android:id="@+id/text_view_actual_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:hint="@string/text_open_ocr"
-                android:onClick="onScannerLaunch"
-                android:textIsSelectable="true"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/edit_text_actual_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="25dp"
-                android:ems="10"
-                android:gravity="top|center"
-                android:hint="@string/text_actual_code"
-                android:inputType="textMultiLine|textCapCharacters"
-                android:lines="5"
-                android:maxLines="5"
-                android:minLines="2"
-                android:importantForAutofill="no"
-                tools:targetApi="o" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClickScan"
-                android:text="@string/button_scan" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/title_text_received"
-                android:textIsSelectable="true" />
-
-            <EditText
-                android:id="@+id/edit_text_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:gravity="top|center"
-                android:hint="@string/text_verify_code"
-                android:inputType="textMultiLine|textCapCharacters"
-                android:lines="5"
-                android:maxLines="5"
-                android:minLines="2"
-                android:importantForAutofill="no"
-                tools:targetApi="o" />
-
-        </LinearLayout>
-
-    </ScrollView>
-
-
-    <EditText
-        android:id="@+id/edit_text_no_bo"
-            android:layout_width="match_parent"
+        <EditText
+            android:layout_weight="1"
+            android:gravity="left"
+            android:id="@+id/edit_text_nobo"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/hint_no_bo"
-            android:paddingTop="5dp"
             android:inputType="number"
-            android:maxLength="10"
+            android:focusable="false"
+            android:maxLength="6"
             android:maxLines="1"
             android:lines="1"
-            android:gravity="center"
-        android:importantForAutofill="no"
-        tools:targetApi="o" />
+            android:importantForAutofill="no"
+            tools:targetApi="o"
+            tools:ignore="RtlHardcoded" />
+        </LinearLayout>
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/title_code_received"
+                    android:textIsSelectable="true" />
+
+                <TextView
+                    android:id="@+id/text_view_actcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:hint="@string/text_open_ocr"
+                    android:onClick="onScannerLaunch"
+                    android:textIsSelectable="true"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <!--android:inputType="textMultiLine|textCapCharacters"-->
+                <EditText
+                    android:id="@+id/edit_text_actcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:ems="10"
+                    android:gravity="top|center"
+                    android:hint="@string/text_actual_code"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:lines="5"
+                    android:maxLines="5"
+                    android:minLines="2"
+                    android:importantForAutofill="no"
+                    tools:targetApi="o" />
+
+                <Button
+                    android:id="@+id/button_qrscan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_scan"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/title_text_received"
+                    android:textIsSelectable="true" />
+
+                <EditText
+                    android:id="@+id/edit_text_stdcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="top|center"
+                    android:hint="@string/text_verify_code"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:lines="5"
+                    android:maxLines="5"
+                    android:minLines="2"
+                    android:importantForAutofill="no"
+                    tools:targetApi="o" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/text_view_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="@string/text_result"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
         <Button
             android:id="@+id/button_verify"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/button_verify"/>
 
-
         <Button
             android:id="@+id/button_preview"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/button_preview"/>
+    </LinearLayout>
 
 
-    <com.google.android.gms.ads.AdView
-        android:visibility="gone"
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_alignParentBottom="true"
-        ads:adSize="SMART_BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
-        tools:ignore="ObsoleteLayoutParam">
-    </com.google.android.gms.ads.AdView>
+        <com.google.android.gms.ads.AdView
+            android:visibility="gone"
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+            tools:ignore="ObsoleteLayoutParam">
+        </com.google.android.gms.ads.AdView>
 
-</LinearLayout>
+    </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>
