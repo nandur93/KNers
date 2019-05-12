@@ -11,9 +11,11 @@
             android:gravity="center"/>
     </item>
     <!--Teks-->
+
     <item>
         <bitmap
             android:src="@drawable/ic_developer_name"
-            android:gravity="bottom"/>
+            android:gravity="bottom"
+            />
     </item>
 </layer-list>

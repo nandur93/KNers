@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "363108272906",
+    "firebase_url": "https://ndu-sanghiang-kners.firebaseio.com",
+    "project_id": "ndu-sanghiang-kners",
+    "storage_bucket": "ndu-sanghiang-kners.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:363108272906:android:ff5e3d8e1323e27e",
+        "android_client_info": {
+          "package_name": "com.ndu.sanghiang.kners"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "363108272906-qq9uvhh214jmci7m1ohs6itvjg3tv80k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ndu.sanghiang.kners",
+            "certificate_hash": "2dfc5c290f2c9eb9dd456b2c70ab0b4297bfa806"
+          }
+        },
+        {
+          "client_id": "363108272906-vjl7qk435kf1ecpsbkh3lhm4ushr7a24.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASBShj0MJTvZ01kEwSm-wew13nI3f9k9w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "363108272906-vjl7qk435kf1ecpsbkh3lhm4ushr7a24.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,55 +1,95 @@
 <resources>
+    <!--action-->
+    <string name="action_search">Search</string>
+    <string name="action_info">Info</string>
+    <string name="action_bookmark">Bookmark</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_back">Back</string>
+    <string name="action_forward">Forward</string>
+    <string name="action_about">About</string>
+    <string name="action_update">Check For Update</string>
+
+    <!--app-->
     <string name="app_name" translatable="false">KNers App</string>
-    <string name="button_produk_knowledge">Products Knowledge (In Depelopment)</string>
-    <string name="title_produk_knowledge">Products Knowledge</string>
+    <string name="app_about">About KNers App</string>
+    <string name="app_main_text">Products Knowledge</string>
+    <string name="app_screenshot">Result</string>
+
+    <!--button-->
     <string name="button_diabetasol">Diabetasol</string>
     <string name="button_inventory_manager">Inventory Manager (In Depelopment)</string>
     <string name="button_verify">Verify</string>
     <string name="button_scan">Scan Standard QR CODE</string>
-    <string name="app_about">About KNers App</string>
-    <string name="action_search">Search</string>
-    <string name="action_info">Info</string>
-    <string name="title_info">About KNers Browser</string>
-    <string name="sum_info">KNers Browser adalah custom browser yang dikembangkan oleh NDU sebagai alat untuk memuat data pada internet dengan pengaturan yang disesuaikan agar tidak memberatkan aplikasi</string>
-    <string name="action_about">About</string>
     <string name="button_about">About</string>
-    <string name="sum_about">KNers App adalah aplikasi yang dikembangkan oleh NDU (Nandur93) untuk membantu memanajemen aktifitas di Kalbe Nutritionals.
-        Jika ada ide untuk pengembangan Aplikasi ini, maka silahkan hubungi NDU di EXT 210/207.
-    </string>
-    <string name="action_update">Check For Update</string>
-    <string name="title_webview">KNers Browser</string>
-    <string name="title_new_item">New Item</string>
-    <string name="title_code_received">Actual Code</string>
-    <string name="title_text_received">Standard Code</string>
-    <string name="text_open_ocr">[Open OCR]</string>
-    <string name="text_actual_code">Actual Code</string>
-    <string name="text_verify_code">Code Verification</string>
-    <string name="text_result">VERIFICATION RESULT</string>
-    <string name="text_equal">CODE IS RIGHT</string>
-    <string name="text_not_equal">CODE IS WRONG</string>
-    <string name="text_null">CODE IS EMPTY</string>
-    <string name="bo_null">BO number is empty</string>
-    <string name="title_code_match">Code Match Inspection</string>
-    <string name="app_main_text">Products Knowledge</string>
-    <string name="action_bookmark">Bookmark</string>
-    <string name="action_back">Back</string>
-    <string name="action_forward">Forward</string>
-    <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
-    <string name="ok" translatable="false">OK</string>
-    <string name="low_storage_error">Ocr dependencies cannot be downloaded due to low device storage</string>
-    <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
-    <string name="sum_search">Usage of SearchView in an ActionBar as a menu item. Implementing SearchView in action bar. Add search function to list view in android. Learn to Styling the ActionBar SearchView in android app or game</string>
     <string name="button_code_match_inspection">Code Match Inspection</string>
     <string name="button_kner_browser">KNer Browser</string>
     <string name="button_history">History</string>
     <string name="button_ocr_activity">OCR Google Vision</string>
-    <string name="hint_no_bo">BO Number</string>
+    <string name="button_produk_knowledge">Products Knowledge (In Depelopment)</string>
     <string name="button_preview">Preview</string>
-    <string name="action_save">Save</string>
-    <string name="action_delete">Delete</string>
-    <string name="app_screenshot">Result</string>
-    <string name="action_setting" translatable="false">Settings</string>
-    <string name="app_login">Login</string>
-    <string name="button_login">Login</string>
-    <string name="textview_nobo_title">BO Number:</string>
+    <string name="button_signup">Sign Up</string>
+    <string name="button_signin">Sign In</string>
+    <string name="button_signout">Sign Out</string>
+
+    <!--text-->
+    <string name="text_open_ocr">[Open OCR]</string>
+    <string name="text_actual_code">Actual Code</string>
+    <string name="text_verify_code">Code Verification</string>
+    <string name="text_verify_result">VERIFICATION RESULT</string>
+    <string name="text_code_right">CODE IS RIGHT</string>
+    <string name="text_code_wrong">CODE IS WRONG</string>
+    <string name="text_code_empty">CODE IS EMPTY</string>
+    <string name="text_nobo">BO Number:</string>
+
+    <!--tittle-->
+    <string name="title_produk_knowledge">Products Knowledge</string>
+    <string name="title_info">About KNers Browser</string>
+    <string name="title_webview">KNers Browser</string>
+    <string name="title_new_item">New Item</string>
+    <string name="title_act_code">Actual Code</string>
+    <string name="title_std_code">Standard Code</string>
+    <string name="title_code_match">Code Match Inspection</string>
+
+    <string name="sum_info">KNers Browser adalah custom browser yang dikembangkan oleh NDU sebagai alat untuk memuat data pada internet dengan pengaturan yang disesuaikan agar tidak memberatkan aplikasi</string>
+    <string name="sum_about">The KNers App is a prototype Portal Application for all needs at Kalbe Nutritionals - Sanghiang Perkasa developed by NDU (Nandur93) - [Management System Plant]</string>
+    <string name="sum_search">Usage of SearchView in an ActionBar as a menu item. Implementing SearchView in action bar. Add search function to list view in android. Learn to Styling the ActionBar SearchView in android app or game</string>
+
+
+    <string name="bo_null">BO number is empty</string>
+    <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="low_storage_error">Ocr dependencies cannot be downloaded due to low device storage</string>
+    <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
+
+    <string name="hint_no_bo">BO Number</string>
+    <string name="fui_name_hint">Name</string>
+    <string name="fui_nik_hint">NIK</string>
+    <string name="pref_sound">Sounds</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="failed">Gagal</string>
+    <string name="create_a_new_account">Create a new Account!</string>
+    <string name="already_a_member_login">Already a member? Login</string>
+    <string name="create_account">Create Account</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="nav_header_title" translatable="false">Android Studio</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
+    <string name="nav_header_desc" translatable="false">Navigation header</string>
+
+    <string name="menu_home" translatable="false">Home</string>
+    <string name="menu_gallery" translatable="false">Gallery</string>
+    <string name="menu_slideshow" translatable="false">Slideshow</string>
+    <string name="menu_tools" translatable="false">Tools</string>
+    <string name="menu_share" translatable="false">Share</string>
+    <string name="menu_send" translatable="false">Send</string>
+    <string name="menu_version_code" translatable="false">4</string>
+    <string name="menu_version_name" translatable="false">1.7</string>
+    <string name="title_info_version_code">Version Code</string>
+    <string name="sum_info_version_code">Current installed version code:</string>
+    <string name="sum_info_version_name">Current installed version:</string>
+    <string name="title_info_version_name">Version Name</string>
 </resources>

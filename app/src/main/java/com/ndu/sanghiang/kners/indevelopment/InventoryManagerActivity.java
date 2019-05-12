@@ -59,7 +59,7 @@ public class InventoryManagerActivity extends AppCompatActivity {
 
     };
     int[] gridViewImageId = {
-            R.drawable.ic_launcher, R.drawable.ic_action_about, R.drawable.ic_action_help, R.drawable.ic_keyboard_arrow_left_white_24dp, R.drawable.ic_launcher, R.drawable.ic_launcher,
+            R.drawable.ic_launcher, R.drawable.ic_info_outline_black_24dp, R.drawable.ic_help_outline_black_24dp, R.drawable.ic_settings_black_24dp, R.drawable.ic_launcher, R.drawable.ic_launcher,
 
     };
 

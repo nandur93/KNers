@@ -1,104 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ndu.sanghiang.kners.MainActivity"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
-    <!-- Load the toolbar here -->
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/tToolbar"
-        android:minHeight="?attr/actionBarSize"
+    <include
+        layout="@layout/app_bar_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:titleTextColor="@android:color/white"
-        android:background="?attr/colorPrimary">
-    </android.support.v7.widget.Toolbar>
+        android:layout_height="match_parent" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fillViewport="true">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/activity_main_drawer" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_main_text"
-                android:layout_gravity="center"/>
-
-            <Button
-                android:id="@+id/button_produk_knowledge"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/button_produk_knowledge"
-                android:enabled="false"/>
-
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/button_kner_browser"
-                android:onClick="goToBrowser"/>
-
-            <Button
-                android:id="@+id/button_inventory_manager"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/button_inventory_manager"
-                android:enabled="false"/>
-
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/button_code_match_inspection"
-                android:onClick="codeMatchActivity"/>
-
-            <Button
-                android:id="@+id/button_history"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/button_history"
-                android:onClick="barcodeListActivity"/>
-
-            <Button
-                android:id="@+id/button_ocr_activity"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/button_ocr_activity"
-                android:onClick="ocrCaptureActivity"/>
-
-            <Button
-                android:id="@+id/button_login"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/button_login"/>
-
-            <Button
-                android:id="@+id/button_about"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/button_about"/>
-
-        </LinearLayout>
-
-    </ScrollView>
-
-    <com.google.android.gms.ads.AdView
-        android:visibility="gone"
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        ads:adSize="SMART_BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
-    </com.google.android.gms.ads.AdView>
-
-</LinearLayout>
+</android.support.v4.widget.DrawerLayout>

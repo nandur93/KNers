@@ -5,7 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" /> <!-- ijnkan koneksi ke internet -->
     <uses-permission android:name="android.permission.CAMERA" /> <!-- ijinkan kamera -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" /> <!-- support beberapa ukuran layar -->
     <supports-screens
@@ -37,9 +37,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".firebase.LoginActivity">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
-
+        <activity
+            android:name=".firebase.SignupActivity"
+            android:launchMode="singleTop"></activity>
+        <activity
+            android:name=".firebase.LoginActivity"
+            android:launchMode="singleTask"></activity>
         <activity
             android:name=".ScreenshotActivity"
             android:label="@string/app_screenshot"
@@ -48,7 +55,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CodeMatchActivity" />
-
         </activity> <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -60,10 +66,6 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="face" />
 
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/Theme.AllCustomTheme">
-        </activity>
         <activity
             android:name=".indevelopment.ProdukKnowledgeActivity"
             android:label="@string/button_produk_knowledge"
@@ -96,15 +98,6 @@
             </intent-filter>
         </activity> <!-- Akhir dari splashScreen -->
         <activity
-        android:name=".LoginActivity"
-        android:label="@string/app_login"
-        android:parentActivityName=".MainActivity"
-        tools:targetApi="jelly_bean">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".MainActivity" />
-    </activity>
-        <activity
             android:name=".AboutActivity"
             android:label="@string/app_about"
             android:parentActivityName=".MainActivity"
@@ -113,8 +106,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".indevelopment.SearchResultsActivity">
-        </activity>
+        <activity android:name=".indevelopment.SearchResultsActivity"></activity>
         <activity
             android:name=".indevelopment.InventoryManagerActivity"
             android:label="@string/button_inventory_manager"
@@ -136,7 +128,8 @@
         <activity
             android:name=".CodeMatchActivity"
             android:label="@string/title_code_match"
-            android:parentActivityName=".indevelopment.InventoryManagerActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity"
             tools:targetApi="jelly_bean">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -162,14 +155,12 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".indevelopment.InventoryManagerActivity" />
+                android:value=".MainActivity" />
         </activity>
-        <activity android:name=".indevelopment.HistoryActivity">
-        </activity>
+        <activity android:name=".indevelopment.HistoryActivity"></activity>
         <activity
             android:name=".ocr.OcrCaptureActivity"
-            android:label="Read Text">
-        </activity>
+            android:label="Read Text"></activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

@@ -19,7 +19,7 @@
 
     <!-- Check For Updates -->
     <item
-        android:icon="@drawable/ic_action_update"
+        android:icon="@drawable/ic_update_black_24dp"
         android:title="@string/action_update"
         app:showAsAction="ifRoom"/>
 

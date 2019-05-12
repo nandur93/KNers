@@ -356,7 +356,7 @@ public class CameraSource {
 
     /**
      * Opens the camera and starts sending preview frames to the underlying detector.  The supplied
-     * surface holder is used for the preview so frames can be displayed to the user.
+     * surface holder is used for the preview so frames can be displayed to the userEmail.
      *
      * @param surfaceHolder the surface holder to use for the preview frames
      * @throws IOException if the supplied surface holder could not be used as the preview display
@@ -728,7 +728,7 @@ public class CameraSource {
     }
 
     /**
-     * Opens the camera and applies the user settings.
+     * Opens the camera and applies the userEmail settings.
      *
      * @throws RuntimeException if the method fails
      */

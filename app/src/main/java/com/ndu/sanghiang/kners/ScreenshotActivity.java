@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
@@ -40,6 +41,11 @@ public class ScreenshotActivity extends AppCompatActivity {
         //Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         //Menambahkan View Image dari tombol SAVE
 
+        //Permission Marshmelo
+        ActivityCompat.requestPermissions(ScreenshotActivity.this,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                1);
+
         Bundle extras = getIntent().getExtras();
         String nOBO = null;
         if (extras != null) {
@@ -55,31 +61,13 @@ public class ScreenshotActivity extends AppCompatActivity {
             bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
         }
         imageView.setImageBitmap(bitmap);
-/*
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        String type = intent.getType();*/
 
-/*        if (Intent.ACTION_SEND.equals(action) && type != null) {
-            if ("text/plain".equals(type)) {
-                handleSendText(intent); // Handle text being sent //memerima text yang dikirim dari aplikasi lain
-            }
-        }*/
 
         Objects.requireNonNull(getSupportActionBar()).setTitle("Hasil dari BO: "+nOBO);
 
 
     }
 
-/*    private void handleSendText(Intent intent) {
-        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-        if (sharedText != null) {
-            // Update UI to reflect text being shared
-            String noBO = "";
-            noBO.equals(sharedText);
-            intent.getExtras();
-        }
-    }*/
 
     //Permission Marshmelo
     @Override
@@ -90,9 +78,10 @@ public class ScreenshotActivity extends AppCompatActivity {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                Toast.makeText(getApplicationContext(), "Akses diijinkan", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), "Akses diijinkan", Toast.LENGTH_SHORT).show();
                 // permission was granted, yay! Do the
                 // contacts-related task you need to do.
+
             } else {
 
                 // permission denied, boo! Disable the
@@ -118,16 +107,22 @@ public class ScreenshotActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_save:
                 //Karena isi akan terreset
-                //Permission Marshmelo
-                ActivityCompat.requestPermissions(ScreenshotActivity.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        1);
-                saveImage();
-                backToCodeMatch();
+                new AlertDialog.Builder(this)
+                        //.setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Simpan Hasil?")
+                        .setMessage("Hasil akan tersimpan dan bisa dilihat pada Gallery")
+                        .setPositiveButton("Simpan", (dialog, which) -> saveImage())
+                        .setNegativeButton("Batal", null)
+                        .show();
                 return true;
             case R.id.action_delete:
-                deleteImage();
-                backToCodeMatch();
+                new AlertDialog.Builder(this)
+                        //.setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Hapus Hasil?")
+                        .setMessage("Hasil tidak akan tersimpan")
+                        .setPositiveButton("Hapus", (dialog, which) -> deleteImage())
+                        .setNegativeButton("Batal", null)
+                        .show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -137,6 +132,7 @@ public class ScreenshotActivity extends AppCompatActivity {
 
     private void deleteImage() {
         Toast.makeText(getApplicationContext(), "Image Deleted", Toast.LENGTH_SHORT).show(); //Delete Image methode
+        backToCodeMatch();
     }
 
     private void backToCodeMatch() {
@@ -151,8 +147,9 @@ public class ScreenshotActivity extends AppCompatActivity {
         Date d = new Date();
         CharSequence timestamp  = DateFormat.format("MM-dd-yy HH:mm:ss", d.getTime());
         int yYear = Calendar.getInstance().get(Calendar.YEAR);
+        int wWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
             String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
-            File myDir = new File(root + "/Verifikasi Kode/"+yYear);
+            File myDir = new File(root + "/Verifikasi Kode/"+yYear+"/RPS "+wWeek);
             myDir.mkdirs();
 /*        Random generator = new Random();
         int n = 10000;
@@ -179,12 +176,13 @@ public class ScreenshotActivity extends AppCompatActivity {
             }
             Toast.makeText(getApplicationContext(),"Hasil disimpan di "+file, Toast.LENGTH_LONG).show();
             // Tell the media scanner about the new file so that it is
-            // immediately available to the user.
+            // immediately available to the userEmail.
             MediaScannerConnection.scanFile(this, new String[]{file.toString()}, null,
                     (path, uri) -> {
                         Log.i("ExternalStorage", "Scanned " + path + ":");
                         Log.i("ExternalStorage", "-> uri=" + uri);
                     });
+        backToCodeMatch();
         }
 
     }

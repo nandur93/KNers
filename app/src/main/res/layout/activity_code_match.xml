@@ -41,7 +41,7 @@
             android:id="@+id/text_view_nobo_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/textview_nobo_title" />
+            android:text="@string/text_nobo" />
 
         <EditText
             android:layout_weight="1"
@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/title_code_received"
+                    android:text="@string/title_act_code"
                     android:textIsSelectable="true" />
 
                 <TextView
@@ -120,7 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/title_text_received"
+                    android:text="@string/title_std_code"
                     android:textIsSelectable="true" />
 
                 <EditText
@@ -149,7 +149,7 @@
             android:gravity="center"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
-            android:text="@string/text_result"
+            android:text="@string/text_verify_result"
             android:textSize="25sp"
             android:textStyle="bold" />
     <LinearLayout
