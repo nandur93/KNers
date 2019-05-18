@@ -1,7 +1,7 @@
 <AppUpdater>
   <update>
-    <latestVersion>2.0</latestVersion>
-    <latestVersionCode>6</latestVersionCode>
+    <latestVersion>1.8</latestVersion>
+    <latestVersionCode>5</latestVersionCode>
     <url>https://github.com/javiersantos/AppUpdater/releases</url>
     <releaseNotes>
 - First evolution
