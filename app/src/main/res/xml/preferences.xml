@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Verifikasi Kode">
+        <SwitchPreference android:title="Aktifkan Suara"
+            android:defaultValue="true"
+            android:summary="Akan membunyikan suara pemberitahuan ketika verifikasi"
+            android:key="enable_sound" />
+        <SwitchPreference
+            android:title="Aktifkan Getar"
+            android:defaultValue="true"
+            android:summary="Akan mengaktifkan getar ketika verifikasi"
+            android:key="enable_vibrate" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/button_about">
+
+        <Preference
+            android:selectable="false"
+            android:summary="@string/sum_about" />
+
+        <Preference
+            android:key="version_name"
+            android:title="@string/app_version"
+            android:summary="@string/version_name" />
+
+        <Preference
+            android:key="prefSendFeedback"
+            android:summary="@string/summary_support"
+            android:title="@string/title_send_feedback" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/settings_check_for_updates">
+        <Preference
+            android:key="prefCheckForUpdates"
+            android:title="@string/settings_check_for_updates"
+            android:summary="@string/settings_check_for_updates_summary" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

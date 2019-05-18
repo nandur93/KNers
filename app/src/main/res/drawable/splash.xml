@@ -7,14 +7,14 @@
     <!--Gambar Utama-->
     <item>
         <bitmap
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/ic_launcher_nodpi"
             android:gravity="center"/>
     </item>
     <!--Teks-->
 
     <item>
         <bitmap
-            android:src="@drawable/ic_developer_name"
+            android:src="@drawable/about_nandur93"
             android:gravity="bottom"
             />
     </item>

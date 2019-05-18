@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,16 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <!-- Load the toolbar here
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/tToolbar"
-            android:minHeight="?attr/actionBarSize"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:titleTextColor="@android:color/white"
-            android:background="?attr/colorPrimary">
-        </android.support.v7.widget.Toolbar> -->
 
         <ScrollView
             android:layout_width="match_parent"
@@ -41,10 +32,10 @@
                     android:enabled="false"/>
 
                 <Button
+                    android:id="@+id/button_browser"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/button_kner_browser"
-                    android:onClick="goToBrowser"/>
+                    android:text="@string/button_kner_browser"/>
 
                 <Button
                     android:id="@+id/button_inventory_manager"
@@ -54,42 +45,34 @@
                     android:enabled="false"/>
 
                 <Button
+                    android:id="@+id/button_code_match_activity"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/button_code_match_inspection"
-                    android:onClick="codeMatchActivity"/>
+                    android:text="@string/button_code_match_inspection"/>
 
                 <Button
                     android:id="@+id/button_history"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/button_history"
-                    android:onClick="barcodeListActivity"/>
+                    android:text="@string/button_history"/>
 
                 <Button
                     android:id="@+id/button_ocr_activity"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/button_ocr_activity"
-                    android:onClick="ocrCaptureActivity"/>
+                    android:text="@string/button_ocr_activity"/>
 
                 <Button
-                    android:id="@+id/button_login"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/button_signin"/>
-
-                <Button
-                    android:id="@+id/button_logout"
+                    android:id="@+id/button_project_tracker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/button_signout" />
+                    android:text="@string/button_project_tracker" />
 
                 <Button
-                    android:id="@+id/button_about"
+                    android:id="@+id/button_grid_menu"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/button_about"/>
+                    android:text="@string/button_grid_menu"/>
 
             </LinearLayout>
 

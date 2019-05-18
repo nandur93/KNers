@@ -3,6 +3,9 @@
     <color name="colorPrimary">#70bd2d</color>
     <color name="colorPrimaryDark">#5ea924</color>
     <color name="colorAccent">#ff00b7</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
     <color name="refresh">#008000</color>
     <color name="refresh1">#008080</color>
     <color name="refresh2">#800080</color>

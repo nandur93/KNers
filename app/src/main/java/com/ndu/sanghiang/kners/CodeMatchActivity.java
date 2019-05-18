@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -18,6 +19,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -86,6 +88,10 @@ public class CodeMatchActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
         //buttPreview.setVisibility(View.VISIBLE);
 
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPrefs.getBoolean("enable_sound",false);
+
         setSupportActionBar(tToolbar);
         ActionBar actionbar = getSupportActionBar();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -144,6 +150,9 @@ public class CodeMatchActivity extends AppCompatActivity {
 
             final MediaPlayer soundCorrect = MediaPlayer.create(this,R.raw.sound_correct);
             final MediaPlayer soundWrong = MediaPlayer.create(this,R.raw.sound_wrong);
+            Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            boolean sndSetting = sharedPrefs.getBoolean("enable_sound", false);
+
 
 
             if (stringActCode.equals("null")){
@@ -164,7 +173,14 @@ public class CodeMatchActivity extends AppCompatActivity {
                 textViewResult.setTextColor(Color.BLUE); //warna teks menjadi biru
                 toastRight.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
                 toastRight.show();
-                soundCorrect.start();
+                //sound from settings
+                if (!sndSetting) {
+                    soundCorrect.stop();
+                } else {
+                    // Do something
+                    soundCorrect.start();
+                }
+
 
             } else {
                 //ketika stringStdCode dan stringActCode tidak cocok
@@ -172,7 +188,13 @@ public class CodeMatchActivity extends AppCompatActivity {
                 textViewResult.setTextColor(Color.RED); //warna teks menjadi merah
                 toastWrong.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
                 toastWrong.show();
-                soundWrong.start(); //bunyikan suara salah
+                //sound from settings
+                if (!sndSetting) {
+                    soundWrong.stop();
+                } else {
+                    // Do something
+                    soundWrong.start();
+                }
 
                 /*
                 int stdLength = editTextStdCode.getText().toString().trim().length();
@@ -256,13 +278,17 @@ public class CodeMatchActivity extends AppCompatActivity {
 
                 }
 */
-                Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                assert vib != null;
-                vib.vibrate(100); //getar 100 millisecond
 
             }
-
-
+            //vibrate from settings
+            boolean vibrator = sharedPrefs.getBoolean("enable_vibrate",false);
+            if (!vibrator){
+                vib.cancel();
+            } else {
+                assert vib != null;
+                vib.vibrate(100); //getar 100 millisecond
+                //no vibrate
+            }
         });
 
 

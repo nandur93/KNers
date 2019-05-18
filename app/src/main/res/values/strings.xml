@@ -16,6 +16,7 @@
     <string name="app_about">About KNers App</string>
     <string name="app_main_text">Products Knowledge</string>
     <string name="app_screenshot">Result</string>
+    <string name="app_project_tracker_fi" translatable="false">Project Tracker FI</string>
 
     <!--button-->
     <string name="button_diabetasol">Diabetasol</string>
@@ -52,8 +53,19 @@
     <string name="title_std_code">Standard Code</string>
     <string name="title_code_match">Code Match Inspection</string>
 
+    <!-- 8 Steps -->
+    <string name="menentukan_tema">1. Select The Theme</string>
+    <string name="menentukan_target">2. Setting Target</string>
+    <string name="anakonda">3. Analyzing Existing Conditions</string>
+    <string name="anaseba">4. Conducting Causal Analysis</string>
+    <string name="rencana_penanggulangan">5. Planning For Countermeasures</string>
+    <string name="penanggulangan">6. Implement Countermeasures</string>
+    <string name="evaluasi_hasil">7. Evaluating Countermeasures</string>
+    <string name="standarisasi_dan_tindak_lanjut">8. Standardization and Next Plan</string>
+
+
     <string name="sum_info">KNers Browser adalah custom browser yang dikembangkan oleh NDU sebagai alat untuk memuat data pada internet dengan pengaturan yang disesuaikan agar tidak memberatkan aplikasi</string>
-    <string name="sum_about">The KNers App is a prototype Portal Application for all needs at Kalbe Nutritionals - Sanghiang Perkasa developed by NDU (Nandur93) - [Management System Plant]</string>
+    <string name="sum_about">The KNers App is a prototype Portal Application for all needs at Kalbe Nutritionals - Sanghiang Perkasa\nDeveloped by NDU (Nandur93)\n[Management System Plant]</string>
     <string name="sum_search">Usage of SearchView in an ActionBar as a menu item. Implementing SearchView in action bar. Add search function to list view in android. Learn to Styling the ActionBar SearchView in android app or game</string>
 
 
@@ -69,10 +81,9 @@
     <string name="pref_sound">Sounds</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="failed">Gagal</string>
     <string name="create_a_new_account">Create a new Account!</string>
-    <string name="already_a_member_login">Already a member? Login</string>
+    <string name="already_a_member_signin">Already a member? Sign in</string>
     <string name="create_account">Create Account</string>
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
@@ -86,10 +97,38 @@
     <string name="menu_tools" translatable="false">Tools</string>
     <string name="menu_share" translatable="false">Share</string>
     <string name="menu_send" translatable="false">Send</string>
-    <string name="menu_version_code" translatable="false">4</string>
-    <string name="menu_version_name" translatable="false">1.7</string>
+    <string name="menu_version_code" translatable="false">Version Code 5</string>
+    <string name="menu_version_name" translatable="false">Revision 1.8</string>
     <string name="title_info_version_code">Version Code</string>
-    <string name="sum_info_version_code">Current installed version code:</string>
-    <string name="sum_info_version_name">Current installed version:</string>
+    <string name="sum_info_version_code">Version 5</string>
+    <string name="sum_info_version_name">Revision 1.8</string>
     <string name="title_info_version_name">Version Name</string>
+    <string name="copy_right" translatable="false">Copyrights © %1$d</string>
+    <string name="title_activity_project_tracker" translatable="false">ProjectTrackerActivity</string>
+    <string name="tab_text_2" translatable="false">Tab 2</string>
+    <string name="button_project_tracker" translatable="false">Project Tracker FI</string>
+    <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
+    <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="desc_load_item_code" translatable="false">Load Item Code</string>
+    <string name="app_version">App Version</string>
+    <string name="button_submit" translatable="false">Submit</string>
+    <string name="app_signin_activity">Sign In KNers App</string>
+    <string name="app_signup_activity">Sign Up KNers App</string>
+    <string name="title_activity_settings_listener" translatable="false">Settings Listener</string>
+    <string name="title_activity_settings" translatable="false">Settings</string>
+    <string name="offline_signin">Offline Sign In</string>
+    <string name="button_grid_menu" translatable="false">Grid Menu</string>
+
+    <string name="title_send_feedback">Send Feedback</string>
+    <string name="summary_support">Got any queries? We are happy to help!</string>
+    <string name="key_send_feedback" translatable="false">key_send_feedback</string>
+    <string name="version_name" translatable="false">key_vers_name</string>
+    <string name="choose_email_client">Choose email client</string>
+
+    <string name="settings_check_for_updates" translatable="false">Check for updates</string>
+    <string name="settings_check_for_updates_summary" translatable="false">Check for new versions using AppUpdater library.</string>
+
 </resources>

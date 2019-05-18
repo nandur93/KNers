@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             app:srcCompat="@drawable/ic_developer_name"
-            android:contentDescription="TODO" />
+            android:contentDescription="@string/desc_load_item_code" />
 
     </LinearLayout>
 

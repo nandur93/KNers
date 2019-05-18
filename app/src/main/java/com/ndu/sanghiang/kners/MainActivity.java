@@ -3,12 +3,15 @@ package com.ndu.sanghiang.kners;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -19,6 +22,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -34,11 +38,12 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.ndu.sanghiang.kners.firebase.LoginActivity;
+import com.ndu.sanghiang.kners.firebase.SigninActivity;
 import com.ndu.sanghiang.kners.indevelopment.HistoryActivity;
 import com.ndu.sanghiang.kners.indevelopment.InventoryManagerActivity;
 import com.ndu.sanghiang.kners.indevelopment.ProdukKnowledgeActivity;
 import com.ndu.sanghiang.kners.ocr.OcrCaptureActivity;
+import com.ndu.sanghiang.kners.projecttrackerfi.ProjectTrackerActivity;
 
 import java.io.InputStream;
 import java.util.Arrays;
@@ -46,17 +51,19 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    Button buttonProdukKnowledge, buttonAbout,
-            buttonInventoryManager, buttonBarcodeList,
-            buttonOcrCapture, buttonLogin, buttonLogout;
-    TextView navEmail, navUserName, textVersionCode, textVersionName;
+    Button buttonProdukKnowledge, buttonBrowser, buttonInventoryManager, buttonCodeMatch, buttonGridMenu,
+           buttonOcrCapture, buttonProjectTracker, buttonHistory;
+    TextView navEmail, navUserName;
     ImageView navPhoto;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListner;
     FirebaseUser userEmail = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseUser userName = FirebaseAuth.getInstance().getCurrentUser();
     Uri userPhoto = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhotoUrl();
-
+    private DrawerLayout drawer;
+    private Handler handler;
+    private String versName;
+    int versCode;
 
 
     @Override
@@ -64,6 +71,7 @@ public class MainActivity extends AppCompatActivity
         super.onStart();
         mAuth.addAuthStateListener(mAuthListner);
     }
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +82,7 @@ public class MainActivity extends AppCompatActivity
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show());
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         View headerView = navigationView.getHeaderView(0);
@@ -88,27 +96,25 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        //Pindahan
         // Sample AdMob app ID: ca-app-pub-4368595636314473~7130779124
         MobileAds.initialize(this, "ca-app-pub-3940256099942544~6300978111");
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
-
+        handler = new Handler();
         buttonProdukKnowledge = findViewById(R.id.button_produk_knowledge);
+        buttonBrowser = findViewById(R.id.button_browser);
         buttonInventoryManager = findViewById(R.id.button_inventory_manager);
-        buttonAbout = findViewById(R.id.button_about);
-        buttonBarcodeList = findViewById(R.id.button_history);
+        buttonCodeMatch = findViewById(R.id.button_code_match_activity);
+        buttonGridMenu = findViewById(R.id.button_grid_menu);
+        buttonHistory = findViewById(R.id.button_history);
         buttonOcrCapture = findViewById(R.id.button_ocr_activity);
-        buttonLogin = findViewById(R.id.button_login);
-        buttonLogout = findViewById(R.id.button_logout);
+        buttonProjectTracker = findViewById(R.id.button_project_tracker);
         mAuth = FirebaseAuth.getInstance();
-        textVersionCode = findViewById(R.id.nav_version_code);
-        textVersionName = findViewById(R.id.nav_version_name);
         /*if (mAuth.getCurrentUser() != null){
             String EMAIL= mAuth.getCurrentUser().getEmail();
             if (!EMAIL.equals("example@gmail.com")){
-                startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                startActivity(new Intent(SigninActivity.this,MainActivity.class));
                 finish();
             }
         }*/
@@ -116,31 +122,20 @@ public class MainActivity extends AppCompatActivity
         ActivityCompat.requestPermissions(MainActivity.this,
                 new String[]{Manifest.permission.INTERNET},
                 1);
-
-        buttonProdukKnowledge.setOnClickListener(view -> {
-            Intent produkIntent = new
-                    Intent(MainActivity.this, ProdukKnowledgeActivity.class);
-            startActivity(produkIntent);
-        });
-
-        buttonInventoryManager.setOnClickListener(view -> {
-            Intent inventIntent = new
-                    Intent(MainActivity.this, InventoryManagerActivity.class);
-            startActivity(inventIntent);
-        });
-
-        buttonAbout.setOnClickListener(view -> AboutActivity());
-
-        buttonLogin.setOnClickListener(view ->{
-            Intent loginIntent = new
-                    Intent(MainActivity.this, LoginActivity.class);
-            startActivity(loginIntent);
-        });
-
+        buttonProdukKnowledge.setOnClickListener(v -> goToProdukKnowledge());
+        buttonBrowser.setOnClickListener(v -> goToBrowser());
+        buttonInventoryManager.setOnClickListener(v -> goToInventoryManager());
+        buttonCodeMatch.setOnClickListener(v -> goToCodematch());
+        buttonHistory.setOnClickListener(v -> goToHistory());
+        buttonOcrCapture.setOnClickListener(v -> goToOcrCapture());
+        buttonProjectTracker.setOnClickListener(v -> goToProjectTracker());
+        buttonGridMenu.setOnClickListener(v -> goToGridMenu());
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
         mAuthListner = firebaseAuth -> {
             if (firebaseAuth.getCurrentUser()==null)
             {
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                startActivity(new Intent(MainActivity.this, SigninActivity.class));
             }
         };
 
@@ -159,15 +154,87 @@ public class MainActivity extends AppCompatActivity
             new DownloadImage(navPhoto).execute(url);
         } else {
             navPhoto.findViewById(R.id.image_view_email_photo);
+            //navPhoto = headerView.findViewById(R.id.image_view_email_photo);
         }
         if(userName !=null){
             navUserName.setText(userName.getDisplayName());
         } else {
             navUserName.setText("KNers");
         }
-        buttonLogout.setOnClickListener(v -> mAuth.signOut());
 
-        //End Pindahan
+        //getVersionName
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            versName = pInfo.versionName;
+            versCode = pInfo.versionCode;
+            editor.putString("version_name",versName);
+            editor.putInt("version_code", versCode);
+            editor.apply();
+            Log.d("MyApp", "Version Name : " + versName + "\n Version Code : " + versCode);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            Log.d("MyApp", "PackageManager Catch : " + e.toString());
+        }
+        // get menu from navigationView
+        Menu menu = navigationView.getMenu();
+        // find MenuItem you want to change
+        MenuItem nav_appversion = menu.findItem(R.id.nav_version_name);
+        // set new title to the MenuItem
+        nav_appversion.setTitle(versName);
+    }
+
+    private void goToGridMenu() {
+        Intent gridMenu = new
+                Intent(MainActivity.this, InventoryManagerActivity.class);
+        startActivity(gridMenu);
+    }
+
+    private void goToCodematch() {
+        Intent codeMatchIntent = new
+                Intent(MainActivity.this, CodeMatchActivity.class);
+        startActivity(codeMatchIntent);
+    }
+
+    private void goToProdukKnowledge()  {
+        Intent produkIntent = new
+                Intent(MainActivity.this, ProdukKnowledgeActivity.class);
+        startActivity(produkIntent);
+    }
+
+    private void goToInventoryManager() {
+        Intent inventIntent = new
+                Intent(MainActivity.this, InventoryManagerActivity.class);
+        startActivity(inventIntent);
+    }
+
+    private void goToProjectTracker() {
+        Intent projectTracker = new
+                Intent(MainActivity.this, ProjectTrackerActivity.class);
+        startActivity(projectTracker);
+    }
+
+    public void aboutActivity(){
+        Intent aboutIntent = new
+                Intent(MainActivity.this, AboutActivity.class);
+        startActivity(aboutIntent);
+    }
+
+    public void goToBrowser() {
+        Intent browserIntent = new
+                Intent(MainActivity.this, WebViewActivity.class);
+        startActivity(browserIntent);
+    }
+
+    public void goToHistory() {
+        Intent historyIntent = new
+                Intent(MainActivity.this, HistoryActivity.class);
+        startActivity(historyIntent);
+    }
+
+    public void goToOcrCapture() {
+        Intent ocrIntent = new
+                Intent(MainActivity.this, OcrCaptureActivity.class);
+        startActivity(ocrIntent);
     }
     //get the current version number and name
 
@@ -175,7 +242,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -183,28 +249,17 @@ public class MainActivity extends AppCompatActivity
                     //.setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Keluar Dari Aplikasi")
                     .setMessage("Semua data dan progress Anda akan tetap tersimpan")
-                    .setPositiveButton("Yes", (dialog, which) -> finish())
+                    .setPositiveButton("Yes", (dialog, which) -> super.onBackPressed())
                     .setNegativeButton("No", null)
                     .show();
-            //super.onBackPressed();
         }
-    }
-
-    public void onInfoVersionCode() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle(R.string.title_info_version_code);
-        builder.setMessage(R.string.title_info_version_code);
-        builder.setIcon(R.drawable.ic_error_outline_black_24dp);
-        AlertDialog diag = builder.create();
-        //Display the message!
-        diag.show();
     }
 
     public void onInfoVersionName() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle(R.string.title_info_version_name);
-        builder.setMessage(R.string.sum_info_version_name);
-        builder.setIcon(R.drawable.ic_error_outline_black_24dp);
+        builder.setTitle(R.string.app_version);
+        builder.setMessage("Verison Name: "+versName+"\n"+"Version Code: "+versCode);
+        builder.setIcon(R.drawable.ic_info_outline_black_24dp);
         AlertDialog diag = builder.create();
         //Display the message!
         diag.show();
@@ -226,16 +281,22 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            settingsActivity();
             return true;
         }
         if (id == R.id.action_about){
-            AboutActivity();
+            aboutActivity();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void settingsActivity() {
+        Intent settingsIntent = new
+                Intent(MainActivity.this,SettingsActivity.class);
+        startActivity(settingsIntent);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -254,30 +315,34 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
-
-        }else if (id == R.id.nav_logout) {
-            new AlertDialog.Builder(this)
-                    //.setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle("Keluar?")
-                    .setMessage("Semua sesi Anda akan tersimpan")
-                    .setPositiveButton("Keluar", (dialog, which) -> mAuth.signOut())
-                    .setNegativeButton("Batal", null)
-                    .show();
-
+        } else if (id == R.id.nav_settings) {
+            closeDrawer();
+            handler.postDelayed(this::settingsActivity, 250);
+        }else if (id == R.id.nav_signout) {
+            closeDrawer();
+            handler.postDelayed(this::signOutAlert, 250);
         }else if (id == R.id.nav_about) {
-            AboutActivity();
-
-        }else if(id == R.id.nav_version_code){
-            onInfoVersionCode();
+            closeDrawer();
+            // Do something after 5s = 5000ms
+            handler.postDelayed(this::aboutActivity, 250);
         }else if(id==R.id.nav_version_name){
-            onInfoVersionName();
+            closeDrawer();
+            handler.postDelayed(this::onInfoVersionName, 250);
         }
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void signOutAlert() {
+        new AlertDialog.Builder(this)
+                //.setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Keluar?")
+                .setMessage("Semua sesi Anda akan tersimpan")
+                .setPositiveButton("Keluar", (dialog, which) -> mAuth.signOut())
+                .setNegativeButton("Batal", null)
+                .show();
+    }
+
     //Permission Marshmelo
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -303,38 +368,12 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void AboutActivity(){
-        Intent aboutIntent = new
-                Intent(MainActivity.this,AboutActivity.class);
-        startActivity(aboutIntent);
-    }
-
-    public void goToBrowser(View view) {
-        //activity baru
-        Intent browserIntent = new
-                Intent(MainActivity.this,WebViewActivity.class);
-        startActivity(browserIntent);
-    }
-
-    public void codeMatchActivity(View view) {
-        //activity baru
-        Intent myIntent = new
-                Intent(MainActivity.this,CodeMatchActivity.class);
-        startActivity(myIntent);
-    }
-
-    public void barcodeListActivity(View view) {
-        //activity baru
-        Intent myIntent = new
-                Intent(MainActivity.this, HistoryActivity.class);
-        startActivity(myIntent);
-    }
-
-    public void ocrCaptureActivity(View view) {
-        //activity baru
-        Intent myIntent = new
-                Intent(MainActivity.this, OcrCaptureActivity.class);
-        startActivity(myIntent);
+    public void closeDrawer(){
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            //super.onBackPressed();
+        }
     }
 
 
