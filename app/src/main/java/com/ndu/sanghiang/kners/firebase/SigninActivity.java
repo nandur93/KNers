@@ -26,6 +26,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserInfo;
 import com.ndu.sanghiang.kners.MainActivity;
 import com.ndu.sanghiang.kners.R;
 import com.ndu.sanghiang.kners.service.ConnectivityReceiver;
@@ -130,13 +131,14 @@ public class SigninActivity extends AppCompatActivity implements ConnectivityRec
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
 
+
     }
 
     @Override
     public void onBackPressed() {
-        finish();
         super.onBackPressed();
-        //moveTaskToBack(true);
+        moveTaskToBack(true);
+        finish();
     }
 
     @Override
@@ -167,7 +169,12 @@ public class SigninActivity extends AppCompatActivity implements ConnectivityRec
                         FirebaseUser user = mAuth.getCurrentUser();
                         //updateUI(user);
                         if (user != null) {
-                            Toast.makeText(SigninActivity.this, "Welcome "+user.getEmail(), Toast.LENGTH_SHORT).show();
+                            for (UserInfo userInfo: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
+                                if (userInfo.getProviderId().equals("password")) {
+                                    Toast.makeText(SigninActivity.this, "Welcome KNers", Toast.LENGTH_SHORT).show();
+                                }
+                                Toast.makeText(SigninActivity.this, "Welcome "+user.getDisplayName(), Toast.LENGTH_SHORT).show();
+                            }
                             progressBar.setVisibility(View.GONE);
                         }
                     } else {
