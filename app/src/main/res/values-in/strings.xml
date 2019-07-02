@@ -75,4 +75,6 @@
     <string name="title_send_feedback">Kirim Masukan</string>
     <string name="summary_support">Jika ada masukan atau perbaikan dan request fitur, silahkan ungkapkan disini!</string>
     <string name="choose_email_client">Pilih layanan email</string>
+    <string name="spinner_title">Departemen</string>
+    <string name="button_unmount_otg">Copot OTG</string>
 </resources>

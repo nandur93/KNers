@@ -8,7 +8,9 @@
     <uses-permission android:name="android.permission.CAMERA" /> <!-- ijinkan kamera -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE" /> <!-- support beberapa ukuran layar -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- support beberapa ukuran layar -->
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -39,18 +41,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <receiver android:name=".PlugInConnector">
+            <intent-filter>
 
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+            </intent-filter>
+        </receiver>
+        <activity android:name=".DashboardProjectActivity">
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.ndu.sanghiang.kners.MainActivity" />
+            android:parentActivityName=".MainActivity"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ndu.sanghiang.kners.MainActivity" />
         </activity>
-
-        <activity android:name=".PreferenceActivity"/>
-
+        <activity android:name=".PreferenceActivity" />
         <activity
             android:name=".projecttrackerfi.ProjectTrackerActivity"
             android:label="@string/app_project_tracker_fi"
@@ -71,10 +83,6 @@
                     tools:ignore="BatteryLife" />
             </intent-filter>
         </receiver>
-
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".firebase.SignupActivity"
@@ -159,7 +167,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
         <activity
             android:name=".indevelopment.NewItemActivity"
             android:label="@string/title_new_item"
@@ -169,7 +176,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".indevelopment.InventoryManagerActivity" />
         </activity>
-
         <activity
             android:name=".CodeMatchActivity"
             android:label="@string/title_code_match"
@@ -208,7 +214,7 @@
             android:label="Read Text" />
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">

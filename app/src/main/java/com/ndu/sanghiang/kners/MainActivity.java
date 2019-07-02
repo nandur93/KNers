@@ -12,18 +12,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,11 +21,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.preference.PreferenceManager;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.ndu.sanghiang.kners.firebase.SigninActivity;
 import com.ndu.sanghiang.kners.indevelopment.HistoryActivity;
 import com.ndu.sanghiang.kners.indevelopment.InventoryManagerActivity;
@@ -51,11 +56,11 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
     Button buttonProdukKnowledge, buttonBrowser, buttonInventoryManager, buttonCodeMatch, buttonGridMenu,
-           buttonOcrCapture, buttonProjectTracker, buttonHistory;
+            buttonOcrCapture, buttonProjectTracker, buttonHistory, buttonUnmountOtg;
     TextView navEmail, navUserName;
     ImageView navPhoto;
-    FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListner;
     FirebaseUser userEmail = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseUser userName = FirebaseAuth.getInstance().getCurrentUser();
@@ -65,11 +70,19 @@ public class MainActivity extends AppCompatActivity
     private String versName;
     int versCode;
 
+    // [START declare_auth]
+    private FirebaseAuth mAuth;
+    // [END declare_auth]
+
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListner);
+        // Check if user is signed in (non-null) and update UI accordingly.
+        mAuth.getCurrentUser();
+        updateUI();
     }
 
     @SuppressLint("SetTextI18n")
@@ -110,14 +123,19 @@ public class MainActivity extends AppCompatActivity
         buttonHistory = findViewById(R.id.button_history);
         buttonOcrCapture = findViewById(R.id.button_ocr_activity);
         buttonProjectTracker = findViewById(R.id.button_project_tracker);
+        buttonUnmountOtg = findViewById(R.id.button_unmount_otg);
         mAuth = FirebaseAuth.getInstance();
-        /*if (mAuth.getCurrentUser() != null){
-            String EMAIL= mAuth.getCurrentUser().getEmail();
-            if (!EMAIL.equals("example@gmail.com")){
-                startActivity(new Intent(SigninActivity.this,MainActivity.class));
-                finish();
-            }
-        }*/
+
+        // [START config_signin]
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        // [END config_signin]
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
         //Permission Marshmelo
         ActivityCompat.requestPermissions(MainActivity.this,
                 new String[]{Manifest.permission.INTERNET},
@@ -130,6 +148,7 @@ public class MainActivity extends AppCompatActivity
         buttonOcrCapture.setOnClickListener(v -> goToOcrCapture());
         buttonProjectTracker.setOnClickListener(v -> goToProjectTracker());
         buttonGridMenu.setOnClickListener(v -> goToGridMenu());
+        buttonUnmountOtg.setOnClickListener(v -> goToUnmountOTG());
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPrefs.edit();
         mAuthListner = firebaseAuth -> {
@@ -142,23 +161,27 @@ public class MainActivity extends AppCompatActivity
         if (userEmail != null) {
             String userEmail = this.userEmail.getEmail();
             navEmail.setText(userEmail);
-
-
         } else {
             // No userEmail is signed in
-            navEmail.setText("Logout");
+            navEmail.setText("Signed Out");
         }
-        if (userPhoto != null){
 
+        if (userPhoto != null){
             String url = Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhotoUrl()).toString();
             new DownloadImage(navPhoto).execute(url);
         } else {
             navPhoto.findViewById(R.id.image_view_email_photo);
             //navPhoto = headerView.findViewById(R.id.image_view_email_photo);
         }
-        if(userName !=null){
+
+        if(userName != null){
             navUserName.setText(userName.getDisplayName());
         } else {
+            for (UserInfo userInfo: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
+                if (userInfo.getProviderId().equals("password")) {
+                    navUserName.setText("KNers");
+                }
+            }
             navUserName.setText("KNers");
         }
 
@@ -236,6 +259,11 @@ public class MainActivity extends AppCompatActivity
                 Intent(MainActivity.this, OcrCaptureActivity.class);
         startActivity(ocrIntent);
     }
+
+    public void goToUnmountOTG(){
+        Intent i = new Intent(android.provider.Settings.ACTION_MEMORY_CARD_SETTINGS);
+        startActivity(i);
+    }
     //get the current version number and name
 
 
@@ -249,10 +277,16 @@ public class MainActivity extends AppCompatActivity
                     //.setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Keluar Dari Aplikasi")
                     .setMessage("Semua data dan progress Anda akan tetap tersimpan")
-                    .setPositiveButton("Yes", (dialog, which) -> super.onBackPressed())
+                    .setPositiveButton("Yes", (dialog, which) -> closeActivity())
                     .setNegativeButton("No", null)
                     .show();
         }
+    }
+
+    private void closeActivity() {
+        super.onBackPressed();
+        moveTaskToBack(true);
+        finish();
     }
 
     public void onInfoVersionName() {
@@ -338,9 +372,26 @@ public class MainActivity extends AppCompatActivity
                 //.setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Keluar?")
                 .setMessage("Semua sesi Anda akan tersimpan")
-                .setPositiveButton("Keluar", (dialog, which) -> mAuth.signOut())
+                .setPositiveButton("Keluar", (dialog, which) -> signOut())
                 .setNegativeButton("Batal", null)
                 .show();
+    }
+
+    private void signOut() {
+        // Firebase sign out
+        mAuth.signOut();
+
+        // Google sign out
+        mGoogleSignInClient.signOut().addOnCompleteListener(this,
+                task -> updateUI());
+    }
+
+    private void updateUI() {
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     //Permission Marshmelo

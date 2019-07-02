@@ -2,12 +2,14 @@ package com.ndu.sanghiang.kners.indevelopment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.widget.GridView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.ndu.sanghiang.kners.AboutActivity;
 import com.ndu.sanghiang.kners.CodeMatchActivity;
+import com.ndu.sanghiang.kners.DashboardProjectActivity;
 import com.ndu.sanghiang.kners.R;
 
 import java.util.Objects;
@@ -42,6 +44,9 @@ public class InventoryManagerActivity extends AppCompatActivity {
             if(i == 3){
                 myIntent = new Intent(view.getContext(), CodeMatchActivity.class);
             }
+            if(i == 4){
+                myIntent = new Intent(view.getContext(), DashboardProjectActivity.class);
+            }
 
             //lain2
 
@@ -55,11 +60,11 @@ public class InventoryManagerActivity extends AppCompatActivity {
     GridView androidGridView;
 
     String[] gridViewString = {
-            "Item Baru", "About", "Produk", "Catatan Transaksi", "Pengaturan", "Feedback",
+            "Item Baru", "About", "Produk", "Catatan Transaksi", "Dashboard Project", "Feedback",
 
     };
     int[] gridViewImageId = {
-            R.drawable.ic_launcher, R.drawable.ic_info_outline_black_24dp, R.drawable.ic_help_outline_black_24dp, R.drawable.ic_settings_black_24dp, R.drawable.ic_launcher, R.drawable.ic_launcher,
+            R.drawable.ic_launcher, R.drawable.ic_info_outline_black_24dp, R.drawable.ic_help_outline_black_24dp, R.drawable.ic_settings_black_24dp, R.drawable.ic_launcher_round, R.drawable.ic_launcher,
 
     };
 

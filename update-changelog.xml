@@ -1,12 +1,12 @@
 <AppUpdater>
-  <update>
-    <latestVersion>1.9</latestVersion>
-    <latestVersionCode>6</latestVersionCode>
-    <url>http://bit.ly/KNersApp1-9</url>
-    <releaseNotes>
-- First evolution
-- Second evolution
-- Bug fixes
-    </releaseNotes>
-  </update>
+    <update>
+        <latestVersion>1.9</latestVersion>
+        <latestVersionCode>6</latestVersionCode>
+        <url>http://bit.ly/KNersApp1-9</url>
+        <releaseNotes>
+            - First evolution
+            - Second evolution
+            - Bug fixes
+        </releaseNotes>
+    </update>
 </AppUpdater>

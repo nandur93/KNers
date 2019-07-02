@@ -2,25 +2,20 @@ package com.ndu.sanghiang.kners;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -32,6 +27,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -301,6 +305,28 @@ public class CodeMatchActivity extends AppCompatActivity {
         });
 
         buttScan.setOnClickListener(v -> scanQR());
+
+        //battery
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            public void onReceive(Context context, Intent intent) {
+                int plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+                if (plugged == BatteryManager.BATTERY_PLUGGED_AC) {
+                    // on AC power
+                    Toast.makeText(CodeMatchActivity.this, "AC Power", LENGTH_SHORT).show();
+                } else if (plugged == BatteryManager.BATTERY_PLUGGED_USB) {
+                    // on USB power
+                    Toast.makeText(CodeMatchActivity.this, "USB Power", LENGTH_SHORT).show();
+                } else if (plugged == 0) {
+                    // on battery power
+                    Toast.makeText(CodeMatchActivity.this, "Battery Power", LENGTH_SHORT).show();
+                } else {
+                    // intent didnt include extra info
+                    Toast.makeText(CodeMatchActivity.this, "intent didnt include extra info", LENGTH_SHORT).show();
+                }
+            }
+        };
+        IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(receiver, filter);
     }
 
     void handleSendText(Intent intent) {

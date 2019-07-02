@@ -90,5 +90,7 @@
     <string name="title_send_feedback">Send Feedback</string>
     <string name="summary_support">Got any queries? We are happy to help!</string>
     <string name="choose_email_client">Choose email client</string>
+    <string name="spinner_title">Department</string>
+    <string name="button_unmount_otg">Unmount OTG</string>
 
 </resources>

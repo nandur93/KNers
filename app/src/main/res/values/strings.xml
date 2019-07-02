@@ -108,7 +108,7 @@
     <string name="tab_text_2" translatable="false">Tab 2</string>
     <string name="button_project_tracker" translatable="false">Project Tracker FI</string>
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
-    <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
@@ -130,5 +130,7 @@
 
     <string name="settings_check_for_updates" translatable="false">Check for updates</string>
     <string name="settings_check_for_updates_summary" translatable="false">Check for new versions using AppUpdater library.</string>
+    <string name="button_unmount_otg">Unmount OTG</string>
+    <string name="spinner_title">Department</string>
 
 </resources>

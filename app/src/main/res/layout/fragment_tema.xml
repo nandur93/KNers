@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".projecttrackerfi.fragment.TemaFragment"
-    android:tag="tema">
+    android:tag="tema"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/textViewTema"
@@ -19,7 +20,7 @@
         android:id="@+id/editTextTema"
         android:layout_width="326dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewTema"
+
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
@@ -31,13 +32,7 @@
         android:id="@+id/button_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewTema"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_toEndOf="@+id/editTextTema"
-        android:layout_toRightOf="@+id/editTextTema"
         android:text="@string/button_submit" />
 
 
-</RelativeLayout>
+</LinearLayout>
