@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Button buttonProdukKnowledge, buttonBrowser, buttonInventoryManager, buttonCodeMatch, buttonGridMenu,
-            buttonOcrCapture, buttonProjectTracker, buttonHistory, buttonUnmountOtg;
+            buttonOcrCapture, buttonProjectTracker, buttonHistory, buttonUnmountOtg, buttonProfile;
     TextView navEmail, navUserName;
     ImageView navPhoto;
     FirebaseAuth.AuthStateListener mAuthListner;
@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity
         buttonOcrCapture = findViewById(R.id.button_ocr_activity);
         buttonProjectTracker = findViewById(R.id.button_project_tracker);
         buttonUnmountOtg = findViewById(R.id.button_unmount_otg);
+        buttonProfile = findViewById(R.id.button_profile);
         mAuth = FirebaseAuth.getInstance();
 
         // [START config_signin]
@@ -140,6 +141,18 @@ public class MainActivity extends AppCompatActivity
         ActivityCompat.requestPermissions(MainActivity.this,
                 new String[]{Manifest.permission.INTERNET},
                 1);
+        // hide
+        buttonProdukKnowledge.setVisibility(View.GONE);
+        buttonBrowser.setVisibility(View.GONE);
+        buttonInventoryManager.setVisibility(View.GONE);
+        //buttonCodeMatch.setOnClickListener(v -> goToCodematch());
+        buttonHistory.setVisibility(View.GONE);
+        //buttonOcrCapture.setOnClickListener(v -> goToOcrCapture());
+        buttonProjectTracker.setVisibility(View.GONE);
+        buttonGridMenu.setVisibility(View.GONE);
+        //buttonUnmountOtg.setOnClickListener(v -> goToUnmountOTG());
+        buttonProfile.setVisibility(View.GONE);
+
         buttonProdukKnowledge.setOnClickListener(v -> goToProdukKnowledge());
         buttonBrowser.setOnClickListener(v -> goToBrowser());
         buttonInventoryManager.setOnClickListener(v -> goToInventoryManager());
@@ -149,6 +162,7 @@ public class MainActivity extends AppCompatActivity
         buttonProjectTracker.setOnClickListener(v -> goToProjectTracker());
         buttonGridMenu.setOnClickListener(v -> goToGridMenu());
         buttonUnmountOtg.setOnClickListener(v -> goToUnmountOTG());
+        buttonProfile.setOnClickListener(v -> goToProfile());
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPrefs.edit();
         mAuthListner = firebaseAuth -> {
@@ -204,6 +218,12 @@ public class MainActivity extends AppCompatActivity
         MenuItem nav_appversion = menu.findItem(R.id.nav_version_name);
         // set new title to the MenuItem
         nav_appversion.setTitle(versName);
+    }
+
+    private void goToProfile() {
+        Intent goToProfile = new
+                Intent(MainActivity.this, ProfileActivity.class);
+        startActivity(goToProfile);
     }
 
     private void goToGridMenu() {
