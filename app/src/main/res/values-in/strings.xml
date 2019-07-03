@@ -77,4 +77,5 @@
     <string name="choose_email_client">Pilih layanan email</string>
     <string name="spinner_title">Departemen</string>
     <string name="button_unmount_otg">Copot OTG</string>
+    <string name="department_list">Department</string>
 </resources>

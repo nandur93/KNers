@@ -175,6 +175,7 @@ public class CodeMatchActivity extends AppCompatActivity {
             } else if(stringStdCode.equals(stringActCode)) { //ketika  standard dan actual sama
                 textViewResult.setText(getString(R.string.text_code_right)); //tampilkan teks "kode benar"
                 textViewResult.setTextColor(Color.BLUE); //warna teks menjadi biru
+
                 toastRight.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
                 toastRight.show();
                 //sound from settings

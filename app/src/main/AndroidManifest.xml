@@ -9,8 +9,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!-- support beberapa ukuran layar -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- support beberapa ukuran layar -->
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -41,13 +40,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/menu_profile"
+            android:parentActivityName=".MainActivity"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ndu.sanghiang.kners.MainActivity" />
+        </activity>
+
         <receiver android:name=".PlugInConnector">
             <intent-filter>
-
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </receiver>
+
         <activity android:name=".DashboardProjectActivity">
         </activity>
         <activity

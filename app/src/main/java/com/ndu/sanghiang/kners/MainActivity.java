@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         navEmail = headerView.findViewById(R.id.text_view_nav_email);
         navPhoto = headerView.findViewById(R.id.image_view_email_photo);
+        navPhoto.setOnClickListener(v -> goToProfile());
         navUserName = headerView.findViewById(R.id.text_view_nav_username);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -141,18 +142,47 @@ public class MainActivity extends AppCompatActivity
         ActivityCompat.requestPermissions(MainActivity.this,
                 new String[]{Manifest.permission.INTERNET},
                 1);
-        // hide
-        buttonProdukKnowledge.setVisibility(View.GONE);
-        buttonBrowser.setVisibility(View.GONE);
-        buttonInventoryManager.setVisibility(View.GONE);
-        //buttonCodeMatch.setOnClickListener(v -> goToCodematch());
-        buttonHistory.setVisibility(View.GONE);
-        //buttonOcrCapture.setOnClickListener(v -> goToOcrCapture());
-        buttonProjectTracker.setVisibility(View.GONE);
-        buttonGridMenu.setVisibility(View.GONE);
-        //buttonUnmountOtg.setOnClickListener(v -> goToUnmountOTG());
-        buttonProfile.setVisibility(View.GONE);
 
+        //developer menu menampilkan semua menu
+        /* hide
+        buttonProdukKnowledge.setVisibility(View.GONE); //dev
+        buttonBrowser.setVisibility(View.GONE); //dev
+        buttonInventoryManager.setVisibility(View.GONE); //dev
+        //buttonCodeMatch.setOnClickListener(v -> goToCodematch()); //qa
+        buttonHistory.setVisibility(View.GONE); //dev
+        //buttonOcrCapture.setOnClickListener(v -> goToOcrCapture()); //qa
+        buttonProjectTracker.setVisibility(View.GONE); //fi
+        buttonGridMenu.setVisibility(View.GONE); //fi
+        //buttonUnmountOtg.setOnClickListener(v -> goToUnmountOTG()); //dev
+        buttonProfile.setVisibility(View.GONE); //dev */
+
+        //fi menu hanya menampilkan menu fi
+        /* hide
+        buttonProdukKnowledge.setVisibility(View.GONE); //dev
+        buttonBrowser.setVisibility(View.GONE); //dev
+        buttonInventoryManager.setVisibility(View.GONE); //dev
+        //buttonCodeMatch.setOnClickListener(v -> goToCodematch()); //qa
+        buttonHistory.setVisibility(View.GONE); //dev
+        //buttonOcrCapture.setOnClickListener(v -> goToOcrCapture()); //qa
+        buttonProjectTracker.setVisibility(View.GONE); //fi
+        buttonGridMenu.setVisibility(View.GONE); //fi
+        //buttonUnmountOtg.setOnClickListener(v -> goToUnmountOTG()); //dev
+        buttonProfile.setVisibility(View.GONE); //dev */
+
+        //qa menu hanya menampilkan menu qa
+        /* hide
+        buttonProdukKnowledge.setVisibility(View.GONE); //dev
+        buttonBrowser.setVisibility(View.GONE); //dev
+        buttonInventoryManager.setVisibility(View.GONE); //dev
+        //buttonCodeMatch.setOnClickListener(v -> goToCodematch()); //qa
+        buttonHistory.setVisibility(View.GONE); //dev
+        //buttonOcrCapture.setOnClickListener(v -> goToOcrCapture()); //qa
+        buttonProjectTracker.setVisibility(View.GONE); //fi
+        buttonGridMenu.setVisibility(View.GONE); //fi
+        //buttonUnmountOtg.setOnClickListener(v -> goToUnmountOTG()); //dev
+        buttonProfile.setVisibility(View.GONE); //dev */
+
+        //button listener
         buttonProdukKnowledge.setOnClickListener(v -> goToProdukKnowledge());
         buttonBrowser.setOnClickListener(v -> goToBrowser());
         buttonInventoryManager.setOnClickListener(v -> goToInventoryManager());
@@ -359,7 +389,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
+        if (id == R.id.nav_profile) {
+            closeDrawer();
+            handler.postDelayed(this::goToProfile, 250);
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
@@ -473,4 +505,5 @@ public class MainActivity extends AppCompatActivity
             bmImage.setImageBitmap(result);
         }
     }
+
 }
