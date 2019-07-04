@@ -2,11 +2,11 @@
     <update>
         <latestVersion>1.9</latestVersion>
         <latestVersionCode>6</latestVersionCode>
-        <url>http://bit.ly/KNersApp1-9</url>
+        <url>http://bit.ly/KNersApp1-9Beta</url>
         <releaseNotes>
-            - First evolution
-            - Second evolution
-            - Bug fixes
+            What's New on Version 1.9Beta?
+            + Migrated to AndroidX
+            + Add charger detector
         </releaseNotes>
     </update>
 </AppUpdater>
