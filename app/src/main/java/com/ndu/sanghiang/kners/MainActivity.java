@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,23 +44,29 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ndu.sanghiang.kners.firebase.SigninActivity;
 import com.ndu.sanghiang.kners.indevelopment.HistoryActivity;
 import com.ndu.sanghiang.kners.indevelopment.InventoryManagerActivity;
 import com.ndu.sanghiang.kners.indevelopment.ProdukKnowledgeActivity;
 import com.ndu.sanghiang.kners.ocr.OcrCaptureActivity;
 import com.ndu.sanghiang.kners.projecttrackerfi.ProjectTrackerActivity;
+import com.ndu.sanghiang.kners.service.ConnectivityReceiver;
+import com.ndu.sanghiang.kners.service.MyApplication;
 
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ConnectivityReceiver.ConnectivityReceiverListener {
 
     Button buttonProdukKnowledge, buttonBrowser, buttonInventoryManager, buttonCodeMatch, buttonGridMenu,
             buttonOcrCapture, buttonProjectTracker, buttonHistory, buttonUnmountOtg, buttonProfile;
-    TextView navEmail, navUserName;
+    TextView navEmail, navUserName, navDept;
     ImageView navPhoto;
     FirebaseAuth.AuthStateListener mAuthListner;
     FirebaseUser userEmail = FirebaseAuth.getInstance().getCurrentUser();
@@ -75,6 +82,8 @@ public class MainActivity extends AppCompatActivity
     // [END declare_auth]
 
     private GoogleSignInClient mGoogleSignInClient;
+    private SharedPreferences sharedPrefs;
+    private DatabaseReference profileUserRef;
 
     @Override
     protected void onStart() {
@@ -101,7 +110,7 @@ public class MainActivity extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         navEmail = headerView.findViewById(R.id.text_view_nav_email);
         navPhoto = headerView.findViewById(R.id.image_view_email_photo);
-        navPhoto.setOnClickListener(v -> goToProfile());
+        navDept = headerView.findViewById(R.id.text_view_nav_dept);
         navUserName = headerView.findViewById(R.id.text_view_nav_username);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -127,6 +136,10 @@ public class MainActivity extends AppCompatActivity
         buttonUnmountOtg = findViewById(R.id.button_unmount_otg);
         buttonProfile = findViewById(R.id.button_profile);
         mAuth = FirebaseAuth.getInstance();
+        // Firebase
+        // get current userId
+        String userId = mAuth.getCurrentUser().getUid();
+        profileUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
 
         // [START config_signin]
         // Configure Google Sign In
@@ -193,7 +206,9 @@ public class MainActivity extends AppCompatActivity
         buttonGridMenu.setOnClickListener(v -> goToGridMenu());
         buttonUnmountOtg.setOnClickListener(v -> goToUnmountOTG());
         buttonProfile.setOnClickListener(v -> goToProfile());
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        navUserName.setOnClickListener(v -> goToProfile());
+        navPhoto.setOnClickListener(v -> goToProfile());
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPrefs.edit();
         mAuthListner = firebaseAuth -> {
             if (firebaseAuth.getCurrentUser()==null)
@@ -201,6 +216,10 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(MainActivity.this, SigninActivity.class));
             }
         };
+
+        // Load data langsung dari firebase
+        // Load nik dan email
+        checkConnection();
 
         if (userEmail != null) {
             String userEmail = this.userEmail.getEmail();
@@ -214,12 +233,20 @@ public class MainActivity extends AppCompatActivity
             String url = Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhotoUrl()).toString();
             new DownloadImage(navPhoto).execute(url);
         } else {
-            navPhoto.findViewById(R.id.image_view_email_photo);
+            navPhoto.setImageResource(R.drawable.ic_launcher_nodpi);
             //navPhoto = headerView.findViewById(R.id.image_view_email_photo);
         }
 
+        String userDept = sharedPrefs.getString("user_dept", "Please Update Your Profile");
+        if(userDept != null){
+            navDept.setText(userDept);
+        } else {
+            navDept.setText(R.string.dept_hint);
+        }
+
         if(userName != null){
-            navUserName.setText(userName.getDisplayName());
+            String shNik = sharedPrefs.getString("user_nik", "UNREGISTERED");
+            navUserName.setText(userName.getDisplayName()+" "+"("+shNik+")");
         } else {
             for (UserInfo userInfo: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
                 if (userInfo.getProviderId().equals("password")) {
@@ -248,6 +275,97 @@ public class MainActivity extends AppCompatActivity
         MenuItem nav_appversion = menu.findItem(R.id.nav_version_name);
         // set new title to the MenuItem
         nav_appversion.setTitle(versName);
+    }
+
+    // Method to manually check connection status
+    private void checkConnection() {
+        boolean isConnected = ConnectivityReceiver.isConnected();
+        showSnack(isConnected);
+    }
+
+    // Showing the status in Snackbar
+    private void showSnack(boolean isConnected) {
+        String message;
+        int color;
+        //color = Color.WHITE;
+        //message = "";
+        if (isConnected) {
+            message = "Loading...";
+            color = Color.WHITE;
+            loadFirebaseUserData();
+        } else {
+            message = "Sorry! Not connected to internet";
+            color = Color.RED;
+            loadOfflineData();
+        }
+
+        Snackbar snackbar = Snackbar
+                .make(getWindow().getDecorView().getRootView(), message, Snackbar.LENGTH_LONG);
+
+        View sbView = snackbar.getView();
+        TextView textView = sbView.findViewById(R.id.snackbar_text);
+        textView.setTextColor(color);
+        snackbar.show();
+    }
+
+    private void loadOfflineData() {
+        // ketika di load, dapatkan value dari shared pref langsung
+        String shDept = sharedPrefs.getString("user_dept", "");
+        navDept.setText(shDept);
+
+        Toast.makeText(MainActivity.this,"Loaded from offline data",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // register connection status listener
+        MyApplication.getInstance().setConnectivityListener(MainActivity.this);
+    }
+    /**
+     * Callback will be triggered when there is change in
+     * network connection
+     */
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        showSnack(isConnected);
+    }
+
+    private void loadFirebaseUserData() {
+        profileUserRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    //String myName = dataSnapshot.child("name").getValue().toString();
+                    String myNik = dataSnapshot.child("nik").getValue().toString();
+                    //String myEmail = dataSnapshot.child("email").getValue().toString();
+                    String myDept = dataSnapshot.child("dept").getValue().toString();
+                    if(userName != null){
+                        navUserName.setText(String.format("%s (%s)", userName.getDisplayName(), myNik));
+                    } else {
+                        for (UserInfo userInfo: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
+                            if (userInfo.getProviderId().equals("password")) {
+                                navUserName.setText(R.string.app_name);
+                            }
+                        }
+
+                        navUserName.setText(R.string.app_name);
+                    }
+                    //editTextUserName.setText(myName);
+                    //editTextEmail.setText(myEmail);
+                    navDept.setText(myDept);
+
+                    Toast.makeText(MainActivity.this,"Data loaded from firebase",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                Toast.makeText(MainActivity.this,"Database error",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void goToProfile() {
@@ -400,6 +518,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_tools) {
 
         } else if (id == R.id.nav_share) {
+            closeDrawer();
+            handler.postDelayed(this::shareApp, 250);
 
         } else if (id == R.id.nav_settings) {
             closeDrawer();
@@ -419,6 +539,17 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    private void shareApp() {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareSubject = getResources().getString(R.string.app_name);
+        String shareBody = getResources().getString(R.string.share_body);
+        String shareVia = getResources().getString(R.string.share_via);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, shareSubject+" Versi "+versName+" Build "+versCode);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, shareVia));
+    }
+
     private void signOutAlert() {
         new AlertDialog.Builder(this)
                 //.setIcon(android.R.drawable.ic_dialog_alert)
@@ -436,6 +567,18 @@ public class MainActivity extends AppCompatActivity
         // Google sign out
         mGoogleSignInClient.signOut().addOnCompleteListener(this,
                 task -> updateUI());
+
+        // Clear sharedpref
+        clearSharedPref();
+    }
+
+    private void clearSharedPref() {
+        sharedPrefs.edit()
+                .remove("user_name")
+                .remove("user_email")
+                .remove("user_nik")
+                .remove("user_dept")
+                .apply();
     }
 
     private void updateUI() {

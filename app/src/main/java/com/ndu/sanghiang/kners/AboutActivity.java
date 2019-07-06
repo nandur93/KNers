@@ -26,8 +26,6 @@ import static com.ndu.sanghiang.kners.R.string.sum_about;
 
 public class AboutActivity extends AppCompatActivity {
 
-    private AppUpdater appUpdater;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +36,6 @@ public class AboutActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        appUpdater = new AppUpdater(this);
         setTitle("About KNers App");
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
@@ -87,19 +84,23 @@ public class AboutActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_update) {
             cekForUpdate();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     private void cekForUpdate() {
-        appUpdater.start();
-        appUpdater.setDisplay(Display.DIALOG);
-        appUpdater.setUpdateFrom(UpdateFrom.XML);
-        appUpdater.setUpdateXML("https://raw.githubusercontent.com/nandur93/KNers/master/update-changelog.xml");
-        appUpdater.setTitleOnUpdateAvailable("Update available");
+        //update value
+        new AppUpdater(AboutActivity.this)
+                //.setUpdateFrom(UpdateFrom.GITHUB)
+                //.setGitHubUserAndRepo("javiersantos", "AppUpdater")
+                .setUpdateFrom(UpdateFrom.XML)
+                .setUpdateXML("https://raw.githubusercontent.com/nandur93/KNers/master/update-changelog.xml")
+                .setDisplay(Display.DIALOG)
+                .setButtonDoNotShowAgain(null)
+                .showAppUpdated(true)
+                .start();
     }
 }

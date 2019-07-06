@@ -7,7 +7,7 @@ android {
         minSdkVersion 16 //JB
         targetSdkVersion 28 //Pie
         versionCode 6 //Naikkan 1 angka jika mau revisi dan upload ke playstore
-        versionName '1.9' //Naikkan bebas dan kode ini yang ditunjukkan ke User
+        versionName '1.9.1' //Naikkan bebas dan kode ini yang ditunjukkan ke User
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         maxSdkVersion 29 //Q
@@ -68,6 +68,8 @@ dependencies {
     implementation 'com.google.zxing:core:3.4.0'
     implementation 'com.google.android.gms:play-services-vision:18.0.0'
     implementation 'com.google.android.gms:play-services-ads:18.0.0'
+    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0-alpha07'
     //firebase
     implementation 'com.google.firebase:firebase-core:17.0.0'
     implementation 'com.google.firebase:firebase-messaging:19.0.1'
