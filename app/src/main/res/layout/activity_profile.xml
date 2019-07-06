@@ -3,12 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <!-- Load the toolbar here -->
         <androidx.appcompat.widget.Toolbar
@@ -47,13 +48,6 @@
                 android:layout_gravity="top"
                 android:layout_marginStart="50dp"
                 android:layout_marginEnd="50dp">
-                <TextView
-                    android:id="@+id/text_view_details"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dip"
-                    android:textSize="20sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/text_input_layout_username"
@@ -146,11 +140,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <Button
-            android:id="@+id/button_save_changes"
+            android:id="@+id/button_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save Changes"
-            tools:ignore="HardcodedText"
+            android:text="@string/update_profile"
             android:layout_weight="1"/>
     </LinearLayout>
     </LinearLayout>

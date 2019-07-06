@@ -139,5 +139,6 @@
     <string name="button_unmount_otg">Unmount OTG</string>
     <string name="spinner_title">Department</string>
     <string name="department_list">Department</string>
+    <string name="update_profile" translatable="false">Update Profile</string>
 
 </resources>
