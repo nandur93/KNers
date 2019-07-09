@@ -62,7 +62,13 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".DashboardProjectActivity">
+        <activity android:name=".DashboardProjectActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:parentActivityName=".indevelopment.GridMenuActivity"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ndu.sanghiang.kners.MainActivity" />
         </activity>
         <activity
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
@@ -182,8 +188,8 @@
         </activity>
         <activity android:name=".indevelopment.SearchResultsActivity" />
         <activity
-            android:name=".indevelopment.InventoryManagerActivity"
-            android:label="@string/button_inventory_manager"
+            android:name=".indevelopment.GridMenuActivity"
+            android:label="@string/grid_menu"
             android:parentActivityName=".MainActivity"
             tools:targetApi="jelly_bean">
             <meta-data
@@ -193,11 +199,11 @@
         <activity
             android:name=".indevelopment.NewItemActivity"
             android:label="@string/title_new_item"
-            android:parentActivityName=".indevelopment.InventoryManagerActivity"
+            android:parentActivityName=".indevelopment.GridMenuActivity"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".indevelopment.InventoryManagerActivity" />
+                android:value=".indevelopment.GridMenuActivity" />
         </activity>
         <activity
 

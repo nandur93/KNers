@@ -14,7 +14,7 @@ import com.ndu.sanghiang.kners.R;
 
 import java.util.Objects;
 
-public class InventoryManagerActivity extends AppCompatActivity {
+public class GridMenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +26,11 @@ public class InventoryManagerActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         //gridview
-        CustomGridViewActivity adapterViewAndroid = new CustomGridViewActivity(InventoryManagerActivity.this, gridViewString, gridViewImageId);
+        CustomGridViewActivity adapterViewAndroid = new CustomGridViewActivity(GridMenuActivity.this, gridViewString, gridViewImageId);
         androidGridView= findViewById(R.id.grid_view_image_text);
         androidGridView.setAdapter(adapterViewAndroid);
         androidGridView.setOnItemClickListener((parent, view, i, id) -> {
-            //Toast.makeText(InventoryManagerActivity.this, "GridView Item: " + gridViewString[+i], Toast.LENGTH_SHORT).show();
+            //Toast.makeText(GridMenuActivity.this, "GridView Item: " + gridViewString[+i], Toast.LENGTH_SHORT).show();
             Intent myIntent = null;
             if(i == 0){
                 myIntent = new Intent(view.getContext(), NewItemActivity.class);
@@ -60,11 +60,15 @@ public class InventoryManagerActivity extends AppCompatActivity {
     GridView androidGridView;
 
     String[] gridViewString = {
-            "Item Baru", "About", "Produk", "Catatan Transaksi", "Dashboard Project", "Feedback",
+            "Admin", "MS Plant", "Quality Assurance", "Produksi", "Dashboard Project",
 
     };
     int[] gridViewImageId = {
-            R.drawable.ic_launcher, R.drawable.ic_info_outline_black_24dp, R.drawable.ic_help_outline_black_24dp, R.drawable.ic_settings_black_24dp, R.drawable.ic_launcher_round, R.drawable.ic_launcher,
+            R.drawable.ic_launcher,
+            R.drawable.ic_info_outline_black_24dp,
+            R.drawable.ic_help_outline_black_24dp,
+            R.drawable.ic_settings_black_24dp,
+            R.drawable.ic_launcher_round,
 
     };
 

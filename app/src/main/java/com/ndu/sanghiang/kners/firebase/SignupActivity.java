@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ndu.sanghiang.kners.MainActivity;
 import com.ndu.sanghiang.kners.R;
@@ -27,8 +27,7 @@ import com.ndu.sanghiang.kners.service.MyApplication;
 import java.util.Objects;
 
 public class SignupActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
-    private EditText email_id;
-    private EditText passwordcheck;
+    private TextInputEditText editTextEmail, editTextPassword;
     private FirebaseAuth mAuth;
     private static final String TAG = "";
     private ProgressBar progressBar;
@@ -49,23 +48,23 @@ public class SignupActivity extends AppCompatActivity implements ConnectivityRec
             startActivity(intent);
         });
         mAuth = FirebaseAuth.getInstance();
-        email_id = findViewById(R.id.input_email);
+        editTextEmail = findViewById(R.id.input_email);
         progressBar = findViewById(R.id.progressBar);
-        passwordcheck = findViewById(R.id.input_password);
-        Button ahsignup = findViewById(R.id.btn_signup);
+        editTextPassword = findViewById(R.id.input_password);
+        Button buttonSignUp = findViewById(R.id.button_signup);
 
         SharedPreferences profileData = getSharedPreferences("Profile", Context.MODE_PRIVATE);
         editor = profileData.edit();
 
-        ahsignup.setOnClickListener(v -> {
-            String email = email_id.getText().toString();
-            String password = passwordcheck.getText().toString();
+        buttonSignUp.setOnClickListener(v -> {
+            String email = editTextEmail.getText().toString();
+            String password = editTextPassword.getText().toString();
             if (TextUtils.isEmpty(email)) {
-                email_id.setError("Please enter email id");
+                editTextEmail.setError("Please enter email id");
                 return;
             }
             if (TextUtils.isEmpty(password)) {
-                passwordcheck.setError("Please enter password");
+                editTextPassword.setError("Please enter password");
                 return;
             }
             checkConnection();
@@ -75,7 +74,7 @@ public class SignupActivity extends AppCompatActivity implements ConnectivityRec
             progressBar.setVisibility(View.VISIBLE);
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(SignupActivity.this, task -> {
-                        progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.INVISIBLE);
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
