@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:theme="@style/Theme.MaterialComponents.Light.NoActionBar.Bridge">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,24 +19,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:titleTextColor="@android:color/white"
-            android:background="?attr/colorPrimary">
+            android:background="?attr/colorPrimary"
+            android:theme="@style/AppTheme"
+            app:title="@string/update_profile">
         </androidx.appcompat.widget.Toolbar>
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/imageViewProfile"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:layout_gravity="center"
             android:padding="10dp"
             android:contentDescription="@string/profile_picture"
-            android:src="@drawable/ic_launcher_nodpi"
+            android:src="@drawable/ic_launcher_round"
             app:riv_border_color="#333333"
             app:riv_border_width="2dip"
             app:riv_corner_radius="30dip"
             app:riv_mutate_background="true"
-            app:riv_oval="true" />
+            app:riv_oval="true"
+            android:layout_marginTop="20dip"/>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -53,7 +57,6 @@
                     android:id="@+id/text_input_layout_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:hint="@string/fui_name_hint">
 
                     <com.google.android.material.textfield.TextInputEditText

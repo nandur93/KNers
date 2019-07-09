@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +23,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,7 +39,7 @@ import java.util.Objects;
 
 public class SigninActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
     private static final String TAG = "";
-    private EditText inputEmail, inputPassword;
+    private TextInputEditText inputEmail, inputPassword;
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
     SignInButton buttonSignInGoogle;
@@ -104,7 +104,7 @@ public class SigninActivity extends AppCompatActivity implements ConnectivityRec
             //authenticate user
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(SigninActivity.this, task -> {
-                        progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.INVISIBLE);
                         if (task.isSuccessful()) {
                             // there was an error
                             Log.d(TAG, "signInWithEmail:success");
@@ -177,13 +177,13 @@ public class SigninActivity extends AppCompatActivity implements ConnectivityRec
                                 }
                                 Toast.makeText(SigninActivity.this, "Welcome "+user.getDisplayName(), Toast.LENGTH_SHORT).show();
                             }
-                            progressBar.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
                         Toast.makeText(SigninActivity.this, "Aut Fail", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.INVISIBLE);
                         //updateUI(null);
                     }
                     // ...

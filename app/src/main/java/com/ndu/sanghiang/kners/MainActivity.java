@@ -6,11 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -18,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +45,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.ndu.sanghiang.kners.firebase.SigninActivity;
 import com.ndu.sanghiang.kners.indevelopment.HistoryActivity;
 import com.ndu.sanghiang.kners.indevelopment.InventoryManagerActivity;
@@ -57,9 +54,9 @@ import com.ndu.sanghiang.kners.ocr.OcrCaptureActivity;
 import com.ndu.sanghiang.kners.projecttrackerfi.ProjectTrackerActivity;
 import com.ndu.sanghiang.kners.service.ConnectivityReceiver;
 import com.ndu.sanghiang.kners.service.MyApplication;
+import com.squareup.picasso.Picasso;
 
-import java.io.InputStream;
-import java.util.Arrays;
+import java.text.MessageFormat;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ConnectivityReceiver.ConnectivityReceiverListener {
@@ -67,11 +64,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Button buttonProdukKnowledge, buttonBrowser, buttonInventoryManager, buttonCodeMatch, buttonGridMenu,
             buttonOcrCapture, buttonProjectTracker, buttonHistory, buttonUnmountOtg, buttonProfile;
     TextView navEmail, navUserName, navDept;
-    ImageView navPhoto;
+    RoundedImageView navPhoto;
     FirebaseAuth.AuthStateListener mAuthListner;
     FirebaseUser userEmail = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseUser userName = FirebaseAuth.getInstance().getCurrentUser();
-    Uri userPhoto = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhotoUrl();
+
+
     private DrawerLayout drawer;
     private Handler handler;
     private String versName;
@@ -220,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Load data langsung dari firebase
         // Load nik dan email
         checkConnection();
+        loadImageFromPicasso();
 
         if (userEmail != null) {
             String userEmail = this.userEmail.getEmail();
@@ -228,14 +227,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // No userEmail is signed in
             navEmail.setText("Signed Out");
         }
-
-        if (userPhoto != null){
+        /*if (userPhoto != null){
             String url = Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhotoUrl()).toString();
             new DownloadImage(navPhoto).execute(url);
         } else {
-            navPhoto.setImageResource(R.drawable.ic_launcher_nodpi);
+            loadImageFromPicasso();
             //navPhoto = headerView.findViewById(R.id.image_view_email_photo);
-        }
+        }*/
 
         String userDept = sharedPrefs.getString("user_dept", "Please Update Your Profile");
         if(userDept != null){
@@ -275,6 +273,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuItem nav_appversion = menu.findItem(R.id.nav_version_name);
         // set new title to the MenuItem
         nav_appversion.setTitle(versName);
+
+    }
+    private void loadImageFromPicasso() {
+        //picasso
+            Uri userPhoto = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhotoUrl();
+            String originalPieceOfUrl = "s96-c/photo.jpg";
+            // Variable holding the new String portion of the url that does the replacing, to improve image quality
+            String newPieceOfUrlToAdd = "s400-c/photo.jpg";
+
+        String hdUserPhoto = userPhoto.toString();
+        String hdFinalUser = hdUserPhoto.replace(originalPieceOfUrl, newPieceOfUrlToAdd);
+        Picasso.get()
+                .load(hdFinalUser)
+                .placeholder(R.drawable.ic_launcher_round)
+                .error(R.drawable.ic_launcher_round)
+                .into(navPhoto);
     }
 
     // Method to manually check connection status
@@ -342,15 +356,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     //String myEmail = dataSnapshot.child("email").getValue().toString();
                     String myDept = dataSnapshot.child("dept").getValue().toString();
                     if(userName != null){
-                        navUserName.setText(String.format("%s (%s)", userName.getDisplayName(), myNik));
+                        navUserName.setText(MessageFormat.format("{0} ({1})", userName.getDisplayName(), myNik));
                     } else {
                         for (UserInfo userInfo: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
                             if (userInfo.getProviderId().equals("password")) {
-                                navUserName.setText(R.string.app_name);
+                                navUserName.setText(getString(R.string.app_name));
                             }
                         }
 
-                        navUserName.setText(R.string.app_name);
+                        navUserName.setText(getString(R.string.app_name));
                     }
                     //editTextUserName.setText(myName);
                     //editTextEmail.setText(myEmail);
@@ -623,7 +637,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    @SuppressLint("StaticFieldLeak")
+    /*@SuppressLint("StaticFieldLeak")
     public class DownloadImage extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
@@ -647,6 +661,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }
-    }
+    }*/
 
 }
