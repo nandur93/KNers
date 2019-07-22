@@ -1,6 +1,7 @@
 package com.ndu.sanghiang.kners;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -84,7 +85,6 @@ public class DashboardProjectActivity extends AppCompatActivity {
 
         // 1. Initializing ListView And Image ArrayList
         imageList = new ArrayList<>();
-        ArrayList<String> keys = new ArrayList<>();
 
         listViewProject = findViewById(R.id.listViewProject);
         // 2. Prepare Image ArrayList [Add Some Static Data Into Array]
@@ -180,6 +180,7 @@ public class DashboardProjectActivity extends AppCompatActivity {
         float number = Float.valueOf(progress);
         donutProgress.setProgress(number); //harus diisi most hihger value */
         //Query query = projectRef.orderByChild("project_progress").startAt(100);
+
         listViewProject.setOnItemClickListener((adapter, v, position, arg3) -> {
             final Image image = imageList.get(position);
             Snackbar.make(v, "Click On " + image.getPid(), Snackbar.LENGTH_LONG)
@@ -200,6 +201,7 @@ public class DashboardProjectActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     Query query = projectRef.orderByChild("project_progress").limitToLast(1);
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for (DataSnapshot child: dataSnapshot.getChildren()){
@@ -317,36 +319,56 @@ public class DashboardProjectActivity extends AppCompatActivity {
             // Do stuff
         } else if (item.getOrder() == 1)  // "Delete" chosen
         {
-            Toast.makeText(DashboardProjectActivity.this, "Delete Project", Toast.LENGTH_SHORT).show();
-            Query queryRef = projectRef.orderByChild("project_title").equalTo(image.getName());
-            queryRef.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String previousChild) {
-                    dataSnapshot.getRef().setValue(null);
+            // Show dialog
+            DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        // Delete if yes
+                        Toast.makeText(DashboardProjectActivity.this, "Delete Project", Toast.LENGTH_SHORT).show();
+                        Query queryRef = projectRef.orderByChild("project_title").equalTo(image.getName());
+                        queryRef.addChildEventListener(new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String previousChild) {
+                                dataSnapshot.getRef().setValue(null);
+                            }
+
+                            @Override
+                            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                            }
+
+                            @Override
+                            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                            }
+
+                            @Override
+                            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+
+                        });
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
                 }
+            };
 
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-
-            });
-            return true;
+            AlertDialog.Builder builder = new AlertDialog.Builder(DashboardProjectActivity.this);
+            builder
+                    .setMessage("Data project "+image.getName()+" akan terhapus!")
+                    .setTitle("Delete Project?")
+                    .setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener)
+                    .show();
         } else if (item.getOrder() == 2)  // "Detail" chosen
         {
             //Pass data to fragment
