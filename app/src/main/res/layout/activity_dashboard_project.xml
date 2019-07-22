@@ -53,18 +53,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textViewDashboard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/dashboard_title"
-                android:textStyle="bold"
-                android:textAllCaps="true"
-                android:textSize="48sp"
-                android:padding="5dp"
-                android:layout_gravity="top|center"/>
-
 
             <TextView
                 android:padding="5dp"
@@ -117,7 +105,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawSelectorOnTop="false">
-
             </ListView>
         </LinearLayout>
 

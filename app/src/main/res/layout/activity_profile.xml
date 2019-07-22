@@ -65,8 +65,8 @@
                         android:layout_height="48dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dip"
-                        android:focusable="false"
-                        android:inputType="textPersonName"/>
+                        android:inputType="textPersonName"
+                        android:focusable="false"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 

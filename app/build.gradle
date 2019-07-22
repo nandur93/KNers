@@ -6,8 +6,8 @@ android {
         applicationId "com.ndu.sanghiang.kners"
         minSdkVersion 16 //JB
         targetSdkVersion 28 //Pie
-        versionCode 6 //Naikkan 1 angka jika mau revisi dan upload ke playstore
-        versionName '1.9.3' //Naikkan bebas dan kode ini yang ditunjukkan ke User
+        versionCode 7 //Naikkan 1 angka jika mau revisi dan upload ke playstore
+        versionName '1.9.4' //Naikkan bebas dan kode ini yang ditunjukkan ke User
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         maxSdkVersion 29 //Q

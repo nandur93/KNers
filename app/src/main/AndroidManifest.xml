@@ -40,7 +40,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".customlistview.ui.Main2Activity">
+        </activity>
         <activity
             android:name=".ProfileActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
@@ -51,10 +52,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ndu.sanghiang.kners.MainActivity" />
         </activity>
+
         <receiver
             android:name=".service.CopyLinkBroadcastReceiver"
-            android:enabled="true">
-        </receiver>
+            android:enabled="true"></receiver>
+        <service android:name=".service.KNersFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <receiver android:name=".PlugInConnector">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
@@ -62,7 +68,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".DashboardProjectActivity"
+        <activity
+            android:name=".DashboardProjectActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:parentActivityName=".indevelopment.GridMenuActivity"
             tools:targetApi="jelly_bean">
@@ -71,13 +78,12 @@
                 android:value="com.ndu.sanghiang.kners.MainActivity" />
         </activity>
         <activity
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:name=".MainActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:name=".SettingsActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".MainActivity"
             tools:targetApi="jelly_bean">
@@ -87,8 +93,8 @@
         </activity>
         <activity android:name=".PreferenceActivity" />
         <activity
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:name=".projecttrackerfi.ProjectTrackerActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/app_project_tracker_fi"
             android:parentActivityName=".MainActivity"
             android:theme="@style/MyMaterialTheme"
@@ -109,8 +115,8 @@
         </receiver>
 
         <activity
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:name=".firebase.SignupActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/app_signup_activity"
             android:launchMode="singleTop"
             android:parentActivityName=".firebase.SigninActivity"
@@ -120,9 +126,8 @@
                 android:value=".firebase.SigninActivity" />
         </activity>
         <activity
-
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:name=".firebase.SigninActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/app_signin_activity"
             android:launchMode="singleTask" />
         <activity
@@ -167,9 +172,8 @@
                 android:value="com.ndu.sanghiang.kners.MainActivity" />
         </activity> <!-- Jadikan baris ini sebagai main dan launcher -->
         <activity
-
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:name=".SplashScreenActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -206,9 +210,8 @@
                 android:value=".indevelopment.GridMenuActivity" />
         </activity>
         <activity
-
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:name=".CodeMatchActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/title_code_match"
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity"

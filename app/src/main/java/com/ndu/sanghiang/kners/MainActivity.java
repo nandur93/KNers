@@ -2,12 +2,15 @@ package com.ndu.sanghiang.kners;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -28,6 +31,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.preference.PreferenceManager;
 
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -45,6 +51,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.ndu.sanghiang.kners.firebase.SigninActivity;
 import com.ndu.sanghiang.kners.indevelopment.GridMenuActivity;
@@ -56,7 +63,6 @@ import com.ndu.sanghiang.kners.service.ConnectivityReceiver;
 import com.ndu.sanghiang.kners.service.MyApplication;
 import com.squareup.picasso.Picasso;
 
-import java.text.MessageFormat;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ConnectivityReceiver.ConnectivityReceiverListener {
@@ -71,7 +77,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth mAuth;
     FirebaseUser userEmail = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseUser userName = FirebaseAuth.getInstance().getCurrentUser();
-
+    public static final String CHANNEL_ID = "kners_app";
+    private static final String CHANNEL_NAME = "KNers App";
+    private static final String CHANNEL_DESCRIPTION = "KNers App Description";
 
     private DrawerLayout drawer;
     private Handler handler;
@@ -80,6 +88,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private GoogleSignInClient mGoogleSignInClient;
     private SharedPreferences sharedPrefs;
+    private String TAG;
+    private DatabaseReference tokenRef;
+    private String token;
 
     @Override
     protected void onStart() {
@@ -97,17 +108,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-
+        TAG = "Nandur93";
         View headerView = navigationView.getHeaderView(0);
         navEmail = headerView.findViewById(R.id.text_view_nav_email);
         navPhoto = headerView.findViewById(R.id.image_view_email_photo);
         navDept = headerView.findViewById(R.id.text_view_nav_dept);
         navUserName = headerView.findViewById(R.id.text_view_nav_username);
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(view -> Snackbar.make(view, "Hallo "+ navUserName.getText().toString(), Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show());
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -135,7 +148,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mAuth = FirebaseAuth.getInstance();
         // get current userId
         String userId = mAuth.getCurrentUser().getUid();
-        profileUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        profileUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("profile");
+        tokenRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
 
         // [START config_signin]
         // Configure Google Sign In
@@ -179,28 +193,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         buttonProfile.setVisibility(View.GONE); //dev */
 
         //qa menu hanya menampilkan menu qa
-        /* hide
+        /*/ hide
         buttonProdukKnowledge.setVisibility(View.GONE); //dev
         buttonBrowser.setVisibility(View.GONE); //dev
-        buttonInventoryManager.setVisibility(View.GONE); //dev
         //buttonCodeMatch.setOnClickListener(v -> goToCodematch()); //qa
         buttonHistory.setVisibility(View.GONE); //dev
         //buttonOcrCapture.setOnClickListener(v -> goToOcrCapture()); //qa
         buttonProjectTracker.setVisibility(View.GONE); //fi
         buttonGridMenu.setVisibility(View.GONE); //fi
         //buttonUnmountOtg.setOnClickListener(v -> goToUnmountOTG()); //dev
-        buttonProfile.setVisibility(View.GONE); //dev */
+        buttonProfile.setVisibility(View.GONE); //dev //
+        buttonUnmountOtg.setVisibility(View.GONE);*/
 
         //button listener
         buttonProdukKnowledge.setOnClickListener(v -> goToProdukKnowledge());
         buttonBrowser.setOnClickListener(v -> goToBrowser());
         buttonCodeMatch.setOnClickListener(v -> goToCodematch());
-        buttonHistory.setOnClickListener(v -> goToHistory());
+        buttonHistory.setOnClickListener(v -> {
+            //goToHistory();
+            //displayNotification();
+        });
         buttonOcrCapture.setOnClickListener(v -> goToOcrCapture());
         buttonProjectTracker.setOnClickListener(v -> goToProjectTracker());
         buttonGridMenu.setOnClickListener(v -> goToGridMenu());
         buttonUnmountOtg.setOnClickListener(v -> goToUnmountOTG());
         buttonProfile.setOnClickListener(v -> goToProfile());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(CHANNEL_DESCRIPTION);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        token = task.getResult().getToken();
+                        Log.i(TAG, token);
+                        saveToken();
+                    } else {
+                        Log.i(TAG, task.getException().getMessage());
+                    }
+                });
+
         navUserName.setOnClickListener(v -> goToProfile());
         navPhoto.setOnClickListener(v -> goToProfile());
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -245,10 +280,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             for (UserInfo userInfo: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
                 if (userInfo.getProviderId().equals("password")) {
+                    loadNoImage();
                     navUserName.setText("KNers");
                 }
             }
             navUserName.setText("KNers");
+        }
+        // Load nama
+        navUserName.setText(userName.getDisplayName());
+        String shNik = sharedPrefs.getString("user_nik", "UNREGISTERED");
+        String shName = sharedPrefs.getString("user_name", "KNers");
+        for (UserInfo userInfo: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
+            if (userInfo.getProviderId().equals("password")) {
+                Toast.makeText(this,"password",Toast.LENGTH_SHORT).show();
+                if(userName != null){
+                    navUserName.setText(shNik);
+                } else {
+                    navUserName.setText(shName + " " + "(" + shNik + ")");
+                }
+
+            } else {
+                navUserName.setText(userName.getDisplayName() + " " + "(" + shNik + ")");
+                Toast.makeText(this,"google",Toast.LENGTH_SHORT).show();
+            }
         }
 
         //getVersionName
@@ -271,21 +325,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // set new title to the MenuItem
         nav_appversion.setTitle(versName);
 
-    }
-    private void loadImageFromPicasso() {
-        //picasso
-            Uri userPhoto = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhotoUrl();
-            String originalPieceOfUrl = "s96-c/photo.jpg";
-            // Variable holding the new String portion of the url that does the replacing, to improve image quality
-            String newPieceOfUrlToAdd = "s400-c/photo.jpg";
 
-        String hdUserPhoto = userPhoto.toString();
-        String hdFinalUser = hdUserPhoto.replace(originalPieceOfUrl, newPieceOfUrlToAdd);
+    }
+
+    private void saveToken() {
+        if (tokenRef.child("token").getKey() != null) {
+            tokenRef.child("token").setValue(token);
+        }
+    }
+
+    private void loadNoImage() {
+        Uri uri = Uri.parse("https://lh3.googleusercontent.com/5Lfd3sDr2_KkGw2TV5ccn57xnZyTbGQHHJUxipkHf64W8ryfGHqncL5xDh2Yxwo8hKL81fPXeMYqab_khBRnQggmTsVEmTutWUf_sQkxLwBxiOTBcTohNAJeTJfXv9Pmzjyh_cuJYuU3yO1Pgm5SuSSjO-o_ivPgTQndfJR9AvMOPIC8GxWvzTnqom7uPNdFh7U-4ebQz4sAJOsccPZcLSzBMZIVD31KZJSxZIu9XKJksJuRCyFpDQ3j1PhlyP8fYCjM7fWa0pjLOFHS_ofrGIUFUZImqa9LA5bXfZOwB0mChOmficpYy4ET2patEAK9HHNXlRTwo7aSPfryg3lY5Cwz8X5ptf6gy_2UkKOIc1N8ACKfVj1cOPiR40gAHPl7saNjbqYCdk6UjqTcPDn1xkk7-M5bt8dOYbBFuunEV8zEZq1RU1QPelJ4GIHfzpgcbnNljsxK4bRjh79LFOnTnnHB8A9tgj9n4GLL6ekfF3Q1n6wWLN4W4wZN_SrY9raKn8jhl5E2fXczWNNKj4gSkY2qTW69y1M-iSwqtqdricbiwdMbEDVTM_2whSzkNOxBIg3opJiaddrEhDowlGuF-LvJeQ_JjXOOKkA2punukporIxHXTg8SX1fK8LI2EvP-NtK9WOWmlmtRQFfSLseTv3ACJTTdyeo=s72-no");
         Picasso.get()
-                .load(hdFinalUser)
+                .load(uri)
                 .placeholder(R.drawable.ic_launcher_round)
                 .error(R.drawable.ic_launcher_round)
                 .into(navPhoto);
+    }
+
+    private void loadImageFromPicasso() {
+        //picasso
+        Uri userPhoto = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhotoUrl();
+
+        if (userPhoto != null ){
+            String originalPieceOfUrl = "s96-c/photo.jpg";
+            // Variable holding the new String portion of the url that does the replacing, to improve image quality
+            String newPieceOfUrlToAdd = "s400-c/photo.jpg";String hdUserPhoto = userPhoto.toString();
+            String hdFinalUser = hdUserPhoto.replace(originalPieceOfUrl, newPieceOfUrlToAdd);
+            Picasso.get()
+                    .load(hdFinalUser)
+                    .placeholder(R.drawable.ic_launcher_round)
+                    .error(R.drawable.ic_launcher_round)
+                    .into(navPhoto);
+        } else {
+            loadNoImage();
+        }
+
     }
 
     // Method to manually check connection status
@@ -344,29 +419,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void loadFirebaseUserData() {
+        // Load nama
+        if (userName != null) {
+            String userName = this.userName.getDisplayName();
+            navUserName.setText(userName);
+        }
+        navUserName.setText(userName.getDisplayName());
+        // Load email
+        if (userEmail != null) {
+            String userEmail = this.userEmail.getEmail();
+            navUserName.setText(userEmail);
+        }
+        // Configuration
         profileUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    //String myName = dataSnapshot.child("name").getValue().toString();
+                if (dataSnapshot.exists()) {
+                    String myName = dataSnapshot.child("name").getValue().toString();
                     String myNik = dataSnapshot.child("nik").getValue().toString();
-                    //String myEmail = dataSnapshot.child("email").getValue().toString();
+                    String myEmail = dataSnapshot.child("email").getValue().toString();
                     String myDept = dataSnapshot.child("dept").getValue().toString();
-                    if(userName != null){
-                        navUserName.setText(MessageFormat.format("{0} ({1})", userName.getDisplayName(), myNik));
-                    } else {
-                        for (UserInfo userInfo: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
-                            if (userInfo.getProviderId().equals("password")) {
-                                navUserName.setText(getString(R.string.app_name));
+                    // Load nama
+                    navUserName.setText(userName.getDisplayName());
+                    String shNik = sharedPrefs.getString("user_nik", "UNREGISTERED");
+                    String shName = sharedPrefs.getString("user_name", "KNers");
+                    String shEmail = sharedPrefs.getString("user_email", "");
+                    String shDept = sharedPrefs.getString("user_dept", "UNREGISTERED");
+                    for (UserInfo userInfo: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
+                        if (userInfo.getProviderId().equals("password")) {
+                            if(userName != null){
+                                navUserName.setText(String.format("%s (%s)", myName, myNik));
+                            } else {
+                                navUserName.setText(String.format("%s (%s)", shName, shNik));
+                                navDept.setText(shDept);
                             }
+                        } else {
+                            navUserName.setText(String.format("%s (%s)", userName.getDisplayName(), myNik));
+                            navDept.setText(myDept);
                         }
-
-                        navUserName.setText(getString(R.string.app_name));
                     }
-                    //editTextUserName.setText(myName);
-                    //editTextEmail.setText(myEmail);
-                    navDept.setText(myDept);
-
                     Toast.makeText(MainActivity.this,"Data loaded from firebase",Toast.LENGTH_SHORT).show();
                 }
             }
@@ -492,12 +583,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             settingsActivity();
             return true;
         }
+
+        if (id == R.id.action_update) {
+            updateApp();
+            return true;
+        }
+
         if (id == R.id.action_about){
             aboutActivity();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateApp(){
+            new AppUpdater(MainActivity.this)
+                    //.setUpdateFrom(UpdateFrom.GITHUB)
+                    //.setGitHubUserAndRepo("javiersantos", "AppUpdater")
+                    .setUpdateFrom(UpdateFrom.XML)
+                    .setUpdateXML("https://raw.githubusercontent.com/nandur93/KNers/master/update-changelog.xml")
+                    .setDisplay(Display.DIALOG)
+                    .setButtonDoNotShowAgain(null)
+                    .showAppUpdated(true)
+                    .start();
     }
 
     private void settingsActivity() {

@@ -11,6 +11,7 @@ import com.ndu.sanghiang.kners.AboutActivity;
 import com.ndu.sanghiang.kners.CodeMatchActivity;
 import com.ndu.sanghiang.kners.DashboardProjectActivity;
 import com.ndu.sanghiang.kners.R;
+import com.ndu.sanghiang.kners.customlistview.ui.Main2Activity;
 
 import java.util.Objects;
 
@@ -47,6 +48,9 @@ public class GridMenuActivity extends AppCompatActivity {
             if(i == 4){
                 myIntent = new Intent(view.getContext(), DashboardProjectActivity.class);
             }
+            if(i == 5){
+                myIntent = new Intent(view.getContext(), Main2Activity.class);
+            }
 
             //lain2
 
@@ -60,7 +64,7 @@ public class GridMenuActivity extends AppCompatActivity {
     GridView androidGridView;
 
     String[] gridViewString = {
-            "Admin", "MS Plant", "Quality Assurance", "Produksi", "Dashboard Project",
+            "Admin", "MS Plant", "Quality Assurance", "Produksi", "Dashboard Project", "List View Test"
 
     };
     int[] gridViewImageId = {
@@ -69,6 +73,7 @@ public class GridMenuActivity extends AppCompatActivity {
             R.drawable.ic_help_outline_black_24dp,
             R.drawable.ic_settings_black_24dp,
             R.drawable.ic_launcher_round,
+            R.drawable.ic_settings_black_24dp
 
     };
 
