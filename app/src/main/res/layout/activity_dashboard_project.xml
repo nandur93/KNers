@@ -36,7 +36,7 @@
                 android:layout_weight="0"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:text="@string/fui_name_hint"
                 android:textAlignment="center" />
 
@@ -45,25 +45,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:text="@string/fui_name_hint"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textViewDashboard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/dashboard_title"
-                android:textStyle="bold"
-                android:textAllCaps="true"
-                android:textSize="48sp"
-                android:padding="5dp"
-                android:layout_gravity="top|center"/>
 
 
             <TextView
@@ -97,14 +85,6 @@
                 android:textAllCaps="false"
                 android:textSize="20sp"
                 android:layout_gravity="center"/>
-
-            <Button
-                style="?attr/buttonBarButtonStyle"
-                android:id="@+id/buttonSeeDetailLeft"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:text="@string/see_detail_button"
-                android:layout_gravity="center"/>
         </LinearLayout>
 
         <LinearLayout
@@ -117,7 +97,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawSelectorOnTop="false">
-
             </ListView>
         </LinearLayout>
 

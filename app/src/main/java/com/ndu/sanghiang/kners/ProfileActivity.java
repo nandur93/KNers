@@ -63,6 +63,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     private Uri uri;
     private ImageView profileImage;
     private static final String tag = "Nandur93";
+    private ArrayAdapter<String> dataAdapter;
 
     @SuppressLint("CommitPrefEdits")
     @Override
@@ -85,7 +86,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         Button buttonUpdate = findViewById(R.id.button_update);
         profileImage = findViewById(R.id.imageViewProfile);
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean browser = sharedPrefs.getBoolean("browser_customtab",true);
+        boolean browser = sharedPrefs.getBoolean("browser_customtab", true);
         editor = sharedPrefs.edit();
 
 
@@ -100,13 +101,14 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
         // Spinner Drop down elements
         List<String> categories = new ArrayList<>();
+        categories.add("UNREGISTERED");
         categories.add("Admin");
         categories.add("MS Plant");
         categories.add("Quality Assurance");
         categories.add("Produksi");
 
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
+        dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -118,9 +120,10 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         // get current userId
         String userId = mAuth.getCurrentUser().getUid();
+        // Load photo
+        loadImageFromPicasso();
 
-
-        profileUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        profileUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("profile");
         // Load data langsung dari firebase
         // Load nik dan email
         checkConnection();
@@ -130,6 +133,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
         // Save / update the user
         buttonUpdate.setOnClickListener(view -> {
+            //TODO NIK and Dept
+            //TODO isi dept dengan password
 
             // Simpan ke firebase
             String name, email, nik, dept;
@@ -144,9 +149,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             gotoMainMenu();
         });
 
-        // Load photo
-        loadImageFromPicasso();
-
         profileImage.setOnClickListener(v -> {
             //sound from settings
             if (!browser) {
@@ -156,8 +158,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 customTabBrowser();
             }
         });
-
-        //toggleButton();
     } // <---- batas onCreate -------
 
     private void externalBrowser() {
@@ -165,7 +165,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         startActivity(intent);
     }
 
-    private void customTabBrowser(){
+    private void customTabBrowser() {
         // Use a CustomTabsIntent.Builder to configure CustomTabsIntent.
         // Once ready, call CustomTabsIntent.Builder.build() to create a CustomTabsIntent
         // and launch the desired Url with CustomTabsIntent.launchUrl()
@@ -199,20 +199,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         profileUserRef.child("dept").setValue(dept);
 
         Toast.makeText(ProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
-    }
-
-    private void updateSharedPref() {
-        String name, email, nik, dept;
-        name = editTextName.getText().toString();
-        email = editTextEmail.getText().toString();
-        nik = editTextNik.getText().toString();
-        dept = spinnerDept.getSelectedItem().toString();
-        editor.putString("user_name", name);
-        editor.putString("user_email", email);
-        editor.putString("user_nik", nik);
-        editor.putString("user_dept", dept);
-        editor.apply();
-        Log.i(tag, "Data stored to shared pref");
     }
 
     // Method to manually check connection status
@@ -249,7 +235,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onResume() {
         super.onResume();
-
         // register connection status listener
         MyApplication.getInstance().setConnectivityListener(this);
     }
@@ -264,89 +249,145 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void loadFirebaseUserData() {
+        // Load nama
+        if (userName != null) {
+            String userName = this.userName.getDisplayName();
+            editTextName.setText(userName);
+        }
+        editTextName.setText(userName.getDisplayName());
+        // Load email
+        if (userEmail != null) {
+            String userEmail = this.userEmail.getEmail();
+            editTextEmail.setText(userEmail);
+        }
+        // Configuration
         profileUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    //String myName = dataSnapshot.child("name").getValue().toString();
+                if (dataSnapshot.exists()) {
+                    String myName = dataSnapshot.child("name").getValue().toString();
                     String myNik = dataSnapshot.child("nik").getValue().toString();
-                    //String myEmail = dataSnapshot.child("email").getValue().toString();
+                    String myEmail = dataSnapshot.child("email").getValue().toString();
                     String myDept = dataSnapshot.child("dept").getValue().toString();
+                    // Load nama
+                    editTextName.setText(userName.getDisplayName());
+                    String shNik = sharedPrefs.getString("user_nik", "UNREGISTERED");
+                    String shName = sharedPrefs.getString("user_name", "KNers");
+                    String shEmail = sharedPrefs.getString("user_email", "");
+                    String shDept = sharedPrefs.getString("user_dept", "UNREGISTERED");
+                    //Apakah user login pakai password/email?
+                    for (UserInfo userInfo : FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
+                        if (userInfo.getProviderId().equals("password"))
+                        //Ya
+                        {//jika ada username
+                            editTextName.setFocusable(true);
+                            editTextName.setFocusableInTouchMode(true);
+                            if (dataSnapshot.exists()) {
+                                editTextNik.setText(myNik);
+                            } else {
+                                editTextNik.setText(shNik);
+                            }
 
-                    //editTextUserName.setText(myName);
-                    editTextNik.setText(myNik);
-                    //editTextEmail.setText(myEmail);
-                    editTextDept.setText(myDept);
-                    int shDeptSpin = sharedPrefs.getInt("user_dept_spinner",0);
-                    spinnerDept.setSelection(shDeptSpin);
+                            if (dataSnapshot.exists()) {
+                                editTextEmail.setText(myEmail);
+                            } else {
+                                editTextEmail.setText(shEmail);
+                            }
 
-                    Toast.makeText(ProfileActivity.this,"Data loaded from firebase",Toast.LENGTH_SHORT).show();
-
+                            if (dataSnapshot.exists()) {
+                                editTextDept.setText(myDept);
+                            } else {
+                                editTextDept.setText(shDept);
+                            }
+                            spinnerDept.setAdapter(dataAdapter);
+                            if (myDept != null) {
+                                int spinnerPosition = dataAdapter.getPosition(myDept);
+                                spinnerDept.setSelection(spinnerPosition);
+                            } else {
+                                int spinnerPosition = dataAdapter.getPosition(shDept);
+                                spinnerDept.setSelection(spinnerPosition);
+                            }
+                            if (dataSnapshot.exists()) {
+                                editTextName.setText(myName);
+                            } else {
+                                editTextName.setText(shName);
+                            }
+                            //Tidak (pakai google login)
+                        } else {
+                            //load name dan nik dari firebase
+                            editTextNik.setText(myNik); //jika shared preferences kosong maka akan muncul UNREGISTERED
+                            editTextEmail.setText(myEmail);
+                            editTextDept.setText(myDept);
+                            spinnerDept.setAdapter(dataAdapter);
+                            if (myDept != null) {
+                                int spinnerPosition = dataAdapter.getPosition(myDept);
+                                spinnerDept.setSelection(spinnerPosition);
+                            }
+                            editTextName.setFocusable(false);
+                            editTextName.setFocusableInTouchMode(false);
+                        }
+                    }
                     updateSharedPref();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                Toast.makeText(ProfileActivity.this,"Database error",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, "Database error", Toast.LENGTH_SHORT).show();
             }
         });
-        // Load nama
-        if(userName != null){
-            editTextName.setText(userName.getDisplayName());
-        } else {
-            for (UserInfo userInfo: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
-                if (userInfo.getProviderId().equals("password")) {
-                    editTextName.setText(R.string.app_name);
-                }
-            }
-        }
-/*        if (userPhoto != null){
-            String url = Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhotoUrl()).toString();
-            new ProfileActivity.DownloadImage(profileImage).execute(url);
-        } else {
-            for (UserInfo userInfo: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
-                if (userInfo.getProviderId().equals("password")) {
-                    profileImage.setBackgroundResource(R.drawable.ic_launcher_round);
-                } else {
-                    //
-                }
-            }
-        }*/
-        // Load email
-        if (userEmail != null) {
-            String userEmail = this.userEmail.getEmail();
-            editTextEmail.setText(userEmail);
-        }
+    }
+
+    private void updateSharedPref() {
+        String name, email, nik, dept;
+        name = editTextName.getText().toString();
+        email = editTextEmail.getText().toString();
+        nik = editTextNik.getText().toString();
+        dept = spinnerDept.getSelectedItem().toString();
+        editor.putString("user_name", name);
+        editor.putString("user_email", email);
+        editor.putString("user_nik", nik);
+        editor.putString("user_dept", dept);
+        editor.apply();
+        Log.i(tag, "Data stored to shared pref");
     }
 
     private void loadImageFromPicasso() {
         //picasso
         Uri userPhoto = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhotoUrl();
-        Log.i(tag, userPhoto.toString());
-        String originalPieceOfUrl = "s96-c/photo.jpg";
-        // Variable holding the new String portion of the url that does the replacing, to improve image quality
-        String newPieceOfUrlToAdd = "s400-c/photo.jpg";
+        if (userPhoto != null) {
+            String originalPieceOfUrl = "s96-c/photo.jpg";
+            // Variable holding the new String portion of the url that does the replacing, to improve image quality
+            String newPieceOfUrlToAdd = "s400-c/photo.jpg";
+            String hdUserPhoto = userPhoto.toString();
+            String hdFinalUser = hdUserPhoto.replace(originalPieceOfUrl, newPieceOfUrlToAdd);
+            Picasso.get()
+                    .load(hdFinalUser)
+                    .placeholder(R.drawable.ic_launcher_round)
+                    .error(R.drawable.ic_launcher_round)
+                    .into(profileImage);
+        } else {
+            loadNoImage();
+        }
+    }
 
-        String hdUserPhoto = userPhoto.toString();
-        String hdFinalUser = hdUserPhoto.replace(originalPieceOfUrl, newPieceOfUrlToAdd);
+    private void loadNoImage() {
+        Uri uri = Uri.parse("https://lh3.googleusercontent.com/5Lfd3sDr2_KkGw2TV5ccn57xnZyTbGQHHJUxipkHf64W8ryfGHqncL5xDh2Yxwo8hKL81fPXeMYqab_khBRnQggmTsVEmTutWUf_sQkxLwBxiOTBcTohNAJeTJfXv9Pmzjyh_cuJYuU3yO1Pgm5SuSSjO-o_ivPgTQndfJR9AvMOPIC8GxWvzTnqom7uPNdFh7U-4ebQz4sAJOsccPZcLSzBMZIVD31KZJSxZIu9XKJksJuRCyFpDQ3j1PhlyP8fYCjM7fWa0pjLOFHS_ofrGIUFUZImqa9LA5bXfZOwB0mChOmficpYy4ET2patEAK9HHNXlRTwo7aSPfryg3lY5Cwz8X5ptf6gy_2UkKOIc1N8ACKfVj1cOPiR40gAHPl7saNjbqYCdk6UjqTcPDn1xkk7-M5bt8dOYbBFuunEV8zEZq1RU1QPelJ4GIHfzpgcbnNljsxK4bRjh79LFOnTnnHB8A9tgj9n4GLL6ekfF3Q1n6wWLN4W4wZN_SrY9raKn8jhl5E2fXczWNNKj4gSkY2qTW69y1M-iSwqtqdricbiwdMbEDVTM_2whSzkNOxBIg3opJiaddrEhDowlGuF-LvJeQ_JjXOOKkA2punukporIxHXTg8SX1fK8LI2EvP-NtK9WOWmlmtRQFfSLseTv3ACJTTdyeo=s72-no");
         Picasso.get()
-                .load(hdFinalUser)
+                .load(uri)
                 .placeholder(R.drawable.ic_launcher_round)
                 .error(R.drawable.ic_launcher_round)
+                .resize(240, 240)
                 .into(profileImage);
-
-        Log.i(tag, hdUserPhoto+" Converted to "+hdFinalUser);
     }
 
     private void loadOfflineData() {
         // ketika di load, dapatkan value dari shared pref langsung
-        String shName = sharedPrefs.getString("user_name", "");
         String shNik = sharedPrefs.getString("user_nik", "UNREGISTERED");
+        String shName = sharedPrefs.getString("user_name", "KNers");
         String shEmail = sharedPrefs.getString("user_email", "");
-        String shDept = sharedPrefs.getString("user_dept", "");
-        int shDeptSpin = sharedPrefs.getInt("user_dept_spinner",0);
+        String shDept = sharedPrefs.getString("user_dept", "UNREGISTERED");
+        int shDeptSpin = sharedPrefs.getInt("user_dept_spinner", 0);
 
         editTextName.setText(shName);
         editTextNik.setText(shNik);
@@ -368,8 +409,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         // Shared Pref
         String item = parent.getItemAtPosition(position).toString();
         editTextDept.setText(item);
-
-
         int selectedPosition = spinnerDept.getSelectedItemPosition();
         editor.putInt("user_dept_spinner", selectedPosition);
         editor.apply();
@@ -377,27 +416,17 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         // Showing selected spinner item
         // Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
     }
+
     public void onNothingSelected(AdapterView<?> arg0) {
         // Toast.makeText(ProfileActivity.this, "Cancel", Toast.LENGTH_LONG).show();
-    }/*
-    // Changing button text
-    private void toggleButton() {
-        if (TextUtils.isEmpty(userId)) {
-            buttonSaveChanges.setText("Save");
-        } else {
-            buttonSaveChanges.setText("Update");
-        }
-    }*/
+    }
 
     /**
-     Creating new user node under 'users'
+     * Creating new user node under 'users'
      */
     private void createUser(String name, String nik, String email, String dept) {
-
         User user = new User(name, nik, email, dept);
-
         profileUserRef.setValue(user);
-
         addUserChangeListener();
     }
 
@@ -416,9 +445,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                     Log.e(TAG, "User data is null!");
                     return;
                 }
-
                 Log.e(TAG, "User data is changed!" + user.name + ", " + user.nik + ", " + user.dept);
-
             }
 
             @Override
@@ -428,6 +455,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             }
         });
     }
+}
 
     // Download userId Image
     /*@SuppressLint("StaticFieldLeak")
@@ -457,4 +485,18 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     }*/
 
 
-}
+
+
+/*        if (userPhoto != null){
+            String url = Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhotoUrl()).toString();
+            new ProfileActivity.DownloadImage(profileImage).execute(url);
+        } else {
+            for (UserInfo userInfo: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
+                if (userInfo.getProviderId().equals("password")) {
+                    profileImage.setBackgroundResource(R.drawable.ic_launcher_round);
+                } else {
+                    //
+                }
+            }
+        }*/
+    // Load email
