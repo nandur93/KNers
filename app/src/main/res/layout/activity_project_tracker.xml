@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -30,19 +31,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
-
+    <TextView
+        android:id="@+id/pid_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pid: Loading..."
+        tools:ignore="HardcodedText,RtlSymmetry"
+        android:textAllCaps="false"
+        android:paddingBottom="30dip"
+        android:paddingLeft="5dip"
+        android:layout_gravity="bottom"
+        android:paddingStart="5dip" />
     <TextView
         android:id="@+id/progress_text"
-        android:text="13%"
+        android:text="Progress: 13%"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAllCaps="true"
+        android:textAllCaps="false"
         android:textAlignment="center"
         android:background="@color/colorPrimary"
         android:textColor="#fff"
-
-        />
+        tools:ignore="HardcodedText" />
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"

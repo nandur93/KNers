@@ -96,7 +96,7 @@
             android:name=".projecttrackerfi.ProjectTrackerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/app_project_tracker_fi"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".DashboardProjectActivity"
             android:theme="@style/MyMaterialTheme"
             tools:targetApi="jelly_bean">
             <meta-data
