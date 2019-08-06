@@ -1,96 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    tools:context=".DashboardProjectActivity">
+    android:fitsSystemWindows="true">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/textViewUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="25dp"
-            android:text="User"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/textViewUserName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="25dp"
-            android:text="Username"
-            android:textAlignment="center"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textViewDashboard"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="Dashboard"
-            android:textStyle="bold"
-            android:textAllCaps="true"
-            android:textSize="25dp"
-            android:layout_gravity="center"/>
-
-
-        <TextView
-            android:paddingTop="10dp"
-            android:id="@+id/textViewTopProject"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="Top Project"
-            android:textStyle="bold"
-            android:textAllCaps="true"
-            android:textSize="20sp"
-            android:layout_gravity="center"/>
-
-
-        <com.github.lzyzsd.circleprogress.DonutProgress
-            android:layout_gravity="center"
-            android:id="@+id/progressBarLeft"
-            android:layout_width="wrap_content"
+        <!-- Load the toolbar here -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tToolbar"
+            android:minHeight="?attr/actionBarSize"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            custom:donut_progress="30" />
+            app:titleTextColor="@android:color/white"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/AppTheme"
+            app:title="@string/dashboard_title">
+        </androidx.appcompat.widget.Toolbar>
 
-        <Button
-            android:id="@+id/buttonSeeDetailLeft"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="See Detail"
-            android:layout_gravity="center"/>
+            android:orientation="horizontal"
+            android:elevation="@dimen/custom_tab_layout_height"
+            tools:targetApi="lollipop">
+            <TextView
+                android:id="@+id/textViewUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:textSize="20sp"
+                android:text="@string/fui_name_hint"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/textViewUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:text="@string/fui_name_hint"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:padding="5dp"
+                android:id="@+id/textViewTopProject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/top_project_title"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textSize="20sp"
+                android:layout_gravity="center"/>
+
+
+            <com.github.lzyzsd.circleprogress.DonutProgress
+                android:layout_gravity="center"
+                android:id="@+id/progressBarLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                custom:donut_progress="30" />
+
+            <TextView
+                android:padding="5dp"
+                android:id="@+id/textViewTopProjectName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/top_project_title"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:textSize="20sp"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <ListView
+                android:id="@+id/listViewProject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawSelectorOnTop="false">
+            </ListView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0">
+
+            <Button
+                style="?attr/buttonBarButtonStyle"
+                android:id="@+id/buttonEditProject"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="@string/edit_poject_fi"
+                tools:ignore="NestedWeights" />
+
+            <Button
+                style="?attr/buttonBarButtonStyle"
+                android:id="@+id/buttonNewProject"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="@string/new_project_fi" />
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-        <Button
-            android:id="@+id/buttonEditProject"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Edit Poject"
-            android:layout_gravity="bottom"/>
-
-        <Button
-            android:id="@+id/buttonNewProject"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="New Project"
-            android:layout_gravity="bottom" />
-    </LinearLayout>
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

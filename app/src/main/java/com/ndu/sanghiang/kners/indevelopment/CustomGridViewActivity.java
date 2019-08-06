@@ -1,5 +1,6 @@
 package com.ndu.sanghiang.kners.indevelopment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ public class CustomGridViewActivity extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
         View gridViewAndroid;

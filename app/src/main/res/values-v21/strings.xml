@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="copy_right" translatable="false">Copyrights © %1$d</string>
+    <string name="department_list">Department</string>
 </resources>

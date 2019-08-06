@@ -77,4 +77,6 @@
     <string name="choose_email_client">Pilih layanan email</string>
     <string name="spinner_title">Departemen</string>
     <string name="button_unmount_otg">Copot OTG</string>
+    <string name="department_list">Department</string>
+    <string name="share_body">Hello KNers, silahkan download versi terbaru dari KNers App disini https://bit.ly/KNersApp1-9Beta</string>
 </resources>

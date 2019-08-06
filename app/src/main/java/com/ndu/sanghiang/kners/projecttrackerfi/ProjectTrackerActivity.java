@@ -62,7 +62,7 @@ public class ProjectTrackerActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
                 if (position == 0) {
                     progressStatus = 13;
-                    progressStatusText = "12.5%";
+                    progressStatusText = "13%";
                 }
                 if (position == 1) {
                     progressStatus = 25;
@@ -70,7 +70,7 @@ public class ProjectTrackerActivity extends AppCompatActivity {
                 }
                 if (position == 2) {
                     progressStatus = 38;
-                    progressStatusText="37.5%";
+                    progressStatusText="38%";
                 }
                 if (position == 3) {
                     progressStatus = 50;
@@ -78,7 +78,7 @@ public class ProjectTrackerActivity extends AppCompatActivity {
                 }
                 if (position == 4) {
                     progressStatus = 63;
-                    progressStatusText="62.5%";
+                    progressStatusText="63%";
                 }
                 if (position == 5) {
                     progressStatus = 75;
@@ -86,7 +86,7 @@ public class ProjectTrackerActivity extends AppCompatActivity {
                 }
                 if (position == 6) {
                     progressStatus = 88;
-                    progressStatusText="87.5%";
+                    progressStatusText="88%";
                 }
                 if (position == 7) {
                     progressStatus = 100;
@@ -128,6 +128,7 @@ public class ProjectTrackerActivity extends AppCompatActivity {
             super(manager);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             return mFragmentList.get(position);

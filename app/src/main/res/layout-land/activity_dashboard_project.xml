@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Load the toolbar here -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tToolbar"
+            android:minHeight="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:titleTextColor="@android:color/white"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/AppTheme"
+            app:title="@string/dashboard_title">
+        </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:elevation="@dimen/custom_tab_layout_height"
+            tools:targetApi="lollipop">
+            <TextView
+                android:id="@+id/textViewUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:textSize="20sp"
+                android:text="@string/fui_name_hint"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/textViewUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:text="@string/fui_name_hint"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:baselineAligned="false">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                tools:ignore="NestedWeights">
+                <TextView
+                    android:padding="5dp"
+                    android:id="@+id/textViewTopProject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/top_project_title"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:textSize="20sp"
+                    android:layout_gravity="center"
+                    tools:ignore="NestedWeights" />
+
+
+                <com.github.lzyzsd.circleprogress.DonutProgress
+                    android:layout_gravity="center"
+                    android:id="@+id/progressBarLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    custom:donut_progress="30" />
+
+                <TextView
+                    android:padding="5dp"
+                    android:id="@+id/textViewTopProjectName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/top_project_title"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
+                    android:textSize="20sp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <ListView
+                    android:id="@+id/listViewProject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawSelectorOnTop="true">
+                </ListView>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0">
+
+            <Button
+                style="?attr/buttonBarButtonStyle"
+                android:id="@+id/buttonEditProject"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="@string/edit_poject_fi"
+                tools:ignore="NestedWeights" />
+
+            <Button
+                style="?attr/buttonBarButtonStyle"
+                android:id="@+id/buttonNewProject"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="@string/new_project_fi" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

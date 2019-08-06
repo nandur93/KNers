@@ -11,6 +11,12 @@
             android:summary="Akan mengaktifkan getar ketika verifikasi"
             android:key="enable_vibrate" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="Browser">
+        <SwitchPreference android:title="Gunakan Browser Bawaan"
+            android:defaultValue="true"
+            android:summary="Menggunakan browser bawaan aplikasi KNers untuk membuka link"
+            android:key="browser_customtab" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/button_about">
 
         <Preference

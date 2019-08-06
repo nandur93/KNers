@@ -2,17 +2,14 @@ package com.ndu.sanghiang.kners;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -21,6 +18,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -33,10 +31,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.preference.PreferenceManager;
 
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -58,7 +57,6 @@ public class CodeMatchActivity extends AppCompatActivity {
     EditText editTextStdCode, editTextActCode, editTextNoBo;
     Button buttPreview, buttVerify, buttScan;
     Toolbar tToolbar;
-    private DrawerLayout mDrawerLayout;
     private String boNumb;
     //    public static final String SCAN_RESULT = "com.ndu.sanghiang.kners";
     //    String str_act_code, str_verif_code;
@@ -78,7 +76,6 @@ public class CodeMatchActivity extends AppCompatActivity {
         editTextStdCode = findViewById(R.id.edit_text_stdcode);
         editTextNoBo = findViewById(R.id.edit_text_nobo);
         editTextActCode = findViewById(edit_text_actcode);
-        mDrawerLayout = findViewById(R.id.drawer_layout);
         //buttons
         buttVerify = findViewById(R.id.button_verify);
         buttPreview = findViewById(R.id.button_preview);
@@ -101,9 +98,15 @@ public class CodeMatchActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Objects.requireNonNull(actionbar).setDisplayHomeAsUpEnabled(true);
         }
-        //Menampilkan garis horizontal 3
+        /*/Menampilkan garis horizontal 3
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Objects.requireNonNull(actionbar).setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+        }*/
+
+        if (editTextNoBo.getText().toString().equals(null)){
+            buttPreview.setEnabled(false);
+        } else {
+            buttPreview.setEnabled(true);
         }
 
         // Get intent, action and MIME type
@@ -136,7 +139,7 @@ public class CodeMatchActivity extends AppCompatActivity {
                     editTextActCode
                             .setText(value
                                     .toUpperCase()
-                                    .substring(0, value.length() - 7)
+                                    .substring(0, value.length() - 6)
                                     .replace(" ", ""));//aktual kode yang diimprove
                     //The key argument here must match that used in the other activity
                 }
@@ -175,6 +178,7 @@ public class CodeMatchActivity extends AppCompatActivity {
             } else if(stringStdCode.equals(stringActCode)) { //ketika  standard dan actual sama
                 textViewResult.setText(getString(R.string.text_code_right)); //tampilkan teks "kode benar"
                 textViewResult.setTextColor(Color.BLUE); //warna teks menjadi biru
+
                 toastRight.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
                 toastRight.show();
                 //sound from settings
@@ -307,7 +311,7 @@ public class CodeMatchActivity extends AppCompatActivity {
         buttScan.setOnClickListener(v -> scanQR());
 
         //battery
-        BroadcastReceiver receiver = new BroadcastReceiver() {
+        /*BroadcastReceiver receiver = new BroadcastReceiver() {
             public void onReceive(Context context, Intent intent) {
                 int plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
                 if (plugged == BatteryManager.BATTERY_PLUGGED_AC) {
@@ -326,7 +330,50 @@ public class CodeMatchActivity extends AppCompatActivity {
             }
         };
         IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        registerReceiver(receiver, filter);
+        registerReceiver(receiver, filter);*/
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            settingsActivity();
+            return true;
+        }
+
+        if (id == R.id.action_update) {
+            updateApp();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void updateApp(){
+        new AppUpdater(CodeMatchActivity.this)
+                //.setUpdateFrom(UpdateFrom.GITHUB)
+                //.setGitHubUserAndRepo("javiersantos", "AppUpdater")
+                .setUpdateFrom(UpdateFrom.XML)
+                .setUpdateXML("https://raw.githubusercontent.com/nandur93/KNers/master/update-changelog.xml")
+                .setDisplay(Display.DIALOG)
+                .setButtonDoNotShowAgain(null)
+                .showAppUpdated(true)
+                .start();
+    }
+
+    private void settingsActivity() {
+        Intent settingsIntent = new
+                Intent(CodeMatchActivity.this,SettingsActivity.class);
+        startActivity(settingsIntent);
     }
 
     void handleSendText(Intent intent) {
@@ -336,7 +383,7 @@ public class CodeMatchActivity extends AppCompatActivity {
             textViewActCode.setText(sharedText.trim());//aktual kode yang seharusnya tidak diimprove
             editTextActCode.setText(sharedText
                     .toUpperCase()
-                    .substring(0, sharedText.length() - 7)
+                    .substring(0, sharedText.length() - 6)
                     .replace(" ", ""));//aktual kode yang diimprove
 
             Toast.makeText(this, "Text recognized", LENGTH_SHORT).show();
@@ -395,14 +442,6 @@ public class CodeMatchActivity extends AppCompatActivity {
                 editText.setText(wordToSpan, TextView.BufferType.SPANNABLE);
             }
         }
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            mDrawerLayout.openDrawer(GravityCompat.START);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     //Permission Result
