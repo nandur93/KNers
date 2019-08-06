@@ -38,7 +38,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.ndu.sanghiang.kners.customlistview.adapter.ImageListAdapter;
 import com.ndu.sanghiang.kners.customlistview.model.Image;
 import com.ndu.sanghiang.kners.projecttrackerfi.ProjectTrackerActivity;
-import com.ndu.sanghiang.kners.projecttrackerfi.fragment.TemaFragment;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -53,7 +52,7 @@ public class DashboardProjectActivity extends AppCompatActivity {
     TextView textViewUserName;
     TextView textViewTopProjectName;
     Button buttonEditProject, buttonNewProject;
-    private String m_Text;
+    private String projectTitleBuilder;
     //private ArrayAdapter<String> adapter;
 
     private DatabaseReference projectRef;
@@ -65,6 +64,10 @@ public class DashboardProjectActivity extends AppCompatActivity {
     // Image ArrayList
     List<Image> imageList;
     private ImageListAdapter adapter;
+    private SharedPreferences sharedPrefs;
+    public static String PID, PROJECT_STATUS, PROJECT_CREATED, PROJECT_PROGRESS, PROJECT_TITLE, PROJECT_TARGET, PROJECT_DESC;
+    public static String PROJECT_PAGER;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,10 +80,17 @@ public class DashboardProjectActivity extends AppCompatActivity {
         DonutProgress donutProgress = findViewById(R.id.progressBarLeft);
         buttonEditProject = findViewById(R.id.buttonEditProject);
         buttonNewProject = findViewById(R.id.buttonNewProject);
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        m_Text = "";
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        projectTitleBuilder = "";
         TAG = "Nandur93";
-
+        PID = "pid";
+        PROJECT_STATUS = "project_status";
+        PROJECT_CREATED = "project_created";
+        PROJECT_PROGRESS = "project_progress";
+        PROJECT_TITLE = "project_title";
+        PROJECT_TARGET = "project_target";
+        PROJECT_DESC = "project_desc";
+        PROJECT_PAGER = "viewpager_position";
         Handler handler = new Handler();
 
         // 1. Initializing ListView And Image ArrayList
@@ -117,70 +127,10 @@ public class DashboardProjectActivity extends AppCompatActivity {
         String shName = sharedPrefs.getString("user_name", "");
         textViewUserName.setText(shName);
         buttonNewProject.setOnClickListener(v -> /*showProjectTitleBuilder()*/{
-            goToProjectTracker();
+            clearSharedPref();
+            showProjectTitleBuilder();
         });
         buttonEditProject.setOnClickListener(v -> Toast.makeText(this,"Edit project activity",Toast.LENGTH_SHORT).show());
-
-        /*projectRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
-                String title = dataSnapshot.child("project_title").getValue().toString();
-                String status = (String) dataSnapshot.child("project_status").getValue();
-                String created = (String) dataSnapshot.child("project_created").getValue();
-                String progress = (String) dataSnapshot.child("project_progress").getValue();
-                imageList.add(new Image(R.drawable.ic_launcher_round, title, status, created, progress)); //menambahkan firebase ke listview
-                //projectRef.orderByChild("project_progress").orderByValue().limitToLast(100);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
-                recreate();
-                adapter.notifyDataSetChanged();
-                Log.i(TAG, "onChildChanged:" + dataSnapshot.child("project_title").getValue().toString());
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot ) {
-                recreate();
-                adapter.notifyDataSetChanged();
-                Log.i(TAG, "onChildRemoved:" + dataSnapshot.child("project_title").getValue().toString());
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
-        // to update key
- /*       Query query = projectRef.orderByChild("project_progress").endAt(100);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
-                String key = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
-                HashMap<String, Object> result = new HashMap<>();
-                result.put("project_status", "In Progress");
-                projectRef.child(key).updateChildren(result);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
-        /*
-        projectRef.child("project_progress").orderByValue();
-        textViewTopProjectName.setText(title); //harus diisi most top project
-        float number = Float.valueOf(progress);
-        donutProgress.setProgress(number); //harus diisi most hihger value */
-        //Query query = projectRef.orderByChild("project_progress").startAt(100);
-
         listViewProject.setOnItemClickListener((adapter, v, position, arg3) -> {
             final Image image = imageList.get(position);
             Snackbar.make(v, "Click On " + image.getPid(), Snackbar.LENGTH_LONG)
@@ -300,6 +250,12 @@ public class DashboardProjectActivity extends AppCompatActivity {
         });
     }
 
+    private void clearSharedPref() {
+        sharedPrefs.edit().remove(PROJECT_TITLE).apply();
+        sharedPrefs.edit().remove(PROJECT_DESC).apply();
+        sharedPrefs.edit().remove(PID).apply();
+    }
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         menu.setHeaderTitle("Choose Action");   // Context-menu title
@@ -317,6 +273,60 @@ public class DashboardProjectActivity extends AppCompatActivity {
         {
             Toast.makeText(DashboardProjectActivity.this, "Edit Project", Toast.LENGTH_SHORT).show();
             // Do stuff
+            //TODO edit stuff
+            //buka fi project tracker dengan 8 step lalu load progress
+            String pidKey = image.getPid(); //-Lk5a4w77teyuasdasd
+            projectRef.child(pidKey).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()){
+                        //get item from firebase
+                        //meta
+                        String projectProgress = dataSnapshot.child(PROJECT_PROGRESS).getValue().toString();
+                        //Fragment thema
+                        String judulThema = dataSnapshot.child(PROJECT_TITLE).getValue().toString();
+                        String deskripsiThema = dataSnapshot.child(PROJECT_DESC).getValue().toString();
+                        String pid = dataSnapshot.child(PID).getValue().toString();
+
+                        //Fragment target
+                        String judulTarget = dataSnapshot.child(PROJECT_TARGET).child("judul_target").getValue().toString();
+                        String tahunBefore = dataSnapshot.child(PROJECT_TARGET).child("tahun_before").getValue().toString();
+                        String tahunAfter = dataSnapshot.child(PROJECT_TARGET).child("tahun_after").getValue().toString();
+                        String targetBefore = dataSnapshot.child(PROJECT_TARGET).child("target_before").getValue().toString();
+                        String targetAfter = dataSnapshot.child(PROJECT_TARGET).child("target_after").getValue().toString();
+
+                        //set item to intent share
+                        Intent intent  = new Intent(DashboardProjectActivity.this, ProjectTrackerActivity.class);
+                        //fragment thema
+                        intent.putExtra(PROJECT_PAGER, 0);
+                        intent.putExtra(PROJECT_TITLE, judulThema);
+                        intent.putExtra(PROJECT_DESC, deskripsiThema);
+                        intent.putExtra(PROJECT_PROGRESS, projectProgress);
+                        intent.putExtra(PID, pid);
+
+                        //fragment target
+                        intent.putExtra("judul_target", judulTarget);
+                        intent.putExtra("tahun_before", tahunBefore);
+                        intent.putExtra("tahun_after", tahunAfter);
+                        intent.putExtra("judul_target", targetBefore);
+                        intent.putExtra("target_after", targetAfter);
+                        startActivity(intent);
+
+                        Log.i(TAG, judulThema+" "+deskripsiThema+" From dashboard with tema and target");
+
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+            //jika progress 13 maka -> load step 1
+            //judul tema, deskripsi tema
+            //jika progress 25 maka -> load step 2
+
         } else if (item.getOrder() == 1)  // "Delete" chosen
         {
             // Show dialog
@@ -366,25 +376,15 @@ public class DashboardProjectActivity extends AppCompatActivity {
             builder
                     .setMessage("Data project "+image.getName()+" akan terhapus!")
                     .setTitle("Delete Project?")
-                    .setPositiveButton("Yes", dialogClickListener)
-                    .setNegativeButton("No", dialogClickListener)
+                    .setPositiveButton(R.string.ok, dialogClickListener)
+                    .setNegativeButton(R.string.fui_cancel, dialogClickListener)
                     .show();
         } else if (item.getOrder() == 2)  // "Detail" chosen
         {
             //Pass data to fragment
             if (image.getPid() != null) {
-                Bundle bundle = new Bundle();
                 //String title = projectRef.child("pid").getKey(); //pid
                 //String pid = projectRef.child("project_title").getKey(); //project_title
-                String title = projectRef.child("pid").toString();
-                String pid = projectRef.child("project_title").toString();
-                String TAG = "Nandur93";
-                bundle.putString("judul_thema", title);
-                bundle.putString("pid", pid);
-                // set Fragmentclass Arguments
-                TemaFragment fragobj = new TemaFragment();
-                fragobj.setArguments(bundle);
-                Log.i(TAG, title+" "+pid);
                 // assuming string and if you want to get the value on click of list item
                 // do what you intend to do on click of listview row
             }
@@ -410,7 +410,7 @@ public class DashboardProjectActivity extends AppCompatActivity {
 
     private void showProjectTitleBuilder() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Nama Project Baru");
+        builder.setTitle(R.string.project_title);
 
         // Set up the input
         final EditText input = new EditText(this);
@@ -419,29 +419,126 @@ public class DashboardProjectActivity extends AppCompatActivity {
         input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
         builder.setView(input);
         // Set up the buttons
-        builder.setPositiveButton("OK", (dialog, which) -> {
-            m_Text = input.getText().toString();
-            goToProjectTracker();
+        builder.setPositiveButton(R.string.ok, (dialog, which) -> {
+            projectTitleBuilder = input.getText().toString();
+            createNewProject();
             //addItemToFirebase();
         });
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        builder.setNegativeButton(R.string.fui_cancel, (dialog, which) -> dialog.cancel());
         builder.show();
     }
 
-    private void addItemToFirebase() {
-        String key = projectRef.push().getKey();
+    private void createNewProject() {
         @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
         String date = df.format(Calendar.getInstance().getTime());
-        projectRef.child(key).child("project_title").setValue(m_Text);
-        projectRef.child(key).child("project_status").setValue("Open");
-        projectRef.child(key).child("project_created").setValue(date);
-        projectRef.child(key).child("project_progress").setValue("0");
-    }
+        //membuat data template node
+        String pidKey = projectRef.push().getKey();
+        //metadata
+        projectRef.child(pidKey).child(PID).setValue(pidKey);
+        projectRef.child(pidKey).child(PROJECT_STATUS).setValue("Open");
+        projectRef.child(pidKey).child(PROJECT_CREATED).setValue(date);
+        projectRef.child(pidKey).child(PROJECT_PROGRESS).setValue(0);
+        //step 1 menentukan tema
+        projectRef.child(pidKey).child(PROJECT_TITLE).setValue(projectTitleBuilder);
+        projectRef.child(pidKey).child("project_desc").setValue("");
+        //step 2 menentukan target
+        DatabaseReference childTarget = projectRef.child(pidKey).child(PROJECT_TARGET);
+        childTarget.child(PROJECT_CREATED).setValue(date);
+        childTarget.child("judul_target").setValue("");
+        childTarget.child("tahun_before").setValue("");
+        childTarget.child("tahun_after").setValue("");
+        childTarget.child("target_before").setValue("0");
+        childTarget.child("target_after").setValue("0");
+        projectRef.child(pidKey).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    //get item from firebase
+                    //get metadata
+                    String pid = dataSnapshot.child(PID).getValue().toString();
+                    String metaStatus = dataSnapshot.child(PROJECT_STATUS).getValue().toString();
+                    String metaCreated = dataSnapshot.child(PROJECT_CREATED).getValue().toString();
+                    String metaProgress = dataSnapshot.child(PROJECT_PROGRESS).getValue().toString();
 
-    private void goToProjectTracker() {
-        Intent projectTrackerIntent = new
-                Intent(DashboardProjectActivity.this, ProjectTrackerActivity.class);
-        startActivity(projectTrackerIntent);
-    }
+                    //Fragment thema step 1
+                    String judulThema = dataSnapshot.child(PROJECT_TITLE).getValue().toString();
 
+                    //set item to intent share
+                    Intent intent  = new Intent(DashboardProjectActivity.this, ProjectTrackerActivity.class);
+                    intent.putExtra(PID, pid);
+                    intent.putExtra(PROJECT_TITLE, judulThema);
+                    intent.putExtra(PROJECT_PROGRESS, metaProgress);
+                    startActivity(intent);
+
+                    Log.i(TAG, judulThema+" from Dashboard if exist methode");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 }
+
+
+        /*projectRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
+                String title = dataSnapshot.child("project_title").getValue().toString();
+                String status = (String) dataSnapshot.child("project_status").getValue();
+                String created = (String) dataSnapshot.child("project_created").getValue();
+                String progress = (String) dataSnapshot.child("project_progress").getValue();
+                imageList.add(new Image(R.drawable.ic_launcher_round, title, status, created, progress)); //menambahkan firebase ke listview
+                //projectRef.orderByChild("project_progress").orderByValue().limitToLast(100);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
+                recreate();
+                adapter.notifyDataSetChanged();
+                Log.i(TAG, "onChildChanged:" + dataSnapshot.child("project_title").getValue().toString());
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot ) {
+                recreate();
+                adapter.notifyDataSetChanged();
+                Log.i(TAG, "onChildRemoved:" + dataSnapshot.child("project_title").getValue().toString());
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });*/
+// to update key
+ /*       Query query = projectRef.orderByChild("project_progress").endAt(100);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
+                String key = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
+                HashMap<String, Object> result = new HashMap<>();
+                result.put("project_status", "In Progress");
+                projectRef.child(key).updateChildren(result);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });*/
+        /*
+        projectRef.child("project_progress").orderByValue();
+        textViewTopProjectName.setText(title); //harus diisi most top project
+        float number = Float.valueOf(progress);
+        donutProgress.setProgress(number); //harus diisi most hihger value */
+//Query query = projectRef.orderByChild("project_progress").startAt(100);
