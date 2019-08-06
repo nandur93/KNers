@@ -1,12 +1,18 @@
 <AppUpdater>
     <update>
-        <latestVersion>1.9</latestVersion>
-        <latestVersionCode>6</latestVersionCode>
-        <url>http://bit.ly/KNersApp1-9</url>
+        <latestVersion>1.9.4</latestVersion>
+        <latestVersionCode>7</latestVersionCode>
+        <url>http://bit.ly/KNersApp1_9_4</url>
         <releaseNotes>
-            - First evolution
-            - Second evolution
-            - Bug fixes
+            What's New on Version 1.9.4?
+            + Perbaikan pada verifikasi kode dengan OCR Google Vision
+            + Perbaikan tampilan tombol utama
+            + Perbaikan bug
+            + Penambahan menu
+            
+            What's New on Version 1.9Beta?
+            + Migrated to AndroidX
+            + Add charger detector
         </releaseNotes>
     </update>
 </AppUpdater>
