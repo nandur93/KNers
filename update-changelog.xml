@@ -1,16 +1,24 @@
 <AppUpdater>
     <update>
-        <latestVersion>1.9.4</latestVersion>
-        <latestVersionCode>7</latestVersionCode>
-        <url>http://bit.ly/KNersApp1_9_4</url>
+        <latestVersion>2.0.0b</latestVersion>
+        <latestVersionCode>8</latestVersionCode>
+        <url>https://bit.ly/KNersApp2-0-0b</url>
         <releaseNotes>
-            What's New on Version 1.9.4?
+            What's New on Version 2.0.0b?
+            + Fix logic QR Code Reader error ketika scan non-std code
+            + UI Update (Aplikasi verifikasi kode dan Menu Nav)
+            + Penambahan pengaturan untuk OCR Machine
+            + Penambahan pengaturan untuk warna background
+            + Penambahan pengaturan pada orientasi layar QR Scanner
+            - Menghilangkan charger detector
+
+            Version 1.9.4?
             + Perbaikan pada verifikasi kode dengan OCR Google Vision
             + Perbaikan tampilan tombol utama
             + Perbaikan bug
             + Penambahan menu
             
-            What's New on Version 1.9Beta?
+            Version 1.9Beta?
             + Migrated to AndroidX
             + Add charger detector
         </releaseNotes>
