@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="scanocr"
+        android:enabled="true"
+        android:icon="@drawable/ic_camera_enhance_white_24dp"
+        android:shortcutShortLabel="@string/shortcut_short_label_codematch"
+        android:shortcutLongLabel="@string/shortcut_long_label_codematch"
+        android:shortcutDisabledMessage="@string/static_shortcut_disabled_message_codematch"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.ndu.sanghiang.kners"
+            android:targetClass="com.ndu.sanghiang.kners.ocr.OcrCaptureActivity" />
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list determines what the user sees when
+             they launch this shortcut. -->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <!-- Specify more shortcuts here. -->
+    <shortcut
+        android:shortcutId="unmountotg"
+        android:enabled="true"
+        android:icon="@drawable/ic_eject_white_24dp"
+        android:shortcutShortLabel="@string/shortcut_short_label_unmount"
+        android:shortcutLongLabel="@string/shortcut_long_label_unmount"
+        android:shortcutDisabledMessage="@string/static_shortcut_disabled_message_unmount"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.android.settings"
+            android:targetClass="com.android.settings.Settings$StorageDashboardActivity" />
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list determines what the user sees when
+             they launch this shortcut. -->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+</shortcuts>

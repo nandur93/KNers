@@ -40,6 +40,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".qrscanner.AnyOrientationCaptureActivity"
+            android:screenOrientation="fullSensor"
+            tools:replace="screenOrientation"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
+            android:name=".qrscanner.PortraitOrientationCaptureActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
         <activity android:name=".customlistview.ui.Main2Activity">
         </activity>
         <activity
@@ -56,11 +72,13 @@
         <receiver
             android:name=".service.CopyLinkBroadcastReceiver"
             android:enabled="true" />
+
         <service android:name=".service.KNersFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <receiver android:name=".PlugInConnector">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
@@ -81,6 +99,7 @@
             android:name=".MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".SettingsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
@@ -177,10 +196,16 @@
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity> <!-- Akhir dari splashScreen -->
+
+        <activity
+            android:name=".ocr.OcrCaptureActivity"
+            android:label="Read Text" />
         <activity
             android:name=".AboutActivity"
             android:label="@string/app_about"
@@ -243,9 +268,7 @@
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".indevelopment.HistoryActivity" />
-        <activity
-            android:name=".ocr.OcrCaptureActivity"
-            android:label="Read Text" />
+
 
         <provider
             android:name="androidx.core.content.FileProvider"
