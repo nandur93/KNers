@@ -49,6 +49,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Quality Before">
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/evaluasi_quality_before"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapSentences"/>
@@ -60,6 +61,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Quality After">
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/evaluasi_quality_after"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapSentences"/>
@@ -103,6 +105,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Cost Before">
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/evaluasi_cost_before"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapSentences"/>
@@ -114,6 +117,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Cost After">
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/evaluasi_cost_after"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapSentences"/>
@@ -158,6 +162,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Delivery Before">
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/evaluasi_delivery_before"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapSentences"/>
@@ -169,6 +174,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Delivery After">
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/evaluasi_delivery_after"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapSentences"/>
@@ -213,6 +219,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Safety Before">
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/evaluasi_safety_before"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapSentences"/>
@@ -224,6 +231,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Safety After">
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/evaluasi_safety_after"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapSentences"/>
@@ -268,6 +276,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Moral Before">
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/evaluasi_moral_before"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapSentences"/>
@@ -279,6 +288,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Moral After">
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/evaluasi_moral_after"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapSentences"/>
@@ -323,6 +333,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Productivity Before">
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/evaluasi_productivity_before"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapSentences"/>
@@ -334,6 +345,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Productivity After">
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/evaluasi_productivity_after"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapSentences"/>
@@ -378,6 +390,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Environment Before">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/evaluasi_environment_before"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapSentences"/>
@@ -389,6 +402,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Environment After">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/evaluasi_environment_after"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapSentences"/>
@@ -398,19 +412,18 @@
         </LinearLayout>
         </LinearLayout>
 
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorError"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:text="@string/button_submit"
-                android:layout_gravity="end"/>
-
             <View
                 android:layout_width="match_parent"
-                android:layout_height="45dp"/>
+                android:layout_height="25dp"
+                android:background="@color/colorPrimary"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
         </LinearLayout>
     </ScrollView>
 

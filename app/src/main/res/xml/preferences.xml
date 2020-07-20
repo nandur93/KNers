@@ -10,6 +10,25 @@
             android:defaultValue="true"
             android:summary="Akan mengaktifkan getar ketika verifikasi"
             android:key="enable_vibrate" />
+        <SwitchPreference
+            android:title="Peringatan Warna Latar"
+            android:defaultValue="false"
+            android:summary="Membuat warna latar berubah ketika verifikasi"
+            android:key="enable_back_color" />
+        <ListPreference
+            android:title="Orientasi Layar Scanner"
+            android:summary="Akan membuat rotasi layar Barcode/QR Scanner sesuai dengan pengaturan"
+            android:key="screen_orientation"
+            android:defaultValue="1"
+            android:entries="@array/screenOrientation"
+            android:entryValues="@array/screenValue" />
+        <ListPreference
+            android:title="Teknologi OCR"
+            android:summary="Penyesuaian Aplikasi OCR yang digunakan"
+            android:key="character_length"
+            android:defaultValue="2"
+            android:entries="@array/charaterLength"
+            android:entryValues="@array/charaterLengthValue" />
     </PreferenceCategory>
     <PreferenceCategory android:title="Browser">
         <SwitchPreference android:title="Gunakan Browser Bawaan"

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -30,14 +29,21 @@ import com.ndu.sanghiang.kners.R;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.PID;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.PROJECTS;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.PROJECT_TARGET;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.TARGET_JUDUL;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.TARGET_TAHUN_AFTER;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.TARGET_TAHUN_BEFORE;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.TARGET_TOTAL_AFTER;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.TARGET_TOTAL_BEFORE;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.USERS;
+
 public class TargetFragment extends Fragment {
 
-    private TextInputEditText inputEditTextJudulTarget;
-    private TextInputEditText inputEditTextTahunBefore, inputEditTextTahunAfter, inputEditTextTargetBefore, inputEditTextTargetAfter;
+    public static TextInputEditText inputEditTextJudulTarget;
+    public static TextInputEditText inputEditTextTahunBefore, inputEditTextTahunAfter, inputEditTextTargetBefore, inputEditTextTargetAfter;
     private DatabaseReference projectRefproject_title;
-    private String inputTitle, inputDesc;
-    private BarChart barChartTarget;
-    private Button submitButton;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -48,22 +54,21 @@ public class TargetFragment extends Fragment {
         FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         String userId = Objects.requireNonNull(mCurrentUser).getUid();
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String pid = sharedPrefs.getString("pid", "");
-        projectRefproject_title = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("projects").child(pid).child("project_target");
+        String pid = sharedPrefs.getString(PID, "");
+        projectRefproject_title = FirebaseDatabase.getInstance().getReference().child(USERS).child(userId).child(PROJECTS).child(pid).child(PROJECT_TARGET);
         inputEditTextJudulTarget = view.findViewById(R.id.editTextTarget);
         inputEditTextTahunBefore = view.findViewById(R.id.target_tahun_before);
         inputEditTextTahunAfter = view.findViewById(R.id.target_tahun_after);
         inputEditTextTargetBefore = view.findViewById(R.id.target_before);
         inputEditTextTargetAfter = view.findViewById(R.id.target_after);
-        barChartTarget = view.findViewById(R.id.barchart_target);
-        submitButton = view.findViewById(R.id.button_submit_target);
-        // Load data dari shared pref
-        String finalJudulTarget = sharedPrefs.getString("judul_target", "");
-        String finalTahunBefore = sharedPrefs.getString("tahun_before", "");
-        String finalTahunAfter = sharedPrefs.getString("tahun_after", "");
-        String finalTargetBefore = sharedPrefs.getString("target_before", "0");
-        String finalTargetAfter = sharedPrefs.getString("target_after", "0");
-        // Laod all data to editText
+        BarChart barChartTarget = view.findViewById(R.id.barchart_target);
+        // Load data dari sharedpref
+        String finalJudulTarget = sharedPrefs.getString(TARGET_JUDUL, "Membuat Project Android");
+        String finalTahunBefore = sharedPrefs.getString(TARGET_TAHUN_BEFORE, "2019");
+        String finalTahunAfter = sharedPrefs.getString(TARGET_TAHUN_AFTER, "2020");
+        String finalTargetBefore = sharedPrefs.getString(TARGET_TOTAL_BEFORE, "20");
+        String finalTargetAfter = sharedPrefs.getString(TARGET_TOTAL_AFTER, "10");
+        // Load all data to editText
         if (finalJudulTarget != null) {
             inputEditTextJudulTarget.setText(finalJudulTarget);
         } else {
@@ -121,23 +126,6 @@ public class TargetFragment extends Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(xVals));
         barChartTarget.setData(data);
-        submitButton.setOnClickListener(v -> {
-            barChartTarget.notifyDataSetChanged();
-            barChartTarget.setData(data);
-            barChartTarget.invalidate();
-            addItemToFirebase();
-            goToNextStep();
-            //if (!inputTargetTitle.equals("")) {
-            //    addItemToFirebase();
-            //    goToNextStep();
-            //} else {
-            //    Toast.makeText(getActivity(),"Masukkan judul",Toast.LENGTH_SHORT).show();
-            //}
-
-            //FragmentTransaction ft = getFragmentManager().beginTransaction();
-            //ft.detach(TargetFragment.this).attach(TargetFragment.this).commit();
-
-        });
         return view;
     }
 
@@ -154,10 +142,10 @@ public class TargetFragment extends Fragment {
         String inputTargetBefore = inputEditTextTargetBefore.getText().toString();
         String inputTargetAfter = inputEditTextTargetAfter.getText().toString();
 
-        projectRefproject_title.child("judul_target").setValue(inputTargetTitle);
-        projectRefproject_title.child("tahun_before").setValue(inputTahunBefore);
-        projectRefproject_title.child("tahun_after").setValue(inputTahunAfter);
-        projectRefproject_title.child("target_before").setValue(inputTargetBefore);
-        projectRefproject_title.child("target_after").setValue(inputTargetAfter);
+        projectRefproject_title.child(TARGET_JUDUL).setValue(inputTargetTitle);
+        projectRefproject_title.child(TARGET_TAHUN_BEFORE).setValue(inputTahunBefore);
+        projectRefproject_title.child(TARGET_TAHUN_AFTER).setValue(inputTahunAfter);
+        projectRefproject_title.child(TARGET_TOTAL_BEFORE).setValue(inputTargetBefore);
+        projectRefproject_title.child(TARGET_TOTAL_AFTER).setValue(inputTargetAfter);
     }
 }

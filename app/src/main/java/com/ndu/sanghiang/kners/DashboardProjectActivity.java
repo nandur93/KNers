@@ -5,14 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.InputType;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,7 +24,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceManager;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -35,9 +32,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.leinardi.android.speeddial.SpeedDialView;
 import com.ndu.sanghiang.kners.customlistview.adapter.ImageListAdapter;
 import com.ndu.sanghiang.kners.customlistview.model.Image;
 import com.ndu.sanghiang.kners.projecttrackerfi.ProjectTrackerActivity;
+import com.ndu.sanghiang.kners.projecttrackerfi.fragment.BottomSheetFragment;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -47,11 +46,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.*;
+
 public class DashboardProjectActivity extends AppCompatActivity {
     TextView textViewUser;
     TextView textViewUserName;
     TextView textViewTopProjectName;
-    Button buttonEditProject, buttonNewProject;
     private String projectTitleBuilder;
     //private ArrayAdapter<String> adapter;
 
@@ -64,34 +64,26 @@ public class DashboardProjectActivity extends AppCompatActivity {
     // Image ArrayList
     List<Image> imageList;
     private ImageListAdapter adapter;
-    private SharedPreferences sharedPrefs;
-    public static String PID, PROJECT_STATUS, PROJECT_CREATED, PROJECT_PROGRESS, PROJECT_TITLE, PROJECT_TARGET, PROJECT_DESC;
-    public static String PROJECT_PAGER;
+    private static SharedPreferences sharedPrefs;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_project);
 
-//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         textViewUser = findViewById(R.id.textViewUser);
         textViewUserName = findViewById(R.id.textViewUserName);
         textViewTopProjectName = findViewById(R.id.textViewTopProjectName);
         DonutProgress donutProgress = findViewById(R.id.progressBarLeft);
-        buttonEditProject = findViewById(R.id.buttonEditProject);
-        buttonNewProject = findViewById(R.id.buttonNewProject);
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = sharedPrefs.edit();
         projectTitleBuilder = "";
         TAG = "Nandur93";
-        PID = "pid";
-        PROJECT_STATUS = "project_status";
-        PROJECT_CREATED = "project_created";
-        PROJECT_PROGRESS = "project_progress";
-        PROJECT_TITLE = "project_title";
-        PROJECT_TARGET = "project_target";
-        PROJECT_DESC = "project_desc";
-        PROJECT_PAGER = "viewpager_position";
-        Handler handler = new Handler();
+
+
+        //Handler handler = new Handler();
 
         // 1. Initializing ListView And Image ArrayList
         imageList = new ArrayList<>();
@@ -112,7 +104,7 @@ public class DashboardProjectActivity extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         // get current userId
         String userId = mAuth.getCurrentUser().getUid();
-        projectRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("projects");
+        projectRef = FirebaseDatabase.getInstance().getReference().child(USERS).child(userId).child(PROJECTS);
 
         listViewProject.setAdapter(adapter);
         registerForContextMenu(listViewProject);
@@ -124,39 +116,67 @@ public class DashboardProjectActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         // Donut progress
         // ketika di load, dapatkan value dari shared pref langsung
-        String shName = sharedPrefs.getString("user_name", "");
+        String shName = sharedPrefs.getString(USER_NAME, "");
         textViewUserName.setText(shName);
-        buttonNewProject.setOnClickListener(v -> /*showProjectTitleBuilder()*/{
-            clearSharedPref();
-            showProjectTitleBuilder();
-        });
-        buttonEditProject.setOnClickListener(v -> Toast.makeText(this,"Edit project activity",Toast.LENGTH_SHORT).show());
         listViewProject.setOnItemClickListener((adapter, v, position, arg3) -> {
+            clearSharedPref();
             final Image image = imageList.get(position);
-            Snackbar.make(v, "Click On " + image.getPid(), Snackbar.LENGTH_LONG)
-                    .setAction("No action", null).show();
+            String pidKey = image.getPid(); //-Lk5a4w77teyuasdasd
+            String sheetStep = image.getStatus();
+            String judulThema = image.getTitle();
+            String projectProgress = image.getProgress();
+            String deskripsiThema = image.getDesc();
+
+            editor.putString(PROJECT_TITLE, judulThema);
+            editor.putString(PROJECT_DESC, deskripsiThema);
+            editor.putFloat(PROJECT_PROGRESS, Float.parseFloat(projectProgress));
+            editor.putString(PROJECT_STATUS, sheetStep);
+            editor.putString(PID, pidKey);
+            editor.apply();
+            showBottomSheetDialogFragment();
+            /*Snackbar.make(v, "Click On " + image.getPid(), Snackbar.LENGTH_LONG)
+                    .setAction("No action", null).show();*/
+
         });
+
+        SpeedDialView speedDialView = findViewById(R.id.speedDialFab);
+        speedDialView.setOnChangeListener(new SpeedDialView.OnChangeListener() {
+            @Override
+            public boolean onMainActionSelected() {
+                // Call your main action here
+                clearSharedPref();
+                showProjectTitleBuilder();
+                return false; // true to keep the Speed Dial open
+            }
+
+            @Override
+            public void onToggleChanged(boolean isOpen) {
+                Log.d(TAG, "Speed dial toggle state changed. Open = " + isOpen);
+            }
+        });
+
         projectRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String title, status, created, progress, pid;
+                String title, status, created, progress, pid, desc;
                 try {
-                    title = dataSnapshot.child("project_title").getValue().toString();
-                    status = (String) dataSnapshot.child("project_status").getValue();
-                    created = (String) dataSnapshot.child("project_created").getValue();
-                    progress = String.valueOf(dataSnapshot.child("project_progress").getValue());
+                    title = dataSnapshot.child(PROJECT_TITLE).getValue().toString();
+                    status = (String) dataSnapshot.child(PROJECT_STATUS).getValue();
+                    created = (String) dataSnapshot.child(PROJECT_CREATED).getValue();
+                    progress = String.valueOf(dataSnapshot.child(PROJECT_PROGRESS).getValue());
                     float progressFloat = Float.valueOf(progress);
-                    pid = (String) dataSnapshot.child("pid").getValue();
-                    imageList.add(new Image(R.drawable.ic_launcher_round, progress, title, status, created, progressFloat, pid)); //menambahkan firebase ke listview
+                    pid = (String) dataSnapshot.child(PID).getValue();
+                    desc = (String) dataSnapshot.child(PROJECT_DESC).getValue();
+                    imageList.add(new Image(R.drawable.ic_launcher_round, progress, title, status, created, progressFloat, pid, desc)); //menambahkan firebase ke listview
                     adapter.notifyDataSetChanged();
-                    Query query = projectRef.orderByChild("project_progress").limitToLast(1);
+                    Query query = projectRef.orderByChild(PROJECT_PROGRESS).limitToLast(1);
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @SuppressLint("SetTextI18n")
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for (DataSnapshot child: dataSnapshot.getChildren()){
-                                String proTit = (String) child.child("project_title").getValue();
-                                String proPro = String.valueOf(child.child("project_progress").getValue());
+                                String proTit = (String) child.child(PROJECT_TITLE).getValue();
+                                String proPro = String.valueOf(child.child(PROJECT_PROGRESS).getValue());
                                 if (title != null){
                                     Log.i(TAG, proTit);
                                     textViewTopProjectName.setText(proTit);//harus diisi most top project
@@ -250,9 +270,11 @@ public class DashboardProjectActivity extends AppCompatActivity {
         });
     }
 
-    private void clearSharedPref() {
+    public static void clearSharedPref() {
         sharedPrefs.edit().remove(PROJECT_TITLE).apply();
         sharedPrefs.edit().remove(PROJECT_DESC).apply();
+        sharedPrefs.edit().remove(PROJECT_PROGRESS).apply();
+        sharedPrefs.edit().remove(PROJECT_STATUS).apply();
         sharedPrefs.edit().remove(PID).apply();
     }
 
@@ -260,8 +282,7 @@ public class DashboardProjectActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         menu.setHeaderTitle("Choose Action");   // Context-menu title
         menu.add(0, v.getId(), 0, "Edit Project");  // Add element "Edit"
-        menu.add(0, v.getId(), 1, "Delete Project");        // Add element "Delete"
-        menu.add(0, v.getId(), 2, "Detail Project");
+        menu.add(0, v.getId(), 1, "Delete Project"); // Add element "Delete"
         super.onCreateContextMenu(menu, v, menuInfo);
     }
     @Override
@@ -273,7 +294,6 @@ public class DashboardProjectActivity extends AppCompatActivity {
         {
             Toast.makeText(DashboardProjectActivity.this, "Edit Project", Toast.LENGTH_SHORT).show();
             // Do stuff
-            //TODO edit stuff
             //buka fi project tracker dengan 8 step lalu load progress
             String pidKey = image.getPid(); //-Lk5a4w77teyuasdasd
             projectRef.child(pidKey).addValueEventListener(new ValueEventListener() {
@@ -289,27 +309,53 @@ public class DashboardProjectActivity extends AppCompatActivity {
                         String pid = dataSnapshot.child(PID).getValue().toString();
 
                         //Fragment target
-                        String judulTarget = dataSnapshot.child(PROJECT_TARGET).child("judul_target").getValue().toString();
-                        String tahunBefore = dataSnapshot.child(PROJECT_TARGET).child("tahun_before").getValue().toString();
-                        String tahunAfter = dataSnapshot.child(PROJECT_TARGET).child("tahun_after").getValue().toString();
-                        String targetBefore = dataSnapshot.child(PROJECT_TARGET).child("target_before").getValue().toString();
-                        String targetAfter = dataSnapshot.child(PROJECT_TARGET).child("target_after").getValue().toString();
+                        DataSnapshot targetRef = dataSnapshot.child(PROJECT_TARGET);
+                        String judulTarget = targetRef.child(TARGET_JUDUL).getValue().toString();
+                        String tahunBefore = targetRef.child(TARGET_TAHUN_BEFORE).getValue().toString();
+                        String tahunAfter = targetRef.child(TARGET_TAHUN_AFTER).getValue().toString();
+                        String targetBefore =targetRef.child(TARGET_TOTAL_BEFORE).getValue().toString();
+                        String targetAfter = targetRef.child(TARGET_TOTAL_AFTER).getValue().toString();
 
                         //set item to intent share
                         Intent intent  = new Intent(DashboardProjectActivity.this, ProjectTrackerActivity.class);
                         //fragment thema
-                        intent.putExtra(PROJECT_PAGER, 0);
+                        switch (projectProgress) {
+                            case "13":
+                                intent.putExtra(PROJECT_PAGER, 0);
+                                break;
+                            case "25":
+                                intent.putExtra(PROJECT_PAGER, 1);
+                                break;
+                            case "38":
+                                intent.putExtra(PROJECT_PAGER, 2);
+                                break;
+                            case "50":
+                                intent.putExtra(PROJECT_PAGER, 3);
+                                break;
+                            case "63":
+                                intent.putExtra(PROJECT_PAGER, 4);
+                                break;
+                            case "75":
+                                intent.putExtra(PROJECT_PAGER, 5);
+                                break;
+                            case "88":
+                                intent.putExtra(PROJECT_PAGER, 6);
+                                break;
+                            case "100":
+                                intent.putExtra(PROJECT_PAGER, 7);
+                                break;
+                        }
                         intent.putExtra(PROJECT_TITLE, judulThema);
                         intent.putExtra(PROJECT_DESC, deskripsiThema);
                         intent.putExtra(PROJECT_PROGRESS, projectProgress);
                         intent.putExtra(PID, pid);
 
                         //fragment target
-                        intent.putExtra("judul_target", judulTarget);
-                        intent.putExtra("tahun_before", tahunBefore);
-                        intent.putExtra("tahun_after", tahunAfter);
-                        intent.putExtra("judul_target", targetBefore);
-                        intent.putExtra("target_after", targetAfter);
+                        intent.putExtra(TARGET_JUDUL, judulTarget);
+                        intent.putExtra(TARGET_TAHUN_BEFORE, tahunBefore);
+                        intent.putExtra(TARGET_TAHUN_AFTER, tahunAfter);
+                        intent.putExtra(TARGET_TOTAL_BEFORE, targetBefore);
+                        intent.putExtra(TARGET_TOTAL_AFTER, targetAfter);
                         startActivity(intent);
 
                         Log.i(TAG, judulThema+" "+deskripsiThema+" From dashboard with tema and target");
@@ -336,7 +382,7 @@ public class DashboardProjectActivity extends AppCompatActivity {
                         //Yes button clicked
                         // Delete if yes
                         Toast.makeText(DashboardProjectActivity.this, "Delete Project", Toast.LENGTH_SHORT).show();
-                        Query queryRef = projectRef.orderByChild("project_title").equalTo(image.getName());
+                        Query queryRef = projectRef.orderByChild(PROJECT_TITLE).equalTo(image.getTitle());
                         queryRef.addChildEventListener(new ChildEventListener() {
                             @Override
                             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String previousChild) {
@@ -374,25 +420,21 @@ public class DashboardProjectActivity extends AppCompatActivity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(DashboardProjectActivity.this);
             builder
-                    .setMessage("Data project "+image.getName()+" akan terhapus!")
+                    .setMessage("Data project "+image.getTitle()+" akan terhapus!")
                     .setTitle("Delete Project?")
                     .setPositiveButton(R.string.ok, dialogClickListener)
                     .setNegativeButton(R.string.fui_cancel, dialogClickListener)
                     .show();
-        } else if (item.getOrder() == 2)  // "Detail" chosen
-        {
-            //Pass data to fragment
-            if (image.getPid() != null) {
-                //String title = projectRef.child("pid").getKey(); //pid
-                //String pid = projectRef.child("project_title").getKey(); //project_title
-                // assuming string and if you want to get the value on click of list item
-                // do what you intend to do on click of listview row
-            }
         } else
         {
             return false;
         }
         return false;
+    }
+
+    public void showBottomSheetDialogFragment() {
+        BottomSheetFragment bottomSheetFragment = new BottomSheetFragment();
+        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
     private void sortArrayList() {
@@ -416,7 +458,7 @@ public class DashboardProjectActivity extends AppCompatActivity {
         final EditText input = new EditText(this);
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         //input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
+        input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         builder.setView(input);
         // Set up the buttons
         builder.setPositiveButton(R.string.ok, (dialog, which) -> {
@@ -440,15 +482,147 @@ public class DashboardProjectActivity extends AppCompatActivity {
         projectRef.child(pidKey).child(PROJECT_PROGRESS).setValue(0);
         //step 1 menentukan tema
         projectRef.child(pidKey).child(PROJECT_TITLE).setValue(projectTitleBuilder);
-        projectRef.child(pidKey).child("project_desc").setValue("");
+        projectRef.child(pidKey).child(PROJECT_DESC).setValue("");
         //step 2 menentukan target
         DatabaseReference childTarget = projectRef.child(pidKey).child(PROJECT_TARGET);
         childTarget.child(PROJECT_CREATED).setValue(date);
-        childTarget.child("judul_target").setValue("");
-        childTarget.child("tahun_before").setValue("");
-        childTarget.child("tahun_after").setValue("");
-        childTarget.child("target_before").setValue("0");
-        childTarget.child("target_after").setValue("0");
+        childTarget.child(TARGET_JUDUL).setValue("");
+        childTarget.child(TARGET_TAHUN_BEFORE).setValue("");
+        childTarget.child(TARGET_TAHUN_AFTER).setValue("");
+        childTarget.child(TARGET_TOTAL_BEFORE).setValue("0");
+        childTarget.child(TARGET_TOTAL_AFTER).setValue("0");
+        //step 3 anakonda
+        DatabaseReference childAnakonda = projectRef.child(pidKey).child(PROJECT_ANAKONDA);
+        childAnakonda.child(ANAKONDA_MATERIAL).child(MATERIAL_WSBH).setValue("");
+        childAnakonda.child(ANAKONDA_MATERIAL).child(MATERIAL_WAH).setValue("");
+        childAnakonda.child(ANAKONDA_MATERIAL).child(MATERIAL_STATUS).setValue("");
+        childAnakonda.child(ANAKONDA_MACHINE).child(MACHINE_WSBH).setValue("");
+        childAnakonda.child(ANAKONDA_MACHINE).child(MACHINE_WAH).setValue("");
+        childAnakonda.child(ANAKONDA_MACHINE).child(MACHINE_STATUS).setValue("");
+        childAnakonda.child(ANAKONDA_METHOD).child(METHOD_WSBH).setValue("");
+        childAnakonda.child(ANAKONDA_METHOD).child(METHOD_WAH).setValue("");
+        childAnakonda.child(ANAKONDA_METHOD).child(METHOD_STATUS).setValue("");
+        childAnakonda.child(ANAKONDA_MAN).child(MAN_WSBH).setValue("");
+        childAnakonda.child(ANAKONDA_MAN).child(MAN_WAH).setValue("");
+        childAnakonda.child(ANAKONDA_MAN).child(MAN_STATUS).setValue("");
+        childAnakonda.child(ANAKONDA_ENVIRONMENT).child(ENVIRONMENT_WSBH).setValue("");
+        childAnakonda.child(ANAKONDA_ENVIRONMENT).child(ENVIRONMENT_WAH).setValue("");
+        childAnakonda.child(ANAKONDA_ENVIRONMENT).child(ENVIRONMENT_STATUS).setValue("");
+        //STEP 4 ANASEBA
+        DatabaseReference childAnaseba = projectRef.child(pidKey).child(PROJECT_ANASEBA);
+        childAnaseba.child(ANASEBA_MATERIAL).child(MATERIAL_WHY1).setValue("");
+        childAnaseba.child(ANASEBA_MATERIAL).child(MATERIAL_WHY2).setValue("");
+        childAnaseba.child(ANASEBA_MATERIAL).child(MATERIAL_WHY3).setValue("");
+        childAnaseba.child(ANASEBA_MATERIAL).child(MATERIAL_WHY4).setValue("");
+        childAnaseba.child(ANASEBA_MATERIAL).child(MATERIAL_WHY5).setValue("");
+        childAnaseba.child(ANASEBA_MACHINE).child(MACHINE_WHY1).setValue("");
+        childAnaseba.child(ANASEBA_MACHINE).child(MACHINE_WHY2).setValue("");
+        childAnaseba.child(ANASEBA_MACHINE).child(MACHINE_WHY3).setValue("");
+        childAnaseba.child(ANASEBA_MACHINE).child(MACHINE_WHY4).setValue("");
+        childAnaseba.child(ANASEBA_MACHINE).child(MACHINE_WHY5).setValue("");
+        childAnaseba.child(ANASEBA_METHOD).child(METHOD_WHY1).setValue("");
+        childAnaseba.child(ANASEBA_METHOD).child(METHOD_WHY2).setValue("");
+        childAnaseba.child(ANASEBA_METHOD).child(METHOD_WHY3).setValue("");
+        childAnaseba.child(ANASEBA_METHOD).child(METHOD_WHY4).setValue("");
+        childAnaseba.child(ANASEBA_METHOD).child(METHOD_WHY5).setValue("");
+        childAnaseba.child(ANASEBA_MAN).child(MAN_WHY1).setValue("");
+        childAnaseba.child(ANASEBA_MAN).child(MAN_WHY2).setValue("");
+        childAnaseba.child(ANASEBA_MAN).child(MAN_WHY3).setValue("");
+        childAnaseba.child(ANASEBA_MAN).child(MAN_WHY4).setValue("");
+        childAnaseba.child(ANASEBA_MAN).child(MAN_WHY5).setValue("");
+        childAnaseba.child(ANASEBA_ENVIRONMENT).child(ENVIRONMENT_WHY1).setValue("");
+        childAnaseba.child(ANASEBA_ENVIRONMENT).child(ENVIRONMENT_WHY2).setValue("");
+        childAnaseba.child(ANASEBA_ENVIRONMENT).child(ENVIRONMENT_WHY3).setValue("");
+        childAnaseba.child(ANASEBA_ENVIRONMENT).child(ENVIRONMENT_WHY4).setValue("");
+        childAnaseba.child(ANASEBA_ENVIRONMENT).child(ENVIRONMENT_WHY5).setValue("");
+        //step 5 rencana penanggulangan
+        DatabaseReference childRencana = projectRef.child(pidKey).child(PROJECT_RENCANA);
+        childRencana.child(RENCANA_AKAR_PENYEBAB1).child(PENYEBAB1_TITLE).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB1).child(PENYEBAB1_WHAT).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB1).child(PENYEBAB1_WHEN).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB1).child(PENYEBAB1_WHY).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB1).child(PENYEBAB1_WHERE).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB1).child(PENYEBAB1_WHO).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB1).child(PENYEBAB1_HOW).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB2).child(PENYEBAB2_TITLE).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB2).child(PENYEBAB2_WHAT).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB2).child(PENYEBAB2_WHEN).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB2).child(PENYEBAB2_WHY).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB2).child(PENYEBAB2_WHERE).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB2).child(PENYEBAB2_WHO).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB2).child(PENYEBAB2_HOW).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB3).child(PENYEBAB3_TITLE).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB3).child(PENYEBAB3_WHAT).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB3).child(PENYEBAB3_WHEN).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB3).child(PENYEBAB3_WHY).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB3).child(PENYEBAB3_WHERE).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB3).child(PENYEBAB3_WHO).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB3).child(PENYEBAB3_HOW).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB4).child(PENYEBAB4_TITLE).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB4).child(PENYEBAB4_WHAT).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB4).child(PENYEBAB4_WHEN).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB4).child(PENYEBAB4_WHY).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB4).child(PENYEBAB4_WHERE).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB4).child(PENYEBAB4_WHO).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB4).child(PENYEBAB4_HOW).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB5).child(PENYEBAB5_TITLE).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB5).child(PENYEBAB5_WHAT).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB5).child(PENYEBAB5_WHEN).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB5).child(PENYEBAB5_WHY).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB5).child(PENYEBAB5_WHERE).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB5).child(PENYEBAB5_WHO).setValue("");
+        childRencana.child(RENCANA_AKAR_PENYEBAB5).child(PENYEBAB5_HOW).setValue("");
+        //STEP 6 penanggulangan
+        DatabaseReference childPenanggulangan = projectRef.child(pidKey).child(PROJECT_PENANGGULANGAN);
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM1).child(PENANGGULANGAN_PROBLEM_TITLE1).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM1).child(PENANGGULANGAN_DESC1).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM1).child(PENANGGULANGAN_DUE1).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM1).child(PENANGGULANGAN_PIC1).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM1).child(PENANGGULANGAN_PROGRESS1).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM2).child(PENANGGULANGAN_PROBLEM_TITLE2).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM2).child(PENANGGULANGAN_DESC2).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM2).child(PENANGGULANGAN_DUE2).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM2).child(PENANGGULANGAN_PIC2).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM2).child(PENANGGULANGAN_PROGRESS2).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM3).child(PENANGGULANGAN_PROBLEM_TITLE3).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM3).child(PENANGGULANGAN_DESC3).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM3).child(PENANGGULANGAN_DUE3).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM3).child(PENANGGULANGAN_PIC3).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM3).child(PENANGGULANGAN_PROGRESS3).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM4).child(PENANGGULANGAN_PROBLEM_TITLE4).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM4).child(PENANGGULANGAN_DESC4).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM4).child(PENANGGULANGAN_DUE4).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM4).child(PENANGGULANGAN_PIC4).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM4).child(PENANGGULANGAN_PROGRESS4).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM5).child(PENANGGULANGAN_PROBLEM_TITLE5).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM5).child(PENANGGULANGAN_DESC5).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM5).child(PENANGGULANGAN_DUE5).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM5).child(PENANGGULANGAN_PIC5).setValue("");
+        childPenanggulangan.child(PENANGGULANGAN_PROBLEM5).child(PENANGGULANGAN_PROGRESS5).setValue("");
+        //step 7 evaluasi hasil
+        DatabaseReference childEvaluasi = projectRef.child(pidKey).child(PROJECT_EVALUASI_HASIL);
+        childEvaluasi.child(HASIL_QUALITY).child(HASIL_QUALITY_BEFORE).setValue("");
+        childEvaluasi.child(HASIL_QUALITY).child(HASIL_QUALITY_AFTER).setValue("");
+        childEvaluasi.child(HASIL_COST).child(HASIL_COST_BEFORE).setValue("");
+        childEvaluasi.child(HASIL_COST).child(HASIL_COST_AFTER).setValue("");
+        childEvaluasi.child(HASIL_DELIVERY).child(HASIL_DELIVERY_BEFORE).setValue("");
+        childEvaluasi.child(HASIL_DELIVERY).child(HASIL_DELIVERY_AFTER).setValue("");
+        childEvaluasi.child(HASIL_SAFETY).child(HASIL_SAFETY_BEFORE).setValue("");
+        childEvaluasi.child(HASIL_SAFETY).child(HASIL_SAFETY_AFTER).setValue("");
+        childEvaluasi.child(HASIL_MORAL).child(HASIL_MORAL_BEFORE).setValue("");
+        childEvaluasi.child(HASIL_MORAL).child(HASIL_MORAL_AFTER).setValue("");
+        childEvaluasi.child(HASIL_PRODUCTIVITY).child(HASIL_PRODUCTIVITY_BEFORE).setValue("");
+        childEvaluasi.child(HASIL_PRODUCTIVITY).child(HASIL_PRODUCTIVITY_AFTER).setValue("");
+        childEvaluasi.child(HASIL_ENVIRONMENT).child(HASIL_ENVIRONMENT_BEFORE).setValue("");
+        childEvaluasi.child(HASIL_ENVIRONMENT).child(HASIL_ENVIRONMENT_AFTER).setValue("");
+        //step 8 standarisasi
+        DatabaseReference childStandarisasi = projectRef.child(pidKey).child(PROJECT_STANDARISASI);
+        childStandarisasi.child(STANDARISASI_STATUS).setValue("");
+        childStandarisasi.child(STANDARISASI_TEMA_BERIKUT).setValue("");
+
+
+
+        
         projectRef.child(pidKey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -463,8 +637,10 @@ public class DashboardProjectActivity extends AppCompatActivity {
                     //Fragment thema step 1
                     String judulThema = dataSnapshot.child(PROJECT_TITLE).getValue().toString();
 
-                    //set item to intent share
+                    //set item to intent share yang akan ditaro ke sharedPref
                     Intent intent  = new Intent(DashboardProjectActivity.this, ProjectTrackerActivity.class);
+                    intent.putExtra(PROJECT_STATUS, metaStatus);
+                    intent.putExtra(PROJECT_CREATED, metaCreated);
                     intent.putExtra(PID, pid);
                     intent.putExtra(PROJECT_TITLE, judulThema);
                     intent.putExtra(PROJECT_PROGRESS, metaProgress);
@@ -486,9 +662,9 @@ public class DashboardProjectActivity extends AppCompatActivity {
         /*projectRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
-                String title = dataSnapshot.child("project_title").getValue().toString();
-                String status = (String) dataSnapshot.child("project_status").getValue();
-                String created = (String) dataSnapshot.child("project_created").getValue();
+                String title = dataSnapshot.child(PROJECT_TITLE).getValue().toString();
+                String status = (String) dataSnapshot.child(PROJECT_STATUS).getValue();
+                String created = (String) dataSnapshot.child(PROJECT_CREATED).getValue();
                 String progress = (String) dataSnapshot.child("project_progress").getValue();
                 imageList.add(new Image(R.drawable.ic_launcher_round, title, status, created, progress)); //menambahkan firebase ke listview
                 //projectRef.orderByChild("project_progress").orderByValue().limitToLast(100);
@@ -499,14 +675,14 @@ public class DashboardProjectActivity extends AppCompatActivity {
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
                 recreate();
                 adapter.notifyDataSetChanged();
-                Log.i(TAG, "onChildChanged:" + dataSnapshot.child("project_title").getValue().toString());
+                Log.i(TAG, "onChildChanged:" + dataSnapshot.child(PROJECT_TITLE).getValue().toString());
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot ) {
                 recreate();
                 adapter.notifyDataSetChanged();
-                Log.i(TAG, "onChildRemoved:" + dataSnapshot.child("project_title").getValue().toString());
+                Log.i(TAG, "onChildRemoved:" + dataSnapshot.child(PROJECT_TITLE).getValue().toString());
             }
 
             @Override
@@ -527,7 +703,7 @@ public class DashboardProjectActivity extends AppCompatActivity {
                 DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
                 String key = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
                 HashMap<String, Object> result = new HashMap<>();
-                result.put("project_status", "In Progress");
+                result.put(PROJECT_STATUS, "In Progress");
                 projectRef.child(key).updateChildren(result);
             }
 

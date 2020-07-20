@@ -25,7 +25,7 @@
     <string name="button_code_match_inspection">Code Match Inspection</string>
     <string name="button_kner_browser">KNer Browser</string>
     <string name="button_history">History</string>
-    <string name="button_ocr_activity">OCR Google Vision</string>
+    <string name="button_ocr_activity">Realtime OCR</string>
     <string name="button_produk_knowledge">Products Knowledge (In Depelopment)</string>
     <string name="button_preview">Preview</string>
     <string name="button_signup">Sign Up</string>
@@ -94,6 +94,6 @@
     <string name="button_unmount_otg">Unmount OTG</string>
     <string name="department_list">Department</string>
     <string name="project_title">New Project Name</string>
-    <string name="share_body" translatable="false">Hallo KNers, please download latest version of KNers App here https://bit.ly/KNersApp1_9_4</string>
+    <string name="share_body">Hallo KNers, please download latest version of KNers App here https://bit.ly/KNersApp2-0-0b</string>
 
 </resources>

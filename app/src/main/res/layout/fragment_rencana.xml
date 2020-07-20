@@ -36,6 +36,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Akar penyebab dari before step">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_akar_penyebab1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapSentences"/>
@@ -127,6 +128,7 @@
                             android:textAlignment="center"/>
 
                         <TextView
+                            android:id="@+id/textview_progress_penyebab1"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_gravity="center"
@@ -162,6 +164,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Akar penyebab dari before step">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_akar_penyebab2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapSentences"/>
@@ -253,6 +256,7 @@
                             android:textAlignment="center"/>
 
                         <TextView
+                            android:id="@+id/textview_progress_penyebab2"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_gravity="center"
@@ -288,6 +292,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Akar penyebab dari before step">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_akar_penyebab3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapSentences"/>
@@ -379,6 +384,7 @@
                             android:textAlignment="center"/>
 
                         <TextView
+                            android:id="@+id/textview_progress_penyebab3"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_gravity="center"
@@ -414,6 +420,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Akar penyebab dari before step">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_akar_penyebab4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapSentences"/>
@@ -505,6 +512,7 @@
                             android:textAlignment="center"/>
 
                         <TextView
+                            android:id="@+id/textview_progress_penyebab4"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_gravity="center"
@@ -540,6 +548,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Akar penyebab dari before step">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_akar_penyebab5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapSentences"/>
@@ -631,6 +640,7 @@
                             android:textAlignment="center"/>
 
                         <TextView
+                            android:id="@+id/textview_progress_penyebab5"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_gravity="center"
@@ -648,18 +658,18 @@
                     android:layout_height="1dp"
                     android:background="@color/colorError"/>
             </LinearLayout>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:text="@string/button_submit"
-                android:layout_gravity="end"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="45dp"/>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorError"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:background="@color/colorPrimary"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
         </LinearLayout>
     </ScrollView>
 

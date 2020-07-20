@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="updateInterval">
-        <item>test1</item>
-        <item>test2</item>
-        <item>test3</item>
-        <item>test4</item>
+    <string-array name="screenOrientation">
+        <item>Landscape</item>
+        <item>Portrait</item>
+        <item>Auto Orientation</item>
     </string-array>
-    <string-array name="updateIntervalValues">
-        <item>test1</item>
-        <item>test2</item>
-        <item>test3</item>
-        <item>test4</item>
+    <string-array name="screenValue">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="charaterLength">
+        <item>Realtime OCR</item>
+        <item>Smart Lens</item>
+    </string-array>
+    <string-array name="charaterLengthValue">
+        <item>1</item>
+        <item>2</item>
     </string-array>
 </resources>

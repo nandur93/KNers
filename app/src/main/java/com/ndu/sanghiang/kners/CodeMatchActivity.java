@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,8 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.ndu.sanghiang.kners.ocr.OcrCaptureActivity;
+import com.ndu.sanghiang.kners.qrscanner.AnyOrientationCaptureActivity;
+import com.ndu.sanghiang.kners.qrscanner.PortraitOrientationCaptureActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -57,7 +60,9 @@ public class CodeMatchActivity extends AppCompatActivity {
     EditText editTextStdCode, editTextActCode, editTextNoBo;
     Button buttPreview, buttVerify, buttScan;
     Toolbar tToolbar;
+    LinearLayout linearColor;
     private String boNumb;
+    private SharedPreferences sharedPrefs;
     //    public static final String SCAN_RESULT = "com.ndu.sanghiang.kners";
     //    String str_act_code, str_verif_code;
 
@@ -80,6 +85,8 @@ public class CodeMatchActivity extends AppCompatActivity {
         buttVerify = findViewById(R.id.button_verify);
         buttPreview = findViewById(R.id.button_preview);
         buttScan = findViewById(R.id.button_qrscan);
+        //linearColor
+        linearColor = findViewById(R.id.mainLinearColor);
 
 
         // Sample AdMob app ID: ca-app-pub-4368595636314473~7130779124
@@ -90,8 +97,7 @@ public class CodeMatchActivity extends AppCompatActivity {
         //buttPreview.setVisibility(View.VISIBLE);
 
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPrefs.getBoolean("enable_sound",false);
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         setSupportActionBar(tToolbar);
         ActionBar actionbar = getSupportActionBar();
@@ -126,7 +132,15 @@ public class CodeMatchActivity extends AppCompatActivity {
                 handleSendMultipleImages(intent); // Handle multiple images being sent
             }
         } else {
+            /*String characterLength = sharedPrefs.getString("character_length","1");
+            int finalCharLength = 6;
+            if (characterLength.equals("1")){
+                finalCharLength = 6;
+            } else if (characterLength.equals("2")){
+                finalCharLength = 7;
+            }*/
             // Handle other intents, such as being started from the home screen
+            //get data from realtime OCR
             if (extras != null) {
                 String value = extras.getString("CODE_RESULT");
                 textViewActCode
@@ -147,7 +161,6 @@ public class CodeMatchActivity extends AppCompatActivity {
         }
         //Tombol Verifikasi
         buttVerify.setOnClickListener(v -> {
-
             // String s1 = textViewActCode.getText().toString();
             String stringStdCode = editTextStdCode.getText().toString(); //hasil scan code yang di improve
             String stringActCode = editTextActCode.getText().toString(); //aktual pembanding kode hasil scan barcode/qrcode
@@ -159,8 +172,7 @@ public class CodeMatchActivity extends AppCompatActivity {
             final MediaPlayer soundWrong = MediaPlayer.create(this,R.raw.sound_wrong);
             Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             boolean sndSetting = sharedPrefs.getBoolean("enable_sound", false);
-
-
+            boolean backColorSetting = sharedPrefs.getBoolean("enable_back_color",false);
 
             if (stringActCode.equals("null")){
                 textViewResult.setText(getString(R.string.text_code_empty)); //ketika aktual kode kosong, maka "teks kosong"
@@ -178,6 +190,15 @@ public class CodeMatchActivity extends AppCompatActivity {
             } else if(stringStdCode.equals(stringActCode)) { //ketika  standard dan actual sama
                 textViewResult.setText(getString(R.string.text_code_right)); //tampilkan teks "kode benar"
                 textViewResult.setTextColor(Color.BLUE); //warna teks menjadi biru
+                if (!backColorSetting){
+                    editTextStdCode.setTextColor(Color.BLACK);
+                    editTextActCode.setTextColor(Color.BLACK);
+                    linearColor.setBackgroundColor(Color.WHITE);
+                } else {
+                    editTextStdCode.setTextColor(Color.WHITE);
+                    editTextActCode.setTextColor(Color.WHITE);
+                    linearColor.setBackgroundColor(Color.BLUE);
+                }
 
                 toastRight.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
                 toastRight.show();
@@ -194,6 +215,15 @@ public class CodeMatchActivity extends AppCompatActivity {
                 //ketika stringStdCode dan stringActCode tidak cocok
                 textViewResult.setText(getString(R.string.text_code_wrong)); //tampilkan teks "kode salah"
                 textViewResult.setTextColor(Color.RED); //warna teks menjadi merah
+                if (!backColorSetting){
+                    editTextStdCode.setTextColor(Color.BLACK);
+                    editTextActCode.setTextColor(Color.BLACK);
+                    linearColor.setBackgroundColor(Color.WHITE);
+                } else {
+                    editTextStdCode.setTextColor(Color.WHITE);
+                    editTextActCode.setTextColor(Color.WHITE);
+                    linearColor.setBackgroundColor(Color.RED);
+                }
                 toastWrong.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
                 toastWrong.show();
                 //sound from settings
@@ -222,13 +252,10 @@ public class CodeMatchActivity extends AppCompatActivity {
                     if (newStdString.equals(newActString)) {
                         Log.i(TAG, "True " + editTextActCode.getText().toString().substring(i,j) + "");
                         //editTextActCode.setText(editTextActCode.getText()+ editTextActCode.getText().toString().substring(i,j) + "");
-
-
                     } else{
-
                         //editTextActCode.setText(editTextActCode.getText()+editTextActCode.getText().toString().substring(i,j) + "");
                         //editTextActCode.setTextColor(Color.RED);
-//join string
+                        //join string
                         String delimiter = "";
                         StringBuilder result = new StringBuilder();
                         String prefix = "";
@@ -243,20 +270,15 @@ public class CodeMatchActivity extends AppCompatActivity {
                     }
                 }*/
 
-
-
-                        //setHighLightedText(editTextActCode, i,j, stringStdCode.substring(i,j));
-//Converting string to char array.
-
-
-                        //Showing char array on screen with Comma.
+                //setHighLightedText(editTextActCode, i,j, stringStdCode.substring(i,j));
+                //Converting string to char array.
+                //Showing char array on screen with Comma.
 
 
                 /*int stdLength = editTextStdCode.getText().toString().trim().length();
                 for (int i=0, j=1; i < stdLength; i++, j++){
 
                     //Toast toastDebug = Toast.makeText(getApplicationContext(),String.valueOf(stdLength), LENGTH_SHORT);
-
                     //toastDebug.show();
                     //Get value of Aktual code
                     String actCodeString = editTextActCode.getText().toString();
@@ -297,6 +319,7 @@ public class CodeMatchActivity extends AppCompatActivity {
                 vib.vibrate(100); //getar 100 millisecond
                 //no vibrate
             }
+
         });
 
 
@@ -331,6 +354,7 @@ public class CodeMatchActivity extends AppCompatActivity {
         };
         IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(receiver, filter);*/
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -375,15 +399,22 @@ public class CodeMatchActivity extends AppCompatActivity {
                 Intent(CodeMatchActivity.this,SettingsActivity.class);
         startActivity(settingsIntent);
     }
-
+    //get data from SMART Lens
     void handleSendText(Intent intent) {
+        String characterLength = sharedPrefs.getString("character_length","2");
+        int finalCharLength = 6;
+        if (characterLength.equals("1")){
+            finalCharLength = 6;
+        } else if (characterLength.equals("2")){
+            finalCharLength = 7;
+        }
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null) {
             // Update UI to reflect text being shared
             textViewActCode.setText(sharedText.trim());//aktual kode yang seharusnya tidak diimprove
             editTextActCode.setText(sharedText
                     .toUpperCase()
-                    .substring(0, sharedText.length() - 6)
+                    .substring(0, sharedText.length() - finalCharLength)
                     .replace(" ", ""));//aktual kode yang diimprove
 
             Toast.makeText(this, "Text recognized", LENGTH_SHORT).show();
@@ -569,33 +600,57 @@ public class CodeMatchActivity extends AppCompatActivity {
 
     private void qrScanner() {
 
+        String screenOrient = sharedPrefs.getString("screen_orientation","1");
         textViewResult.setText(getString(R.string.text_verify_result));
         textViewResult.setTextColor(Color.BLACK);
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setPrompt("Arahkan ke Barcode atau QR Code untuk SCAN");
-        //integrator.setOrientationLocked(false);
+        switch (screenOrient) {
+            case "1": //landscape
+                //integrator.setOrientationLocked(true);
+                //integrator.setCaptureActivity(AnyOrientationCaptureActivity.class);
+                Toast.makeText(getApplicationContext(), "locked Default", LENGTH_SHORT).show();
+                break;
+            case "2": //portrait
+                integrator.setCaptureActivity(PortraitOrientationCaptureActivity.class);
+                integrator.setOrientationLocked(false);
+                Toast.makeText(getApplicationContext(), "locked False", LENGTH_SHORT).show();
+                break;
+            case "3": //fullsensor
+                Toast.makeText(getApplicationContext(), "locked Default", LENGTH_SHORT).show();
+                integrator.setCaptureActivity(AnyOrientationCaptureActivity.class);
+                break;
+        }
         integrator.initiateScan(); // `this` is the current Activity
     }
 
     // Get the results:
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        String characterLength = sharedPrefs.getString("character_length","1");
+        int finalCharLength = 6;
+        if (characterLength.equals("1")){
+            finalCharLength = 6;
+        } else if (characterLength.equals("2")){
+            finalCharLength = 7;
+        }
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null) {
             if(result.getContents() == null) {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                editTextNoBo.setText(result.getContents().toUpperCase().substring(result.getContents().lastIndexOf("/")+1));
-                boNumb = String.valueOf(editTextNoBo.getText());
-                int length = 6 + editTextNoBo.length();
-                editTextStdCode.setText(result
-                        .getContents()
-                        .toUpperCase()
-                        .substring(0, result.getContents().length() - length)
-                        .replace("/", "\n")
-                        .replace(" ", "")
-                        .trim());
-                //test chars
+                try {
+                    editTextNoBo.setText(result.getContents().toUpperCase().substring(result.getContents().lastIndexOf("/")+1));
+                    boNumb = String.valueOf(editTextNoBo.getText());
+                    int length = finalCharLength + editTextNoBo.length();
+                    editTextStdCode.setText(result
+                            .getContents()
+                            .toUpperCase()
+                            .substring(0, result.getContents().length() - length)
+                            .replace("/", "\n")
+                            .replace(" ", "")
+                            .trim());
+                    //test chars
                 /*char charStd1 = substringResult.charAt(0);
                 char charStd2 = substringResult.charAt(1);
                 char charStd3 = substringResult.charAt(2);
@@ -604,7 +659,12 @@ public class CodeMatchActivity extends AppCompatActivity {
                     editTextStdCode.setText(String.join("",String.valueOf(charStd1),String.valueOf(charStd2),String.valueOf(charStd3)));
                 }*/
 
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Toast.makeText(this, "QR Verifikasi Kode tidak terdeteksi", LENGTH_SHORT).show();
+
+                }
+
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

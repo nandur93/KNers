@@ -1,13 +1,14 @@
 apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
-    buildToolsVersion '29.0.1'
+    buildToolsVersion '29.0.2'
     defaultConfig {
         applicationId "com.ndu.sanghiang.kners"
         minSdkVersion 16 //JB
         targetSdkVersion 28 //Pie
-        versionCode 7 //Naikkan 1 angka jika mau revisi dan upload ke playstore
-        versionName '1.9.4' //Naikkan bebas dan kode ini yang ditunjukkan ke User
+        versionCode 9 //Naikkan 1 angka jika mau revisi dan upload ke playstore
+        versionName '2.0.0c' //Naikkan bebas dan kode ini yang ditunjukkan ke User
+        //Versi HARUS ditulis dalam bentuk X.Y.Z, dengan X, Y, Z bilangan bulat positif, dan TIDAK BOLEH didahului angka 0 (contoh 01.02.03). X adalah versi MAJOR, Y adalah minor, dan Z adalah patch.
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         maxSdkVersion 29 //Q
@@ -56,7 +57,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta01'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta02'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0-rc01'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -85,10 +86,11 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.leinardi.android:speed-dial:3.0.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.annotation:annotation:1.1.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha02'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha03'
     androidTestImplementation('androidx.test.espresso:espresso-core:3.3.0-alpha02', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
