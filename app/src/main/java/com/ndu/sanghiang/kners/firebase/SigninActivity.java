@@ -87,8 +87,8 @@ public class SigninActivity extends AppCompatActivity implements ConnectivityRec
 
         // Checking the email id and password is Empty
         buttonSignIn.setOnClickListener(v -> {
-            String email = inputEmail.getText().toString();
-            final String password = inputPassword.getText().toString();
+            String email = Objects.requireNonNull(inputEmail.getText()).toString();
+            final String password = Objects.requireNonNull(inputPassword.getText()).toString();
             if (TextUtils.isEmpty(email)) {
                 inputEmail.setError("Please enter email id");
                 //Toast.makeText(getApplicationContext(), "Please enter email id", Toast.LENGTH_SHORT).show();
@@ -132,8 +132,6 @@ public class SigninActivity extends AppCompatActivity implements ConnectivityRec
         checkConnection();
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-
-
     }
 
     @Override
@@ -156,6 +154,7 @@ public class SigninActivity extends AppCompatActivity implements ConnectivityRec
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
+                Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT).show();
                 // ...
             }
         }
@@ -171,7 +170,7 @@ public class SigninActivity extends AppCompatActivity implements ConnectivityRec
                         FirebaseUser user = mAuth.getCurrentUser();
                         //updateUI(user);
                         if (user != null) {
-                            for (UserInfo userInfo: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
+                            for (UserInfo userInfo: Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getProviderData()) {
                                 if (userInfo.getProviderId().equals("password")) {
                                     Toast.makeText(SigninActivity.this, "Welcome KNers", Toast.LENGTH_SHORT).show();
                                 }

@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 28
-    buildToolsVersion '29.0.1'
+    compileSdkVersion 30
+    buildToolsVersion '29.0.3'
     defaultConfig {
         applicationId "com.ndu.sanghiang.kners"
-        minSdkVersion 16 //JB
-        targetSdkVersion 28 //Pie
+        minSdkVersion 24 //NG
+        targetSdkVersion 30 //Q
         versionCode 7 //Naikkan 1 angka jika mau revisi dan upload ke playstore
         versionName '1.9.4' //Naikkan bebas dan kode ini yang ditunjukkan ke User
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -26,6 +26,25 @@ android {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
+
+    signingConfigs {
+        /*
+        debug {
+            storeFile file('../debug.keystore')
+        }
+        */
+
+        /*
+        for release:
+        release {
+            storeFile file('release.keystore')
+            storePassword "password"
+            keyAlias "alias"
+            keyPassword "alias_password"
+        }
+        */
+    }
+
 }
 buildscript {
     repositories {
@@ -36,7 +55,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:4.0.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -53,30 +72,31 @@ dependencies {
     implementation 'com.baoyz.pullrefreshlayout:library:1.2.0'
     implementation 'com.github.medyo:android-about-page:1.2.5'
     //noinspection GradleCompatible
-    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
+    implementation 'androidx.appcompat:appcompat:1.3.0-alpha01'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta01'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta8'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha04'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.vectordrawable:vectordrawable:1.1.0-rc01'
+    implementation 'androidx.vectordrawable:vectordrawable:1.2.0-alpha01'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.vectordrawable:vectordrawable:1.1.0-rc01'
-    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0-beta01'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
-    implementation 'com.google.android.material:material:1.1.0-alpha09'
-    implementation 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
+    implementation 'androidx.vectordrawable:vectordrawable:1.2.0-alpha01'
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'com.google.android.material:material:1.3.0-alpha01'
+    implementation 'com.journeyapps:zxing-android-embedded:4.1.0@aar'
     implementation 'com.google.zxing:core:3.4.0'
-    implementation 'com.google.android.gms:play-services-vision:18.0.0'
-    implementation 'com.google.android.gms:play-services-ads:18.1.1'
-    implementation 'androidx.browser:browser:1.0.0'
-    implementation 'com.google.android.material:material:1.1.0-alpha09'
+    implementation 'com.google.android.gms:play-services-vision:20.1.0'
+    implementation 'com.google.android.gms:play-services-ads:19.2.0'
+    implementation 'androidx.browser:browser:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0-alpha01'
     //firebase
-    implementation 'com.google.firebase:firebase-core:17.0.1'
-    implementation 'com.google.firebase:firebase-messaging:19.0.1'
+    implementation 'com.google.firebase:firebase-core:17.4.4'
+    implementation 'com.google.firebase:firebase-messaging:20.2.3'
     implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
-    implementation 'com.google.firebase:firebase-database:18.0.1'
-    implementation 'com.google.firebase:firebase-storage:18.1.1'
-    implementation 'com.google.firebase:firebase-auth:18.1.0'
+    implementation 'com.google.firebase:firebase-database:19.3.1'
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation 'com.google.firebase:firebase-auth:19.3.2'
+    implementation 'com.google.firebase:firebase-analytics:17.4.4'
     //others libs
     implementation 'com.takisoft.fix:preference-v7:28.0.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
@@ -88,11 +108,11 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.annotation:annotation:1.1.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha02'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     androidTestImplementation('androidx.test.espresso:espresso-core:3.3.0-alpha02', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testImplementation 'junit:junit:4.13-beta-3'
+    testImplementation 'junit:junit:4.13'
 }
 
 apply plugin: 'com.google.gms.google-services'
