@@ -8,8 +8,9 @@ public class Image {
     String created;
     float percent;
     String pid;
+    String desc;
 
-    public Image(int image, String progress, String name, String status, String created, float percent, String pid) {
+    public Image(int image, String progress, String name, String status, String created, float percent, String pid, String desc) {
         this.image = image;
         this.progress = progress;
         this.name = name;
@@ -17,6 +18,7 @@ public class Image {
         this.created = created;
         this.percent = percent;
         this.pid = pid;
+        this.desc = desc;
     }
 
     public int getImage() {
@@ -27,7 +29,7 @@ public class Image {
         return progress;
     }
 
-    public String getName() {
+    public String getTitle() {
         return name;
     }
 
@@ -45,5 +47,9 @@ public class Image {
 
     public  String getPid() {
         return pid;
+    }
+
+    public  String getDesc() {
+        return desc;
     }
 }

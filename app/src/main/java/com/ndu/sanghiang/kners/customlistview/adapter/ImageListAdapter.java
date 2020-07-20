@@ -82,7 +82,7 @@ public class ImageListAdapter extends ArrayAdapter<Image> {
 
         /*listItem.setOnLongClickListener(view1 -> {
             DatabaseReference projectRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("projects");
-            Query queryRef = projectRef.orderByChild("project_title").equalTo(image.getName());
+            Query queryRef = projectRef.orderByChild("project_title").equalTo(image.getTitle());
             queryRef.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String previousChild) {
@@ -113,7 +113,7 @@ public class ImageListAdapter extends ArrayAdapter<Image> {
         });*/
 
         listImage.setImageDrawable(mContext.getResources().getDrawable(image.getImage()));
-        listImageName.setText(image.getName());
+        listImageName.setText(image.getTitle());
         listStatus.setText(image.getStatus());
         listCreated.setText(image.getCreated());
         listPercentage.setText(String.format("%s%%", image.getPercent()));

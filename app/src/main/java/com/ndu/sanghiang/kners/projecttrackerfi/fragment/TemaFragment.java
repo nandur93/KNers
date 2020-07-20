@@ -6,14 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,80 +23,61 @@ import com.ndu.sanghiang.kners.R;
 
 import java.util.Objects;
 
-import static com.ndu.sanghiang.kners.DashboardProjectActivity.PID;
-import static com.ndu.sanghiang.kners.DashboardProjectActivity.PROJECT_DESC;
-import static com.ndu.sanghiang.kners.DashboardProjectActivity.PROJECT_PROGRESS;
-import static com.ndu.sanghiang.kners.DashboardProjectActivity.PROJECT_STATUS;
-import static com.ndu.sanghiang.kners.DashboardProjectActivity.PROJECT_TITLE;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.PID;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.PROJECTS;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.PROJECT_DESC;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.PROJECT_TITLE;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.USERS;
 
-public class TemaFragment extends Fragment implements View.OnClickListener {
+public class TemaFragment extends Fragment {
 
-    private TextInputEditText inputEditTextJudulTema;
-    private TextInputEditText inputEditTextDescTema;
-    private DatabaseReference projectRef;
-    private String inputTitle, inputDesc;
-    private SharedPreferences sharedPrefs;
-    private String TAG;
+    public static TextInputEditText inputEditTextJudulTema;
+    public static TextInputEditText inputEditTextDescTema;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tema, container, false);
-        Button buttonSubmit = view.findViewById(R.id.button_submit_tema);
+        // Init edittext
         inputEditTextJudulTema = view.findViewById(R.id.editTextTema);
         inputEditTextDescTema = view.findViewById(R.id.editTextDescTema);
-        buttonSubmit.setOnClickListener(this);
-        TAG = "Nandur93";
-        // Firebase
+        //Initial Firebase
         FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         String userId = Objects.requireNonNull(mCurrentUser).getUid();
-        projectRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("projects");
+        DatabaseReference projectRef = FirebaseDatabase.getInstance().getReference().child(USERS).child(userId).child(PROJECTS);
+        String TAG = "Nandur93";
+
         // Load data from selected database
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String finalJudul = sharedPrefs.getString(PROJECT_TITLE, "");
-        String finalDesk = sharedPrefs.getString(PROJECT_DESC, "");
-        Log.i(TAG, finalJudul+" "+finalDesk+" xyzzzzzzzz");
-        if (finalJudul != null) {
-            inputEditTextJudulTema.setText(finalJudul);
-        } else {
-            inputEditTextJudulTema.setText("");
-        }
-        if (finalDesk != null) {
-            inputEditTextDescTema.setText(finalDesk);
-        } else {
-            inputEditTextDescTema.setText("");
-        }
-
-        return view;
-    }
-    @Override
-    public void onClick(View v) {
-        inputTitle = inputEditTextJudulTema.getText().toString().trim();
-        inputDesc = inputEditTextDescTema.getText().toString();
-        if (!inputTitle.equals("")) {
-            Toast.makeText(getActivity(), inputEditTextJudulTema.getText().toString(),Toast.LENGTH_SHORT).show();
-            updateFirebaseStep1();
-            goToNextStep();
-        } else {
-            Toast.makeText(getActivity(),"Masukkan judul",Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    private void updateFirebaseStep1() {
-        String finalPid = sharedPrefs.getString(PID, ""); //Get current pid from sharedPref
-
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        //Dapatkan dan simpan data pid dari sharedpref
+        String finalPid = sharedPrefs.getString(PID, ""); //contoh: -LkPHHo260u0OUK6nRZ5
+        //String finalJudul = sharedPrefs.getString(PROJECT_TITLE, "");
+        //String finalDesk = sharedPrefs.getString(PROJECT_DESC, "");
+        //Log.i(TAG, finalJudul+" "+finalDesk+" Tema Fragment");
         projectRef.child(finalPid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    Toast.makeText(getActivity(), finalPid+" exist ", Toast.LENGTH_SHORT).show();
-                    Log.i(TAG, finalPid+" exist ");
+                if (dataSnapshot.exists()) {
+                    Log.i(TAG, finalPid + " exist ");
+                    //jika -LkPHHo260u0OUK6nRZ5 ada
                     //update meta
-                    projectRef.child(finalPid).child(PROJECT_STATUS).setValue("In Progress");
-                    projectRef.child(finalPid).child(PROJECT_PROGRESS).setValue(13);
+                    //String projectStatusStr = dataSnapshot.child(finalPid).child(PROJECT_STATUS).getValue().toString();
+                    //String projectProgressStr = dataSnapshot.child(finalPid).child(PROJECT_PROGRESS).getValue().toString();
                     //update step 1
-                    projectRef.child(finalPid).child(PROJECT_TITLE).setValue(inputTitle);
-                    projectRef.child(finalPid).child(PROJECT_DESC).setValue(inputDesc);
+                    String projectTitleStr = dataSnapshot.child(PROJECT_TITLE).getValue().toString();
+                    String projectDescStr = dataSnapshot.child(PROJECT_DESC).getValue().toString();
+                    //data berhasil di update ke database
+                    //Check for null value
+                    if (projectTitleStr != null) {
+                        inputEditTextJudulTema.setText(projectTitleStr);
+                    } else {
+                        inputEditTextJudulTema.setText("");
+                    }
+                    if (projectDescStr != null) {
+                        inputEditTextDescTema.setText(projectDescStr);
+                    } else {
+                        inputEditTextDescTema.setText("");
+                    }
                 }
             }
 
@@ -108,10 +86,6 @@ public class TemaFragment extends Fragment implements View.OnClickListener {
 
             }
         });
-    }
-
-    private void goToNextStep() {
-        TabLayout tabhost = getActivity().findViewById(R.id.tabs);
-        tabhost.getTabAt(1).select();
+        return view;
     }
 }

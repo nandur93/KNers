@@ -52,7 +52,7 @@
             android:hint="@string/hint_no_bo"
             android:inputType="number"
             android:focusable="false"
-            android:maxLength="6"
+            android:maxLength="10"
             android:maxLines="1"
             android:lines="1"
             android:importantForAutofill="no"
@@ -67,6 +67,7 @@
             android:fillViewport="true">
 
             <LinearLayout
+                android:id="@+id/mainLinearColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -112,9 +113,21 @@
                 <Button
                     android:id="@+id/button_qrscan"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="10dip"
+                    android:background="@color/colorPrimaryDark"
                     android:text="@string/button_scan"
-                    android:layout_gravity="center"/>
+                    android:textColor="@android:color/white"
+                    android:drawableStart="@drawable/ic_camera_enhance_white_24dp"
+                    android:drawableLeft="@drawable/ic_camera_enhance_white_24dp"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:elevation="2dp"
+                    tools:targetApi="lollipop"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -147,7 +160,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:paddingBottom="5dp"
+            android:paddingBottom="15dp"
             android:paddingTop="5dp"
             android:text="@string/text_verify_result"
             android:textSize="25sp"
@@ -158,17 +171,43 @@
         android:orientation="horizontal">
         <Button
             android:id="@+id/button_verify"
-            android:layout_width="wrap_content"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/button_verify"/>
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dip"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/button_verify"
+            android:textColor="@android:color/white"
+            android:drawableStart="@drawable/ic_spellcheck_white_24dp"
+            android:drawableLeft="@drawable/ic_spellcheck_white_24dp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:elevation="2dp"
+            tools:targetApi="lollipop"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/button_preview"
             android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/button_preview"/>
+            android:layout_height="48dp"
+            android:layout_marginTop="10dip"
+            android:text="@string/button_preview"
+            android:background="@color/colorPrimary"
+            android:drawableStart="@drawable/ic_navigate_next_black_24dp"
+            android:drawableLeft="@drawable/ic_navigate_next_black_24dp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:elevation="2dp"
+            tools:targetApi="lollipop"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            tools:ignore="ButtonStyle" />
     </LinearLayout>
 
 

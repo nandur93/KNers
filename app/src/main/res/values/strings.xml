@@ -27,7 +27,7 @@
     <string name="button_code_match_inspection">Code Match Inspection</string>
     <string name="button_kner_browser">KNer Browser</string>
     <string name="button_history">History</string>
-    <string name="button_ocr_activity">OCR Google Vision</string>
+    <string name="button_ocr_activity">Realtime OCR</string>
     <string name="button_produk_knowledge">Products Knowledge (In Depelopment)</string>
     <string name="button_preview">Preview</string>
     <string name="button_signup">Sign Up</string>
@@ -141,7 +141,7 @@
     <string name="department_list">Department</string>
     <string name="update_profile" translatable="false">Update Profile</string>
     <string name="share_via" translatable="false">Share via</string>
-    <string name="share_body">Hallo KNers, please download latest version of KNers App here https://bit.ly/KNersApp1_9_4</string>
+    <string name="share_body">Hallo KNers, please download latest version of KNers App here https://bit.ly/KNersApp2-0-0b</string>
     <string name="copy_link" translatable="false">Copy link</string>
     <string name="grid_menu" translatable="false">Grid Menu</string>
     <string name="dashboard_title" translatable="false">Dashboard</string>
@@ -155,5 +155,11 @@
     <string name="target_deskripsi" translatable="false">Deskripsi Target (Opsional)</string>
     <string name="no_connection" translatable="false">You are offline!</string>
     <string name="project_title">New Project Name</string>
+    <string name="static_shortcut_disabled_message_codematch" translatable="false">Shortcut ocr is disabled</string>
+    <string name="shortcut_long_label_codematch" translatable="false">Launch OCR Camera</string>
+    <string name="shortcut_short_label_codematch" translatable="false">OCR Camera</string>
+    <string name="static_shortcut_disabled_message_unmount" translatable="false">Shortcut storage is disabled</string>
+    <string name="shortcut_long_label_unmount" translatable="false">Unmount external storages</string>
+    <string name="shortcut_short_label_unmount" translatable="false">Unmount OTG</string>
 
 </resources>

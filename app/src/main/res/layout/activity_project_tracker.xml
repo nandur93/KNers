@@ -31,6 +31,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
+
+
+
     <TextView
         android:id="@+id/pid_text"
         android:layout_width="wrap_content"
@@ -64,4 +67,22 @@
         android:minWidth="200dp"
         android:minHeight="50dp"
         android:progress="13" />
+
+    <!-- FAB -->
+    <com.leinardi.android.speeddial.SpeedDialOverlayLayout
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.leinardi.android.speeddial.SpeedDialView
+        android:id="@+id/speedDialFabTracker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:sdMainFabAnimationRotateAngle="90"
+        app:sdUseReverseAnimationOnClose="true"
+        app:sdMainFabOpenedSrc="@drawable/ic_clear_white_24dp"
+        app:sdMainFabClosedSrc="@drawable/ic_mode_edit_white_24dp"
+        app:sdOverlayLayout="@id/overlay"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

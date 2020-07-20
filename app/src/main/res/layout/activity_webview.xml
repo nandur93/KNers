@@ -32,6 +32,7 @@
         </androidx.appcompat.widget.Toolbar>
 
 
+    </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout
             android:id="@+id/frameLayout"
@@ -53,7 +54,6 @@
                 android:indeterminate="true"/>
 
         </FrameLayout>
-    </com.google.android.material.appbar.AppBarLayout>
     <!--Swipe to refresh layout-->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
