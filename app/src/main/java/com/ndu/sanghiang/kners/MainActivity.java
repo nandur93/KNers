@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         TAG = "Nandur93";
@@ -193,8 +192,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         buttonProfile.setVisibility(View.GONE); //dev */
 
         //qa menu hanya menampilkan menu qa
-        /*/ hide
-        buttonProdukKnowledge.setVisibility(View.GONE); //dev
+        // hide
+/*        buttonProdukKnowledge.setVisibility(View.GONE); //dev
         buttonBrowser.setVisibility(View.GONE); //dev
         //buttonCodeMatch.setOnClickListener(v -> goToCodematch()); //qa
         buttonHistory.setVisibility(View.GONE); //dev
@@ -327,6 +326,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+
 
     private void saveToken() {
         if (tokenRef.child("token").getKey() != null) {
@@ -625,12 +625,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             closeDrawer();
             handler.postDelayed(this::goToProfile, 250);
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_tools) {
-
         } else if (id == R.id.nav_share) {
             closeDrawer();
             handler.postDelayed(this::shareApp, 250);

@@ -14,6 +14,7 @@
         android:layout_weight="1"
         android:fillViewport="true"
         tools:ignore="UselessParent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,14 +24,13 @@
             android:layout_marginTop="10dip"
             android:layout_marginStart="10dip"
             android:layout_marginEnd="10dip">
-            <TextView
-                android:id="@+id/textViewTarget"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/menentukan_target"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginTop="10dip"/>
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:id="@+id/barchart_target">
+
+            </com.github.mikephil.charting.charts.BarChart>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -45,6 +45,7 @@
                     android:layout_gravity="center"
                     android:gravity="start"
                     android:singleLine="true"
+                    android:focusable="false"
                     android:inputType="textCapWords"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -74,6 +75,7 @@
                             android:layout_gravity="center"
                             android:gravity="start"
                             android:inputType="number"
+                            android:focusable="false"
                             android:text="2019"/>
                     </com.google.android.material.textfield.TextInputLayout>
                     <com.google.android.material.textfield.TextInputLayout
@@ -90,7 +92,8 @@
                             android:layout_gravity="center"
                             android:gravity="start"
                             android:inputType="number"
-                            android:text="0"/>
+                            android:focusable="false"
+                            android:text="30"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
                 <LinearLayout
@@ -114,6 +117,7 @@
                             android:layout_gravity="center"
                             android:gravity="start"
                             android:inputType="number"
+                            android:focusable="false"
                             android:text="2020"/>
                     </com.google.android.material.textfield.TextInputLayout>
                     <com.google.android.material.textfield.TextInputLayout
@@ -130,29 +134,15 @@
                             android:layout_gravity="center"
                             android:gravity="start"
                             android:inputType="number"
-                            android:text="10"/>
+                            android:focusable="false"
+                            android:text="25"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </LinearLayout>
 
-            <com.github.mikephil.charting.charts.BarChart
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:id="@+id/barchart_target">
-
-            </com.github.mikephil.charting.charts.BarChart>
-
-            <Button
-                android:id="@+id/button_submit_target"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/button_submit"
-                android:paddingTop="10dip"
-                android:layout_gravity="end"
-                android:textAllCaps="true"
-                android:textAlignment="center"
-                android:elevation="2dp"
-                tools:targetApi="lollipop" />
+                android:layout_height="45dp"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -99,28 +99,13 @@
                 android:drawSelectorOnTop="false">
             </ListView>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0">
-
-            <Button
-                style="?attr/buttonBarButtonStyle"
-                android:id="@+id/buttonEditProject"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="@string/edit_poject_fi"
-                tools:ignore="NestedWeights" />
-
-            <Button
-                style="?attr/buttonBarButtonStyle"
-                android:id="@+id/buttonNewProject"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="@string/new_project_fi" />
-        </LinearLayout>
     </LinearLayout>
+
+    <!-- FAB -->
+    <com.leinardi.android.speeddial.SpeedDialView
+        android:id="@+id/speedDialFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:sdMainFabClosedSrc="@drawable/ic_add_white_24dp" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -2,11 +2,13 @@ package com.ndu.sanghiang.kners;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.provider.Settings;
@@ -15,6 +17,7 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.github.javiersantos.appupdater.enums.Display;
@@ -27,6 +30,7 @@ public class SettingsActivity extends PreferenceActivity {
     private static final String APP_PKG_NAME_22 = "pkg";
     private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
     private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
+    private SharedPreferences sharedPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class SettingsActivity extends PreferenceActivity {
         );
 
         //update value
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         Preference prefCheckForUpdates = findPreference("prefCheckForUpdates");
         Preference prefSendFeedback = findPreference("prefSendFeedback");
@@ -79,7 +84,27 @@ public class SettingsActivity extends PreferenceActivity {
             Log.d("MyApp", "PackageManager Catch : " + e.toString());
         }
 
+        ListPreference list = (ListPreference) getPreferenceManager().findPreference("screen_orientation");
+        list.setValue(sharedPrefs.getString("screen_orientation", "1"));
+        list.setOnPreferenceChangeListener((preference, newValue) -> {
+            SharedPreferences.Editor editor = sharedPrefs.edit();
+            editor.putString("screen_orientation", newValue.toString());
+            editor.apply();
+            return true;
+        });
+
+        ListPreference listCharacter = (ListPreference) getPreferenceManager().findPreference("character_length");
+        listCharacter.setValue(sharedPrefs.getString("character_length", "2"));
+        listCharacter.setOnPreferenceChangeListener((preference, newValue) -> {
+            SharedPreferences.Editor editor = sharedPrefs.edit();
+            editor.putString("character_length", newValue.toString());
+            editor.apply();
+            return true;
+        });
+
     }
+
+
 
     private static void showInstalledAppDetails(Context context, String packageName) {
         Intent intent = new Intent();

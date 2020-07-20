@@ -54,9 +54,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 1">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/material_why1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -68,9 +69,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 2">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/material_why2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -82,9 +84,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 3">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/material_why3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -96,9 +99,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 4">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/material_why4"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -110,9 +114,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 5">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/material_why5"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -152,9 +157,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 1">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/machine_why1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -166,9 +172,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 2">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/machine_why2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -180,9 +187,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 3">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/machine_why3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -194,9 +202,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 4">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/machine_why4"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -208,9 +217,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 5">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/machine_why5"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -250,9 +260,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 1">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/method_why1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -264,9 +275,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 2">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/method_why2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -278,9 +290,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 3">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/method_why3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -292,9 +305,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 4">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/method_why4"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -306,9 +320,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 5">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/method_why5"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -348,9 +363,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 1">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/man_why1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -362,9 +378,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 2">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/man_why2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -376,9 +393,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 3">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/man_why3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -390,9 +408,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 4">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/man_why4"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -404,9 +423,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 5">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/man_why5"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -446,9 +466,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 1">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/environment_why1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -460,9 +481,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 2">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/environment_why2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -474,9 +496,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 3">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/environment_why3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -488,9 +511,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 4">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/environment_why4"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -502,9 +526,10 @@
                             android:layout_height="wrap_content"
                             android:hint="WHY 5">
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/environment_why5"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -512,18 +537,17 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:text="@string/button_submit"
-                android:layout_gravity="end"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="45dp"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorError"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:background="@color/colorPrimary"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

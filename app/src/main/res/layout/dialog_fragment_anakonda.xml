@@ -49,7 +49,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Material WSBH">
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edittext_material_wsbh"
+                                android:id="@+id/dialog_edittext_material_wsbh"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapSentences|textMultiLine"/>
@@ -61,34 +61,12 @@
                             android:layout_height="wrap_content"
                             android:hint="Material WAH">
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edittext_material_wah"
+                                android:id="@+id/dialog_edittext_material_wah"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="0">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Material Status"/>
-
-                        <TextView
-                            android:id="@+id/textview_status_material"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_gravity="center"
-                            android:textAlignment="center"
-                            android:gravity="center"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
-                            android:text="Klik"
-                            android:layout_weight="1"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -128,7 +106,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Machine WSBH">
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edittext_machine_wsbh"
+                                android:id="@+id/dialog_edittext_machine_wsbh"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapSentences|textMultiLine"/>
@@ -140,34 +118,12 @@
                             android:layout_height="wrap_content"
                             android:hint="Machine WAH">
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edittext_machine_wah"
+                                android:id="@+id/dialog_edittext_machine_wah"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="0">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Machine Status"/>
-
-                        <TextView
-                            android:id="@+id/textview_status_machine"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_gravity="center"
-                            android:textAlignment="center"
-                            android:gravity="center"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
-                            android:text="Klik"
-                            android:layout_weight="1"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -207,7 +163,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Method WSBH">
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edittext_method_wsbh"
+                                android:id="@+id/dialog_edittext_method_wsbh"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapSentences|textMultiLine"/>
@@ -219,34 +175,12 @@
                             android:layout_height="wrap_content"
                             android:hint="Method WAH">
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edittext_method_wah"
+                                android:id="@+id/dialog_edittext_method_wah"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="0">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Method Status"/>
-
-                        <TextView
-                            android:id="@+id/textview_status_method"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_gravity="center"
-                            android:textAlignment="center"
-                            android:gravity="center"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
-                            android:text="Klik"
-                            android:layout_weight="1"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -286,7 +220,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Man WSBH">
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edittext_man_wsbh"
+                                android:id="@+id/dialog_edittext_man_wsbh"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapSentences|textMultiLine"/>
@@ -298,34 +232,12 @@
                             android:layout_height="wrap_content"
                             android:hint="Man WAH">
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edittext_man_wah"
+                                android:id="@+id/dialog_edittext_man_wah"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="0">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Man Status"/>
-
-                        <TextView
-                            android:id="@+id/textview_status_man"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_gravity="center"
-                            android:textAlignment="center"
-                            android:gravity="center"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
-                            android:text="Klik"
-                            android:layout_weight="1"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -365,7 +277,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Environment WSBH">
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edittext_environment_wsbh"
+                                android:id="@+id/dialog_edittext_environment_wsbh"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapSentences|textMultiLine"/>
@@ -377,49 +289,14 @@
                             android:layout_height="wrap_content"
                             android:hint="Environment WAH">
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edittext_environment_wah"
+                                android:id="@+id/dialog_edittext_environment_wah"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="0">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Environment Status"/>
-
-                        <TextView
-                            android:id="@+id/textview_status_environment"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_gravity="center"
-                            android:textAlignment="center"
-                            android:gravity="center"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
-                            android:text="Klik"
-                            android:layout_weight="1"/>
-                    </LinearLayout>
-
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorError"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:background="@color/colorPrimary"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

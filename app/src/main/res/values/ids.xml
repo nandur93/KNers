@@ -1,3 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <item name="fab_tema" type="id" />
+    <item name="fab_target" type="id" />
+    <item name="fab_anakonda" type="id" />
+    <item name="fab_anaseba" type="id" />
+    <item name="fab_rencana" type="id" />
+    <item name="fab_penanggulangan" type="id" />
+    <item name="fab_evaluasi" type="id" />
+    <item name="fab_standarisasi" type="id" />
+    <item name="fab_next" type="id" />
 </resources>

@@ -70,7 +70,8 @@ public class WebViewActivity extends AppCompatActivity {
         webView.clearHistory();
         //Url yang mau di load
         String offLineAddress = "file:///android_asset/HTML/DIABETASOL.html";
-        webView.loadUrl(offLineAddress);
+        String msPortal = "https://bit.ly/MSPORTAL";
+        webView.loadUrl(msPortal);
 
 
         registerForContextMenu(webView);

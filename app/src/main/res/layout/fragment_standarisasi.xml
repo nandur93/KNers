@@ -37,28 +37,31 @@
                     android:layout_weight="1"
                     android:paddingLeft="10dip"
                     android:paddingRight="10dip"
-                    android:baselineAligned="false"><LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="0">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Standarisasi Status"/>
+                    android:baselineAligned="false">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_gravity="center"
-                        android:textAlignment="center"
-                        android:gravity="center"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:text="NOK"
-                        android:layout_weight="1"
-                        tools:ignore="NestedWeights" />
-                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dip"
+                        android:orientation="vertical"
+                        android:layout_weight="0">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Standarisasi Status"/>
+
+                        <TextView
+                            android:id="@+id/standarisasi_status"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_gravity="center"
+                            android:textAlignment="center"
+                            android:gravity="center"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:text="NOK"
+                            android:layout_weight="1"
+                            tools:ignore="NestedWeights" />
+                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -71,7 +74,7 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapSentences"/>
+                                android:inputType="textCapSentences|textMultiLine"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
@@ -88,15 +91,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorError"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:text="@string/button_submit"
-                android:layout_gravity="end"/>
-
             <View
                 android:layout_width="match_parent"
-                android:layout_height="45dp"/>
+                android:layout_height="25dp"
+                android:background="@color/colorPrimary"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
         </LinearLayout>
     </ScrollView>
 
