@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- support beberapa ukuran layar -->
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -40,24 +41,38 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".smartqap.inline.EformLineActivity" />
+
+        <activity
+            android:name=".smartqap.inline.EformProcessActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:label="@string/title_eform_qc_process"
+            android:parentActivityName=".smartqap.inline.QcInlineActivity"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".smartqap.inline.QcInlineActivity" />
+        </activity>
+        <activity android:name=".SmartQapActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity
             android:name=".qrscanner.AnyOrientationCaptureActivity"
             android:screenOrientation="fullSensor"
-            tools:replace="screenOrientation"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-
+            android:windowSoftInputMode="stateAlwaysHidden"
+            tools:replace="screenOrientation" />
         <activity
             android:name=".qrscanner.PortraitOrientationCaptureActivity"
             android:screenOrientation="portrait"
-            tools:replace="screenOrientation"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-
-        <activity android:name=".customlistview.ui.Main2Activity">
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            tools:replace="screenOrientation" />
+        <activity android:name=".customlistview.ui.Main2Activity" />
         <activity
             android:name=".ProfileActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
@@ -99,7 +114,6 @@
             android:name=".MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".SettingsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
@@ -196,13 +210,15 @@
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-<!--            <meta-data
+            <!--
+                <meta-data
                 android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />-->
+                android:resource="@xml/shortcuts" />
+            -->
         </activity> <!-- Akhir dari splashScreen -->
-
         <activity
             android:name=".ocr.OcrCaptureActivity"
             android:label="Read Text" />
@@ -226,8 +242,8 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".indevelopment.NewItemActivity"
-            android:label="@string/title_new_item"
+            android:name=".smartqap.inline.QcInlineActivity"
+            android:label="@string/title_qc_inline"
             android:parentActivityName=".indevelopment.GridMenuActivity"
             tools:targetApi="jelly_bean">
             <meta-data
@@ -268,7 +284,6 @@
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".indevelopment.HistoryActivity" />
-
 
         <provider
             android:name="androidx.core.content.FileProvider"

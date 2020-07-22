@@ -64,19 +64,24 @@ public class TemaFragment extends Fragment {
                     //String projectStatusStr = dataSnapshot.child(finalPid).child(PROJECT_STATUS).getValue().toString();
                     //String projectProgressStr = dataSnapshot.child(finalPid).child(PROJECT_PROGRESS).getValue().toString();
                     //update step 1
-                    String projectTitleStr = dataSnapshot.child(PROJECT_TITLE).getValue().toString();
-                    String projectDescStr = dataSnapshot.child(PROJECT_DESC).getValue().toString();
-                    //data berhasil di update ke database
-                    //Check for null value
-                    if (projectTitleStr != null) {
-                        inputEditTextJudulTema.setText(projectTitleStr);
-                    } else {
-                        inputEditTextJudulTema.setText("");
-                    }
-                    if (projectDescStr != null) {
-                        inputEditTextDescTema.setText(projectDescStr);
-                    } else {
-                        inputEditTextDescTema.setText("");
+                    try {
+
+                        String projectTitleStr = Objects.requireNonNull(dataSnapshot.child(PROJECT_TITLE).getValue()).toString();
+                        String projectDescStr = Objects.requireNonNull(dataSnapshot.child(PROJECT_DESC).getValue()).toString();
+                        //data berhasil di update ke database
+                        //Check for null value
+                        if (projectTitleStr != null) {
+                            inputEditTextJudulTema.setText(projectTitleStr);
+                        } else {
+                            inputEditTextJudulTema.setText("");
+                        }
+                        if (projectDescStr != null) {
+                            inputEditTextDescTema.setText(projectDescStr);
+                        } else {
+                            inputEditTextDescTema.setText("");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }

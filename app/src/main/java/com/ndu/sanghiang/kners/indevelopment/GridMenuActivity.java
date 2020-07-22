@@ -12,6 +12,7 @@ import com.ndu.sanghiang.kners.CodeMatchActivity;
 import com.ndu.sanghiang.kners.DashboardProjectActivity;
 import com.ndu.sanghiang.kners.R;
 import com.ndu.sanghiang.kners.customlistview.ui.Main2Activity;
+import com.ndu.sanghiang.kners.smartqap.inline.QcInlineActivity;
 
 import java.util.Objects;
 
@@ -34,7 +35,7 @@ public class GridMenuActivity extends AppCompatActivity {
             //Toast.makeText(GridMenuActivity.this, "GridView Item: " + gridViewString[+i], Toast.LENGTH_SHORT).show();
             Intent myIntent = null;
             if(i == 0){
-                myIntent = new Intent(view.getContext(), NewItemActivity.class);
+                myIntent = new Intent(view.getContext(), QcInlineActivity.class);
             }
             if(i == 1){
                 myIntent = new Intent(view.getContext(), AboutActivity.class);
