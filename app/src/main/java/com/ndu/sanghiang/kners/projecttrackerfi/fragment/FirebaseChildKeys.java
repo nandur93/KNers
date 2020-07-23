@@ -176,4 +176,31 @@ public class FirebaseChildKeys {
     public static String PROJECT_STANDARISASI = "project_standarisasi";
     public static String STANDARISASI_STATUS = "standarisasi_status";
     public static String STANDARISASI_TEMA_BERIKUT = "standarisasi_tema_berikut";
+
+    //smart_qap
+    public static String SMART_QAP = "smart_qap";
+    public static String QC_INLINE = "qc_inline";
+    public static String QC_PROCESS = "qc_process"; //idnya adalag qcp_
+    public static String QCP_EFORM = "qcp_eform";
+    public static String QCP_CALIBRATIONS = "qcp_calibrations";
+    public static String QCP_CHEMICAL_STOCK = "qcp_chemical_stock";
+    public static String QCP_ENVIROMENTAL_STOCK = "qcp_enviromental_stock";
+    public static String QC_PACKING = "qc_packing"; //idnya adalah qck_
+    public static String CHECK_THREE_DAYS = "check_three_days"; //idnya adalah ctd_
+
+    //tipedata_idparent_cellname
+    public static String DTM_QCP_DATE = "dtm_qcp_date";
+    public static String DTM_QCP_TIME = "dtm_qcp_time";
+    public static String TXT_QCP_LINE = "txt_qcp_line";
+    public static String INT_QCP_BO = "int_qcp_bo";
+    public static String TXT_QCP_ITEM_CODE = "txt_qcp_item_code";
+    public static String TXT_QCP_ITEM_DESC = "txt_qcp_item_desc";
+    public static String INT_QCP_TOTAL_CHARGES = "int_qcp_total_charges";
+    public static String INT_QCP_BATCH_NUMB = "int_qcp_batch_numb";
+    public static String DTM_QCP_EXPIRED_DATE = "int_qcp_expired_date";
+    public static String TXT_QCP_LAST_PRODUCT = "txt_qcp_last_product";
+    public static String TXT_QCP_CHANGE_OVER = "txt_qcp_change_over";
+    public static String TXT_QCP_MATERIAL_FLUSHING = "txt_qcp_material_flushing";
+    public static String INT_QCP_QUANTITY_FLUSHING = "int_qcp_quantity_flushing";
+    
 }

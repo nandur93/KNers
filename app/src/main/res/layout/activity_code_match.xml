@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Use DrawerLayout as root container for activity -->
+<?xml version="1.0" encoding="utf-8"?><!-- Use DrawerLayout as root container for activity -->
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
@@ -26,38 +25,38 @@
         <include
             layout="@layout/toolbar_main"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-        <TextView
-            android:layout_weight="1"
-            android:gravity="end"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:id="@+id/text_view_nobo_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/text_nobo" />
+            <TextView
+                android:id="@+id/text_view_nobo_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@string/text_nobo" />
 
-        <EditText
-            android:layout_weight="1"
-            android:gravity="left"
-            android:id="@+id/edit_text_nobo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_no_bo"
-            android:inputType="number"
-            android:focusable="false"
-            android:maxLength="10"
-            android:maxLines="1"
-            android:lines="1"
-            android:importantForAutofill="no"
-            tools:targetApi="o"
-            tools:ignore="RtlHardcoded" />
+            <EditText
+                android:id="@+id/edit_text_nobo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="false"
+                android:gravity="left"
+                android:hint="@string/hint_no_bo"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:lines="1"
+                android:maxLength="10"
+                android:maxLines="1"
+                tools:ignore="RtlHardcoded"
+                tools:targetApi="o" />
         </LinearLayout>
 
         <ScrollView
@@ -100,34 +99,34 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="25dp"
                     android:ems="10"
+                    android:focusable="false"
                     android:gravity="top|center"
                     android:hint="@string/text_actual_code"
+                    android:importantForAutofill="no"
                     android:inputType="none"
-                    android:focusable="false"
                     android:lines="5"
                     android:maxLines="5"
                     android:minLines="2"
-                    android:importantForAutofill="no"
                     tools:targetApi="o" />
 
                 <Button
                     android:id="@+id/button_qrscan"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
                     android:layout_marginTop="10dip"
                     android:background="@color/colorPrimaryDark"
-                    android:text="@string/button_scan"
-                    android:textColor="@android:color/white"
                     android:drawableStart="@drawable/ic_camera_enhance_white_24dp"
                     android:drawableLeft="@drawable/ic_camera_enhance_white_24dp"
-                    android:textAlignment="center"
-                    android:textStyle="bold"
+                    android:elevation="2dp"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
-                    android:elevation="2dp"
-                    tools:targetApi="lollipop"
-                    android:layout_gravity="center"
-                    android:layout_margin="5dp"/>
+                    android:text="@string/button_scan"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    tools:targetApi="lollipop" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -141,14 +140,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:focusable="false"
                     android:gravity="top|center"
                     android:hint="@string/text_verify_code"
+                    android:importantForAutofill="no"
                     android:inputType="none"
-                    android:focusable="false"
                     android:lines="5"
                     android:maxLines="5"
                     android:minLines="2"
-                    android:importantForAutofill="no"
                     tools:targetApi="o" />
 
             </LinearLayout>
@@ -160,69 +159,67 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:paddingBottom="15dp"
             android:paddingTop="5dp"
+            android:paddingBottom="15dp"
             android:text="@string/text_verify_result"
             android:textSize="25sp"
             android:textStyle="bold" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/button_verify"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dip"
-            android:background="@color/colorPrimaryDark"
-            android:text="@string/button_verify"
-            android:textColor="@android:color/white"
-            android:drawableStart="@drawable/ic_spellcheck_white_24dp"
-            android:drawableLeft="@drawable/ic_spellcheck_white_24dp"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:elevation="2dp"
-            tools:targetApi="lollipop"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            tools:ignore="ButtonStyle" />
 
-        <Button
-            android:id="@+id/button_preview"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dip"
-            android:text="@string/button_preview"
-            android:background="@color/colorPrimary"
-            android:drawableStart="@drawable/ic_navigate_next_black_24dp"
-            android:drawableLeft="@drawable/ic_navigate_next_black_24dp"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:elevation="2dp"
-            tools:targetApi="lollipop"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            tools:ignore="ButtonStyle" />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_verify"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:layout_marginTop="10dip"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:drawableStart="@drawable/ic_spellcheck_white_24dp"
+                android:elevation="2dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@string/button_verify"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                tools:ignore="ButtonStyle"
+                tools:targetApi="lollipop" />
+
+            <Button
+                android:id="@+id/button_preview"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:layout_marginTop="10dip"
+                android:background="@color/colorPrimary"
+                android:drawableStart="@drawable/ic_navigate_next_black_24dp"
+                android:elevation="2dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@string/button_preview"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                tools:ignore="ButtonStyle"
+                tools:targetApi="lollipop" />
+        </LinearLayout>
 
 
-        <com.google.android.gms.ads.AdView
-            android:visibility="gone"
-            xmlns:ads="http://schemas.android.com/apk/res-auto"
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/adView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_alignParentBottom="true"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"
             ads:adSize="SMART_BANNER"
             ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
-            tools:ignore="ObsoleteLayoutParam">
-        </com.google.android.gms.ads.AdView>
+            tools:ignore="ObsoleteLayoutParam" />
 
     </LinearLayout>
 

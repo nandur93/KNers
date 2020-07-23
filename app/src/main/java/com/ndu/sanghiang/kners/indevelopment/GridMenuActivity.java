@@ -72,9 +72,9 @@ public class GridMenuActivity extends AppCompatActivity {
             R.drawable.ic_launcher,
             R.drawable.ic_info_outline_black_24dp,
             R.drawable.ic_help_outline_black_24dp,
-            R.drawable.ic_settings_black_24dp,
+            R.drawable.ic_settings_white_24dp,
             R.drawable.ic_launcher_round,
-            R.drawable.ic_settings_black_24dp
+            R.drawable.ic_settings_white_24dp
 
     };
 

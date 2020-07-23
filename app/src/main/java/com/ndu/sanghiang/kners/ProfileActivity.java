@@ -118,8 +118,10 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
         // Firebase
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
         // get current userId
         String userId = mAuth.getCurrentUser().getUid();
+
         // Load photo
         loadImageFromPicasso();
 
