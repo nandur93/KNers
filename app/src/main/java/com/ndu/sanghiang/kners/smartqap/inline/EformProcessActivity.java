@@ -1,10 +1,11 @@
 package com.ndu.sanghiang.kners.smartqap.inline;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,12 +20,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ndu.sanghiang.kners.R;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.Objects;
 
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.BIT_ACTIVE_DRAFT;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.DTM_QCP_EXPIRED_DATE;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.INT_QCP_BATCH_NUMB;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.INT_QCP_BO;
@@ -49,7 +52,7 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
     private ExpandableLayout expandableLayout0;
     private ExpandableLayout expandableLayout1;
     private DatabaseReference smartQapNodeRef;
-    private TextInputEditText txtLine;
+    private TextInputEditText editTextLine;
     private TextInputEditText intBo;
     private TextInputEditText txtItemCode;
     private TextInputEditText txtItemDesc;
@@ -61,6 +64,11 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
     private TextInputEditText txtChangeOver;
     private TextInputEditText txtMaterialFlushing;
     private TextInputEditText txtQtyFlushing;
+    private DatabaseReference qcProcess;
+    private String pidKey;
+    private String pid;
+    private Switch switchDraft;
+    private int switchDraftValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +80,7 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
         Button clearForm = findViewById(R.id.button_clear_form);
         Button proceed = findViewById(R.id.button_proceed);
 
-        txtLine = findViewById(R.id.edittext_line);
+        editTextLine = findViewById(R.id.edittext_line);
         intBo = findViewById(R.id.edittext_bo);
         txtItemCode = findViewById(R.id.edittext_item_code);
         txtItemDesc = findViewById(R.id.edittext_item_desc);
@@ -84,6 +92,7 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
         txtChangeOver = findViewById(R.id.edittext_change_over);
         txtMaterialFlushing = findViewById(R.id.edittext_material_flushing);
         txtQtyFlushing = findViewById(R.id.edittext_qty_flushing);
+        switchDraft = findViewById(R.id.switchBoActive);
 
         Toolbar tToolbar = findViewById(R.id.tToolbar);
         setSupportActionBar(tToolbar);
@@ -96,8 +105,7 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
         // get current userId
         String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         smartQapNodeRef = FirebaseDatabase.getInstance().getReference().child(USERS).child(userId).child(SMART_QAP);
-
-        Log.d(TAG, "onCreate: " + userId);
+        pidKey = smartQapNodeRef.push().getKey();
 
         expandableLayout0.setOnExpansionUpdateListener((expansionFraction, state) -> Log.d("ExpandableLayout0", "State: " + state));
         expandableLayout1.setOnExpansionUpdateListener((expansionFraction, state) -> Log.d("ExpandableLayout1", "State: " + state));
@@ -113,7 +121,22 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
             Toast.makeText(this, "Proceed", Toast.LENGTH_SHORT).show();
             createDataProcess();
         });
+
         clearForm.setOnClickListener(view -> Toast.makeText(this, "Clear Form", Toast.LENGTH_SHORT).show());
+
+        // Data dari lastSaved
+        pid = getIntent().getStringExtra(PID);
+        Log.d(TAG, "onCreate: pid from last saved " + pid);
+
+        if (pid != null) {
+            loadDataLatest();
+            Log.d(TAG, "133 pid: tidak null " + pid);
+        } else {
+            Log.d(TAG, "pid: null 135");
+            loadBlankData();
+            //load data from latest
+            qcProcess = smartQapNodeRef.child(QC_INLINE).child(QC_PROCESS).child(QCP_EFORM).child(Objects.requireNonNull(pidKey));
+        }
 
         smartQapNodeRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -141,13 +164,78 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
 
             }
         });
+
+        switchDraft.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) (buttonView, isChecked) -> {
+            // do something, the isChecked will be
+            // true if the switch is in the On position
+            if (isChecked) {
+                Log.d(TAG, "onCreate: Checked true");
+                switchDraftValue = 1;
+            } else {
+                Log.d(TAG, "onCreate: Checked false");
+                switchDraftValue = 0;
+            }
+        });
+    }
+
+    private void loadBlankData() {
+        Log.d(TAG, "pid: No Data");
+    }
+
+    private void loadDataLatest() {
+        smartQapNodeRef.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        DataSnapshot snapEform = snapshot.child(QC_INLINE).child(QC_PROCESS).child(QCP_EFORM).child(pid);
+                        Log.d(TAG, "191 pid snapEform: " + snapEform.getValue());
+                        String firebasePidKey = (String) snapEform.child(PID).getValue();
+                        String firebaseLine = (String) snapEform.child(TXT_QCP_LINE).getValue();
+                        String firebaseBo = (String) snapEform.child(INT_QCP_BO).getValue();
+                        String firebaseItemCode = (String) snapEform.child(TXT_QCP_ITEM_CODE).getValue();
+                        String firebaseItemDesc = (String) snapEform.child(TXT_QCP_ITEM_DESC).getValue();
+                        String firebaseTotalCharges = (String) snapEform.child(INT_QCP_TOTAL_CHARGES).getValue();
+                        String firebaseBatchNumber = (String) snapEform.child(INT_QCP_BATCH_NUMB).getValue();
+                        String firebaseExpiredDate = (String) snapEform.child(DTM_QCP_EXPIRED_DATE).getValue();
+
+                        Log.d(TAG, "201 pid: " + firebasePidKey);
+
+                        long firebaseBitDraft = (long) snapEform.child(BIT_ACTIVE_DRAFT).getValue();
+                        for (DataSnapshot zoneSnapshot : snapEform.getChildren()) {
+                            Log.i(TAG, String.valueOf(zoneSnapshot.child(PID).getValue()));
+                        }
+
+                        editTextLine.setText(firebaseLine);
+                        intBo.setText(firebaseBo);
+                        txtItemCode.setText(firebaseItemCode);
+                        txtItemDesc.setText(firebaseItemDesc);
+                        intTotalCharges.setText(firebaseTotalCharges);
+                        txtBatchNumb.setText(firebaseBatchNumber);
+                        dtmExpiredDate.setText(firebaseExpiredDate);
+
+                        if (firebaseBitDraft == 1) {
+                            switchDraft.setChecked(true);
+                        } else {
+                            switchDraft.setChecked(false);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                }
+        );
     }
 
     private void createDataProcess() {
+
+        //Nodenya adalah smart_qap -> qc_inline -> qc_process -> eform -> pid -> line
+
         //membuat data template node
-        String pidKey = smartQapNodeRef.push().getKey();
         //metadata
-        String txtLineValue = Objects.requireNonNull(txtLine.getText()).toString();
+        String editTextLineValue = Objects.requireNonNull(editTextLine.getText()).toString();
+        Log.d(TAG, "createDataProcess: " + editTextLineValue);
         String intBoValue = Objects.requireNonNull(intBo.getText()).toString();
         String txtItemCodeValue = Objects.requireNonNull(txtItemCode.getText()).toString();
         String txtItemDescValue = Objects.requireNonNull(txtItemDesc.getText()).toString();
@@ -160,10 +248,18 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
         String txtMaterialFlushingValue = Objects.requireNonNull(txtMaterialFlushing.getText()).toString();
         String txtQtyFlushingValue = Objects.requireNonNull(txtQtyFlushing.getText()).toString();
 
-        //Nodenya adalah smart_qap -> qc_inline -> qc_process -> eform -> pid -> line
-        DatabaseReference qcProcess = smartQapNodeRef.child(QC_INLINE).child(QC_PROCESS).child(QCP_EFORM).child(Objects.requireNonNull(pidKey));
-        qcProcess.child(PID).setValue(pidKey);
-        qcProcess.child(TXT_QCP_LINE).setValue(txtLineValue);
+
+        if (pid != null) {
+            Log.d(TAG, "253 pid: tidak null " + pid);
+            //load data from latest
+            qcProcess = smartQapNodeRef.child(QC_INLINE).child(QC_PROCESS).child(QCP_EFORM).child(Objects.requireNonNull(pid));
+        } else {
+            Log.d(TAG, "pid: null 257");
+            //load data from latest
+            qcProcess = smartQapNodeRef.child(QC_INLINE).child(QC_PROCESS).child(QCP_EFORM).child(Objects.requireNonNull(pidKey));
+        }
+
+        qcProcess.child(TXT_QCP_LINE).setValue(editTextLineValue);
         qcProcess.child(INT_QCP_BO).setValue(intBoValue);
         qcProcess.child(TXT_QCP_ITEM_CODE).setValue(txtItemCodeValue);
         qcProcess.child(TXT_QCP_ITEM_DESC).setValue(txtItemDescValue);
@@ -175,12 +271,8 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
         qcProcess.child(TXT_QCP_CHANGE_OVER).setValue(txtChangeOverValue);
         qcProcess.child(TXT_QCP_MATERIAL_FLUSHING).setValue(txtMaterialFlushingValue);
         qcProcess.child(INT_QCP_QUANTITY_FLUSHING).setValue(txtQtyFlushingValue);
-    }
 
-    private void goToEformLine() {
-        Intent goToEformLine = new
-                Intent(this, EformLineActivity.class);
-        startActivity(goToEformLine);
+        qcProcess.child(BIT_ACTIVE_DRAFT).setValue(switchDraftValue);
     }
 
     @Override

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.ndu.sanghiang.kners">
+    package="com.ndu.sanghiang.kners"> <!-- support beberapa ukuran layar -->
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
 
     <uses-permission android:name="android.permission.INTERNET" /> <!-- ijnkan koneksi ke internet -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -9,8 +10,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- support beberapa ukuran layar -->
-    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -41,8 +42,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".smartqap.inline.LastSavedActivity"></activity>
         <activity android:name=".smartqap.inline.EformLineActivity" />
-
         <activity
             android:name=".smartqap.inline.EformProcessActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"

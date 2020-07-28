@@ -202,5 +202,7 @@ public class FirebaseChildKeys {
     public static String TXT_QCP_CHANGE_OVER = "txt_qcp_change_over";
     public static String TXT_QCP_MATERIAL_FLUSHING = "txt_qcp_material_flushing";
     public static String INT_QCP_QUANTITY_FLUSHING = "int_qcp_quantity_flushing";
+
+    public static String BIT_ACTIVE_DRAFT = "bit_active_draft";
     
 }

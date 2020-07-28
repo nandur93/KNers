@@ -200,7 +200,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:el_duration="500"
-                        app:el_expanded="false">
+                        app:el_expanded="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -267,6 +267,7 @@
                                     android:inputType="textCapCharacters" />
                             </com.google.android.material.textfield.TextInputLayout>
 
+
                         </LinearLayout>
 
                     </net.cachapa.expandablelayout.ExpandableLayout>
@@ -282,6 +283,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <Switch
+                android:id="@+id/switchBoActive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Save as Draft" />
 
             <LinearLayout
                 android:layout_width="match_parent"
