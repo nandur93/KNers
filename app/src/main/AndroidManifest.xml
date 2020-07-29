@@ -42,17 +42,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".smartqap.inline.LastSavedActivity"></activity>
+        <activity
+            android:name=".smartqap.inline.ListWipActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:label="@string/list_wip"
+            android:parentActivityName=".smartqap.inline.ListWipActivity"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".smartqap.inline.QcInlineActivity" />
+        </activity>
         <activity android:name=".smartqap.inline.EformLineActivity" />
         <activity
             android:name=".smartqap.inline.EformProcessActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/title_eform_qc_process"
-            android:parentActivityName=".smartqap.inline.QcInlineActivity"
+            android:parentActivityName=".smartqap.inline.ListWipActivity"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".smartqap.inline.QcInlineActivity" />
+                android:value=".smartqap.inline.ListWipActivity" />
         </activity>
         <activity android:name=".SmartQapActivity">
             <meta-data

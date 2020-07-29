@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +32,7 @@ import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKey
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.SMART_QAP;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.USERS;
 
-public class LastSavedActivity extends AppCompatActivity {
+public class ListWipActivity extends AppCompatActivity {
 
     private static final String TAG = "Firebase";
     private ListView listView;
@@ -44,12 +45,17 @@ public class LastSavedActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_last_saved);
+        setContentView(R.layout.activity_list_wip);
         listView = findViewById(R.id.listViewLast);
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+
+        Toolbar tToolbar = findViewById(R.id.tToolbar);
+        setSupportActionBar(tToolbar);
+        //Menampilkan panah Back ←
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         // Firebase
         FirebaseAuth mAuth = FirebaseAuth.getInstance();

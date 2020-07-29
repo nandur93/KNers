@@ -285,11 +285,11 @@
             android:orientation="vertical">
 
             <Switch
-                android:id="@+id/switchBoActive"
+                android:id="@+id/switchWipActive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="Save as Draft" />
+                android:text="@string/save_as_wip" />
 
             <LinearLayout
                 android:layout_width="match_parent"

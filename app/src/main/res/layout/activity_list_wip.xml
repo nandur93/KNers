@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".smartqap.inline.LastSavedActivity">
+    tools:context=".smartqap.inline.ListWipActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,15 +14,10 @@
         android:orientation="vertical">
 
         <!-- Load the toolbar here -->
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/tToolbar"
+        <include
+            layout="@layout/toolbar_main"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="@style/AppTheme"
-            app:title="Last Saved"
-            app:titleTextColor="@android:color/white" />
+            android:layout_height="wrap_content" />
 
         <ListView
             android:id="@+id/listViewLast"

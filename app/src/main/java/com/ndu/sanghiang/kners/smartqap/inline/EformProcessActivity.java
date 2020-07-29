@@ -1,5 +1,6 @@
 package com.ndu.sanghiang.kners.smartqap.inline;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -67,8 +68,19 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
     private DatabaseReference qcProcess;
     private String pidKey;
     private String pid;
-    private Switch switchDraft;
-    private int switchDraftValue;
+    private Switch switchWip;
+    private int switchWipValue;
+    private String editTextLineValue;
+    private String intBoValue;
+    private String txtItemCodeValue;
+    private String txtItemDescValue;
+    private String intTotalChargesValue;
+    private String txtBatchNumbValue;
+    private String dtmExpiredDateValue;
+    private String txtLastProductValue;
+    private String txtChangeOverValue;
+    private String txtMaterialFlushingValue;
+    private String txtQtyFlushingValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +104,7 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
         txtChangeOver = findViewById(R.id.edittext_change_over);
         txtMaterialFlushing = findViewById(R.id.edittext_material_flushing);
         txtQtyFlushing = findViewById(R.id.edittext_qty_flushing);
-        switchDraft = findViewById(R.id.switchBoActive);
+        switchWip = findViewById(R.id.switchWipActive);
 
         Toolbar tToolbar = findViewById(R.id.tToolbar);
         setSupportActionBar(tToolbar);
@@ -124,12 +136,12 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
 
         clearForm.setOnClickListener(view -> Toast.makeText(this, "Clear Form", Toast.LENGTH_SHORT).show());
 
-        // Data dari lastSaved
+        // Data dari Wip
         pid = getIntent().getStringExtra(PID);
-        Log.d(TAG, "onCreate: pid from last saved " + pid);
+        Log.d(TAG, "onCreate: pid from wip " + pid);
 
         if (pid != null) {
-            loadDataLatest();
+            loadDataWip();
             Log.d(TAG, "133 pid: tidak null " + pid);
         } else {
             Log.d(TAG, "pid: null 135");
@@ -165,15 +177,15 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
-        switchDraft.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) (buttonView, isChecked) -> {
+        switchWip.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) (buttonView, isChecked) -> {
             // do something, the isChecked will be
             // true if the switch is in the On position
             if (isChecked) {
                 Log.d(TAG, "onCreate: Checked true");
-                switchDraftValue = 1;
+                switchWipValue = 1;
             } else {
                 Log.d(TAG, "onCreate: Checked false");
-                switchDraftValue = 0;
+                switchWipValue = 0;
             }
         });
     }
@@ -182,7 +194,7 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
         Log.d(TAG, "pid: No Data");
     }
 
-    private void loadDataLatest() {
+    private void loadDataWip() {
         smartQapNodeRef.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -214,9 +226,9 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
                         dtmExpiredDate.setText(firebaseExpiredDate);
 
                         if (firebaseBitDraft == 1) {
-                            switchDraft.setChecked(true);
+                            switchWip.setChecked(true);
                         } else {
-                            switchDraft.setChecked(false);
+                            switchWip.setChecked(false);
                         }
                     }
 
@@ -234,29 +246,31 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
 
         //membuat data template node
         //metadata
-        String editTextLineValue = Objects.requireNonNull(editTextLine.getText()).toString();
+        editTextLineValue = Objects.requireNonNull(editTextLine.getText()).toString();
         Log.d(TAG, "createDataProcess: " + editTextLineValue);
-        String intBoValue = Objects.requireNonNull(intBo.getText()).toString();
-        String txtItemCodeValue = Objects.requireNonNull(txtItemCode.getText()).toString();
-        String txtItemDescValue = Objects.requireNonNull(txtItemDesc.getText()).toString();
-        String intTotalChargesValue = Objects.requireNonNull(intTotalCharges.getText()).toString();
-        String txtBatchNumbValue = Objects.requireNonNull(txtBatchNumb.getText()).toString();
-        String dtmExpiredDateValue = Objects.requireNonNull(dtmExpiredDate.getText()).toString();
+        intBoValue = Objects.requireNonNull(intBo.getText()).toString();
+        txtItemCodeValue = Objects.requireNonNull(txtItemCode.getText()).toString();
+        txtItemDescValue = Objects.requireNonNull(txtItemDesc.getText()).toString();
+        intTotalChargesValue = Objects.requireNonNull(intTotalCharges.getText()).toString();
+        txtBatchNumbValue = Objects.requireNonNull(txtBatchNumb.getText()).toString();
+        dtmExpiredDateValue = Objects.requireNonNull(dtmExpiredDate.getText()).toString();
 
-        String txtLastProductValue = Objects.requireNonNull(txtLastProduct.getText()).toString();
-        String txtChangeOverValue = Objects.requireNonNull(txtChangeOver.getText()).toString();
-        String txtMaterialFlushingValue = Objects.requireNonNull(txtMaterialFlushing.getText()).toString();
-        String txtQtyFlushingValue = Objects.requireNonNull(txtQtyFlushing.getText()).toString();
+        txtLastProductValue = Objects.requireNonNull(txtLastProduct.getText()).toString();
+        txtChangeOverValue = Objects.requireNonNull(txtChangeOver.getText()).toString();
+        txtMaterialFlushingValue = Objects.requireNonNull(txtMaterialFlushing.getText()).toString();
+        txtQtyFlushingValue = Objects.requireNonNull(txtQtyFlushing.getText()).toString();
 
 
         if (pid != null) {
             Log.d(TAG, "253 pid: tidak null " + pid);
             //load data from latest
             qcProcess = smartQapNodeRef.child(QC_INLINE).child(QC_PROCESS).child(QCP_EFORM).child(Objects.requireNonNull(pid));
+            goToLine(pid);
         } else {
             Log.d(TAG, "pid: null 257");
             //load data from latest
             qcProcess = smartQapNodeRef.child(QC_INLINE).child(QC_PROCESS).child(QCP_EFORM).child(Objects.requireNonNull(pidKey));
+            goToLine(pidKey);
         }
 
         qcProcess.child(TXT_QCP_LINE).setValue(editTextLineValue);
@@ -272,7 +286,22 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
         qcProcess.child(TXT_QCP_MATERIAL_FLUSHING).setValue(txtMaterialFlushingValue);
         qcProcess.child(INT_QCP_QUANTITY_FLUSHING).setValue(txtQtyFlushingValue);
 
-        qcProcess.child(BIT_ACTIVE_DRAFT).setValue(switchDraftValue);
+        qcProcess.child(BIT_ACTIVE_DRAFT).setValue(switchWipValue);
+
+    }
+
+    private void goToLine(String key) {
+        Intent intent = new
+                Intent(this, EformLineActivity.class);
+        intent.putExtra(PID, key);
+        intent.putExtra(INT_QCP_BO, intBoValue + "\n" +
+                txtItemCodeValue + " - " +
+                txtItemDescValue + "\n" +
+                txtBatchNumbValue + " / " +
+                dtmExpiredDateValue + "\n" +
+                intTotalChargesValue + " Charges");
+        intent.putExtra(TXT_QCP_LINE, editTextLineValue);
+        startActivity(intent);
     }
 
     @Override

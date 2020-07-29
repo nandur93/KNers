@@ -55,8 +55,8 @@ public class QcInlineFragment extends Fragment implements View.OnClickListener {
             goToEform();
         });
         continueLast.setOnClickListener(view -> {
-            goToLastRecord();
             Toast.makeText(getContext(), "Continue Last", Toast.LENGTH_SHORT).show();
+            goToLastRecord();
         });
 
         return rootView;
@@ -70,7 +70,7 @@ public class QcInlineFragment extends Fragment implements View.OnClickListener {
 
     private void goToLastRecord() {
         Intent goToLastRecord = new
-                Intent(getActivity(), LastSavedActivity.class);
+                Intent(getActivity(), ListWipActivity.class);
         startActivity(goToLastRecord);
     }
 

@@ -178,5 +178,7 @@ Section 1.10.33 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
     <string name="button_smartqap" translatable="false">Smart QAP</string>
     <string name="title_qc_process">QC Process</string>
     <string name="title_eform_qc_process">E-Form QC Process</string>
+    <string name="list_wip">List WIP</string>
+    <string name="save_as_wip">Save as WIP</string>
 
 </resources>

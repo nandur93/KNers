@@ -13,7 +13,12 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.INT_QCP_BO;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.TXT_QCP_LINE;
+
 public class EformLineActivity extends AppCompatActivity {
+
+    private String lineActive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +37,14 @@ public class EformLineActivity extends AppCompatActivity {
 
         toolbar.setNavigationOnClickListener(view -> finish());
 
+        lineActive = getIntent().getStringExtra(TXT_QCP_LINE);
+
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
-                .add(R.string.fui_email_link_email_sent, QcInlineFragment.class)
-                .add(R.string.fui_verify_phone_number_title, LineA1Fragment.class)
+                .add("Line " + lineActive.toUpperCase(), LineA1Fragment.class)
                 .create());
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        ViewPager viewPager = findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
 
         SmartTabLayout viewPagerTab = findViewById(R.id.viewpagertab);

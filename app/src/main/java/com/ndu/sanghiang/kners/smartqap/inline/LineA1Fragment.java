@@ -4,63 +4,54 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.ndu.sanghiang.kners.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LineA1Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.Objects;
+
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.INT_QCP_BO;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.PID;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.SMART_QAP;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.USERS;
+
 public class LineA1Fragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public LineA1Fragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LineA1Fragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LineA1Fragment newInstance(String param1, String param2) {
-        LineA1Fragment fragment = new LineA1Fragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    TextView textViewHeader;
+    private DatabaseReference smartQapNodeRef;
+    private String pidKey;
+    private String pid;
+    private String headerDetail;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_line_a1, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_line_a1, container, false);
+        textViewHeader = rootView.findViewById(R.id.textView_header);
+        String TAG = "Firebase";
+        /*Data dari firebase*/
+        // Firebase
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+        // get current userId
+        String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        smartQapNodeRef = FirebaseDatabase.getInstance().getReference().child(USERS).child(userId).child(SMART_QAP);
+        pidKey = smartQapNodeRef.push().getKey();
+
+        // Data dari lastSaved
+        pid = Objects.requireNonNull(getActivity()).getIntent().getStringExtra(PID);
+        headerDetail = getActivity().getIntent().getStringExtra(INT_QCP_BO);
+        Log.d(TAG, "onCreateView: 49 " + pid);
+
+        textViewHeader.setText(headerDetail);
+        return rootView;
     }
 }
