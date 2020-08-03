@@ -204,5 +204,22 @@ public class FirebaseChildKeys {
     public static String INT_QCP_QUANTITY_FLUSHING = "int_qcp_quantity_flushing";
 
     public static String BIT_ACTIVE_DRAFT = "bit_active_draft";
-    
+
+    public static String INT_QCPF_CHARGES = "int_qcpf_charges";
+    public static String TXT_QCPF_SAMPLE_PEMBANDING = "txt_qcpf_sample_pembanding";
+    public static String INT_QCPF_TESTTYPE = "int_qcpf_testtype";
+    public static String INT_QCPF_POWDER = "int_qcpf_powder";
+    public static String INT_QCPF_LARUTAN = "int_qcpf_larutan";
+    public static String INT_QCPF_FOREIGN = "int_qcpf_foreign";
+    public static String INT_QCPF_PH = "int_qcpf_ph";
+    public static String INT_QCPF_MOISTURE = "int_qcpf_moisture";
+    public static String INT_QCPF_VITAMINC = "int_qcpf_vitaminc";
+    public static String INT_QCPF_CALCIUM = "int_qcpf_calcium";
+    public static String INT_QCPF_BULK_DENSITY = "int_qcpf_bulk_density";
+    public static String INT_QCPF_SEDIMENT = "int_qcpf_sediment";
+    public static String INT_QCPF_SOLUBILITY = "int_qcpf_solubility";
+    public static String INT_QCPF_SINKERS = "int_qcpf_sinkers";
+    public static String INT_QCPF_FLOATERS = "int_qcpf_floaters";
+
+
 }
