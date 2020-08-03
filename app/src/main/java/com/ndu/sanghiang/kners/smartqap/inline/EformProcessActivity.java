@@ -301,6 +301,7 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
                 dtmExpiredDateValue + "\n" +
                 intTotalChargesValue + " Charges");
         intent.putExtra(TXT_QCP_LINE, editTextLineValue);
+        intent.putExtra(INT_QCP_TOTAL_CHARGES, intTotalChargesValue);
         startActivity(intent);
     }
 

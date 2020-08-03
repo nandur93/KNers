@@ -1,11 +1,11 @@
 package com.ndu.sanghiang.kners.smartqap.inline;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
-
-import android.os.Bundle;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.ndu.sanghiang.kners.R;
@@ -13,7 +13,6 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
-import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.INT_QCP_BO;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.TXT_QCP_LINE;
 
 public class EformLineActivity extends AppCompatActivity {

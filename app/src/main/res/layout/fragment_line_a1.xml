@@ -6,16 +6,353 @@
     tools:context=".smartqap.inline.LineA1Fragment">
 
 
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView_header"
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Header" />
+
+                <TextView
+                    android:id="@+id/textView_noCharges"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1. No Charges" />
+
+                <Spinner
+                    android:id="@+id/spinner2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/textView_testType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2. Test Type" />
+
+                <RadioGroup
+                    android:id="@+id/radio_testType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/radioButton_complete"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Complete" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton_repeat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Repeat" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/textView_organoleptik"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="3. Organoleptik" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:elevation="4dp"
+                    android:hint="Sample Pembanding">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_sample_pembanding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapCharacters" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/textView_powder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Powder" />
+
+                <RadioGroup
+                    android:id="@+id/radio_powder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/radioButton_powderConform"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Conform" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton_powderNotConform"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Not Conform" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/textView_larutan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Larutan" />
+
+                <RadioGroup
+                    android:id="@+id/radio_larutan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/radioButton_larutanConform"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Conform" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton_larutanNotConform"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Not Conform" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/textView_foreignMatter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Foreign Matter" />
+
+                <RadioGroup
+                    android:id="@+id/radio_foreignMatter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/radioButton_foreignMatterNegatif"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Negatif" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton_foreignMatterPositif"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Positif" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/textView_chemical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="4. Chemical" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:elevation="4dp"
+                    android:hint="pH">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_ph"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapCharacters" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:elevation="4dp"
+                    android:hint="Moisture (%)">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_moisture"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapCharacters" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:elevation="4dp"
+                    android:hint="Vitamin C (mg/100g)">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_vitaminC"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapCharacters" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:elevation="4dp"
+                    android:hint="Calcium (mg/100g)">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_calcium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapCharacters" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/textView_physic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="5. Physic" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:elevation="4dp"
+                    android:hint="Bulk Density (g/mL)">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_bulkDensity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapCharacters" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:elevation="4dp"
+                    android:hint="Sediment">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_sediment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapCharacters" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:elevation="4dp"
+                    android:hint="Solubility">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_solubility"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapCharacters" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:elevation="4dp"
+                    android:hint="Sinkers">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_sinkers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapCharacters" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:elevation="4dp"
+                    android:hint="Floaters">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_floaters"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapCharacters" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Header" />
+            android:orientation="horizontal">
 
-    </androidx.core.widget.NestedScrollView>
+            <Button
+                android:id="@+id/button_clear_form"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:layout_marginTop="10dip"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:drawableStart="@drawable/ic_spellcheck_white_24dp"
+                android:elevation="2dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="Clear Form"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                tools:ignore="ButtonStyle"
+                tools:targetApi="lollipop" />
+
+            <Button
+                android:id="@+id/button_submit"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:layout_marginTop="10dip"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:drawableStart="@drawable/ic_spellcheck_white_24dp"
+                android:elevation="2dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@string/button_submit"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                tools:ignore="ButtonStyle"
+                tools:targetApi="lollipop" />
+
+        </LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>
