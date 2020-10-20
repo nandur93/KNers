@@ -1,5 +1,6 @@
 package com.ndu.sanghiang.kners.smartqap.inline;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,10 @@ public class QcInlineFragment extends Fragment implements View.OnClickListener {
 
     private Button createNew;
     private Button continueLast;
+    private Button showAllBo;
+    private Button createNewPacking;
+    private Button continueLastPacking;
+    private Button showAllBoPacking;
 
     @Nullable
     @Override
@@ -37,6 +42,10 @@ public class QcInlineFragment extends Fragment implements View.OnClickListener {
 
         createNew = rootView.findViewById(R.id.button_create_new);
         continueLast = rootView.findViewById(R.id.button_continue_last);
+        showAllBo = rootView.findViewById(R.id.button_show_all_bo);
+        createNewPacking = rootView.findViewById(R.id.button_create_new_packing);
+        continueLastPacking = rootView.findViewById(R.id.button_continue_last_packing);
+        showAllBoPacking = rootView.findViewById(R.id.button_show_all_bo_packing);
 
         expandableLayout0.setOnExpansionUpdateListener((expansionFraction, state) -> Log.d("ExpandableLayout0", "State: " + state));
         expandableLayout1.setOnExpansionUpdateListener((expansionFraction, state) -> Log.d("ExpandableLayout1", "State: " + state));
@@ -58,6 +67,22 @@ public class QcInlineFragment extends Fragment implements View.OnClickListener {
             Toast.makeText(getContext(), "Continue Last", Toast.LENGTH_SHORT).show();
             goToLastRecord();
         });
+        showAllBo.setOnClickListener(view -> {
+            Toast.makeText(getContext(), "Show All BO", Toast.LENGTH_SHORT).show();
+            goToAllBo();
+        });
+        createNewPacking.setOnClickListener(view -> {
+            Toast.makeText(getContext(), "Create New", Toast.LENGTH_SHORT).show();
+            goToAllListBO();
+        });
+        continueLastPacking.setOnClickListener(view -> {
+            Toast.makeText(getContext(), "Continue Last", Toast.LENGTH_SHORT).show();
+            goToLastRecordPacking();
+        });
+        showAllBoPacking.setOnClickListener(view -> {
+            Toast.makeText(getContext(), "Show All BO", Toast.LENGTH_SHORT).show();
+            goToAllBoPacking();
+        });
 
         return rootView;
     }
@@ -74,6 +99,35 @@ public class QcInlineFragment extends Fragment implements View.OnClickListener {
         startActivity(goToLastRecord);
     }
 
+    private void goToAllBo() {
+        Intent goToAllBo = new
+                Intent(getActivity(), ListAllBoActivity.class);
+        startActivity(goToAllBo);
+    }
+
+    private void goToAllListBO() {
+        Intent goToEform = new
+                //TODO:
+                Intent(getActivity(), EformPackingActivity.class);
+        startActivity(goToEform);
+    }
+
+    private void goToLastRecordPacking() {
+        Intent goToLastRecord = new
+                //TODO:
+                Intent(getActivity(), ListWipActivity.class);
+        startActivity(goToLastRecord);
+    }
+
+    private void goToAllBoPacking() {
+        Intent goToAllBo = new
+                //TODO:
+                Intent(getActivity(), ListAllBoActivity.class);
+        goToAllBo.putExtra("packing_key", "packing");
+        startActivity(goToAllBo);
+    }
+
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

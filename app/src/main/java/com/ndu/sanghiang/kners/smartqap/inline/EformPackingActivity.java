@@ -1,5 +1,10 @@
 package com.ndu.sanghiang.kners.smartqap.inline;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,11 +13,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +30,9 @@ import java.util.Objects;
 
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.BIT_ACTIVE_DRAFT;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.DTM_QCP_EXPIRED_DATE;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.INT_QCI_QUANTITY_BILASAN;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.INT_QCI_RESULT;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.INT_QCI_TEST_PIECE;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.INT_QCP_BATCH_NUMB;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.INT_QCP_BO;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.INT_QCP_QUANTITY_FLUSHING;
@@ -47,11 +50,12 @@ import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKey
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.TXT_QCP_MATERIAL_FLUSHING;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.USERS;
 
-public class EformProcessActivity extends AppCompatActivity implements View.OnClickListener {
+public class EformPackingActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "Firebase";
     private ExpandableLayout expandableLayout0;
     private ExpandableLayout expandableLayout1;
+    private ExpandableLayout expandableLayout2;
     private DatabaseReference smartQapNodeRef;
     private TextInputEditText editTextLine;
     private TextInputEditText intBo;
@@ -65,6 +69,9 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
     private TextInputEditText txtChangeOver;
     private TextInputEditText txtMaterialFlushing;
     private TextInputEditText txtQtyFlushing;
+    private TextInputEditText txtQtyBilasan;
+    private TextInputEditText txtTestPiece;
+    private TextInputEditText txtResult;
     private DatabaseReference qcProcess;
     private String pidKey;
     private String pid;
@@ -81,13 +88,17 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
     private String txtChangeOverValue;
     private String txtMaterialFlushingValue;
     private String txtQtyFlushingValue;
+    private String txtQtyBilasanValue;
+    private String txtQtyTestPieceValue;
+    private String txtResultValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_eform_process);
+        setContentView(R.layout.activity_eform_packing);
         expandableLayout0 = findViewById(R.id.expandable_layout_product_id);
         expandableLayout1 = findViewById(R.id.expandable_layout_change_over);
+        expandableLayout2 = findViewById(R.id.expandable_layout_xray);
 
         Button clearForm = findViewById(R.id.button_clear_form);
         Button proceed = findViewById(R.id.button_proceed);
@@ -104,6 +115,9 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
         txtChangeOver = findViewById(R.id.edittext_change_over);
         txtMaterialFlushing = findViewById(R.id.edittext_material_flushing);
         txtQtyFlushing = findViewById(R.id.edittext_qty_flushing);
+        txtQtyBilasan = findViewById(R.id.edittext_qty_bilasan);
+        txtTestPiece = findViewById(R.id.edittext_test_piece_verification);
+        txtResult = findViewById(R.id.edittext_result);
         switchWip = findViewById(R.id.switchWipActive);
 
         Toolbar tToolbar = findViewById(R.id.tToolbar);
@@ -121,13 +135,15 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
 
         expandableLayout0.setOnExpansionUpdateListener((expansionFraction, state) -> Log.d("ExpandableLayout0", "State: " + state));
         expandableLayout1.setOnExpansionUpdateListener((expansionFraction, state) -> Log.d("ExpandableLayout1", "State: " + state));
-        expandableLayout1.setOnExpansionUpdateListener((expansionFraction, state) -> Log.d("ExpandableLayout2", "State: " + state));
+        expandableLayout2.setOnExpansionUpdateListener((expansionFraction, state) -> Log.d("ExpandableLayout2", "State: " + state));
 
         findViewById(R.id.expand_button_product_id).setOnClickListener(this);
         findViewById(R.id.expand_button_change_over).setOnClickListener(this);
+        findViewById(R.id.expand_button_xray).setOnClickListener(this);
 
         expandableLayout0.expand();
         expandableLayout1.collapse();
+        expandableLayout2.collapse();
 
         proceed.setOnClickListener(view -> {
             Toast.makeText(this, "Proceed", Toast.LENGTH_SHORT).show();
@@ -177,7 +193,7 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
-        switchWip.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) (buttonView, isChecked) -> {
+        switchWip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             // do something, the isChecked will be
             // true if the switch is in the On position
             if (isChecked) {
@@ -214,6 +230,9 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
                         String firebaseChangeOver = (String) snapEform.child(TXT_QCP_CHANGE_OVER).getValue();
                         String firebaseMaterialFlushing = (String) snapEform.child(TXT_QCP_MATERIAL_FLUSHING).getValue();
                         String firebaseQtyFlushing = (String) snapEform.child(INT_QCP_QUANTITY_FLUSHING).getValue();
+                        String firebaseQtyBilasan = (String) snapEform.child(INT_QCI_QUANTITY_BILASAN).getValue();
+                        String firebaseTestPiece = (String) snapEform.child(INT_QCI_TEST_PIECE).getValue();
+                        String firebaseResult = (String) snapEform.child(INT_QCI_RESULT).getValue();
 
 
                         Log.d(TAG, "201 pid: " + firebasePidKey);
@@ -234,6 +253,9 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
                         txtChangeOver.setText(firebaseChangeOver);
                         txtMaterialFlushing.setText(firebaseMaterialFlushing);
                         txtQtyFlushing.setText(firebaseQtyFlushing);
+                        txtQtyBilasan.setText(firebaseQtyBilasan);
+                        txtTestPiece.setText(firebaseTestPiece);
+                        txtResult.setText(firebaseResult);
 
                         switchWip.setChecked(firebaseBitDraft == 1);
                     }
@@ -265,18 +287,21 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
         txtChangeOverValue = Objects.requireNonNull(txtChangeOver.getText()).toString();
         txtMaterialFlushingValue = Objects.requireNonNull(txtMaterialFlushing.getText()).toString();
         txtQtyFlushingValue = Objects.requireNonNull(txtQtyFlushing.getText()).toString();
+        txtQtyBilasanValue = Objects.requireNonNull(txtQtyFlushing.getText()).toString();
+        txtQtyTestPieceValue = Objects.requireNonNull(txtQtyFlushing.getText()).toString();
+        txtResultValue = Objects.requireNonNull(txtQtyFlushing.getText()).toString();
 
 
         if (pid != null) {
             Log.d(TAG, "253 pid: tidak null " + pid);
             //load data from latest
             qcProcess = smartQapNodeRef.child(QC_INLINE).child(QC_PROCESS).child(QCP_EFORM).child(Objects.requireNonNull(pid));
-            goToLine(pid);
+            //goToLine(pid);
         } else {
             Log.d(TAG, "pid: null 257");
             //load data from latest
             qcProcess = smartQapNodeRef.child(QC_INLINE).child(QC_PROCESS).child(QCP_EFORM).child(Objects.requireNonNull(pidKey));
-            goToLine(pidKey);
+            //goToLine(pidKey);
         }
 
         qcProcess.child(TXT_QCP_LINE).setValue(editTextLineValue);
@@ -291,6 +316,9 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
         qcProcess.child(TXT_QCP_CHANGE_OVER).setValue(txtChangeOverValue);
         qcProcess.child(TXT_QCP_MATERIAL_FLUSHING).setValue(txtMaterialFlushingValue);
         qcProcess.child(INT_QCP_QUANTITY_FLUSHING).setValue(txtQtyFlushingValue);
+        qcProcess.child(INT_QCI_QUANTITY_BILASAN).setValue(txtQtyBilasanValue);
+        qcProcess.child(INT_QCI_TEST_PIECE).setValue(txtQtyTestPieceValue);
+        qcProcess.child(INT_QCI_RESULT).setValue(txtResultValue);
 
         qcProcess.child(BIT_ACTIVE_DRAFT).setValue(switchWipValue);
 
@@ -317,15 +345,28 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
             case R.id.expand_button_product_id:
                 expandableLayout0.expand();
                 expandableLayout1.collapse();
+                expandableLayout2.collapse();
                 break;
             case R.id.expand_button_change_over:
                 expandableLayout1.expand();
                 expandableLayout0.collapse();
+                expandableLayout2.collapse();
+                break;
+            case R.id.expand_button_xray:
+                expandableLayout2.expand();
+                expandableLayout0.collapse();
+                expandableLayout1.collapse();
                 break;
             default:
                 expandableLayout0.collapse();
                 expandableLayout1.collapse();
+                expandableLayout2.collapse();
                 break;
         }
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }

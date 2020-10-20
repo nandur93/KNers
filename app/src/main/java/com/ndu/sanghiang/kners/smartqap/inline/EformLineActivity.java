@@ -40,7 +40,7 @@ public class EformLineActivity extends AppCompatActivity {
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
-                .add("Line " + lineActive.toUpperCase(), LineA1Fragment.class)
+                .add("Line " + lineActive.toUpperCase(), LineFragment.class)
                 .create());
 
         ViewPager viewPager = findViewById(R.id.viewpager);

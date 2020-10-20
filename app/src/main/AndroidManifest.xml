@@ -43,6 +43,26 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".smartqap.inline.EformPackingActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:label="@string/title_eform_qc_packing"
+            android:parentActivityName=".smartqap.inline.ListWipActivity"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".smartqap.inline.ListWipActivity" />
+        </activity>
+        <activity
+            android:name=".smartqap.inline.ListAllBoActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:label="@string/list_all_bo"
+            android:parentActivityName=".smartqap.inline.ListAllBoActivity"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".smartqap.inline.QcInlineActivity" />
+        </activity>
+        <activity
             android:name=".smartqap.inline.ListWipActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/list_wip"
@@ -98,13 +118,15 @@
             android:name=".service.CopyLinkBroadcastReceiver"
             android:enabled="true" />
 
-        <service android:name=".service.KNersFirebaseMessagingService">
+        <service
+            android:name=".service.KNersFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <receiver android:name=".PlugInConnector">
+        <receiver android:name=".service.PlugInConnector">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
@@ -134,7 +156,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ndu.sanghiang.kners.MainActivity" />
         </activity>
-        <activity android:name=".PreferenceActivity" />
         <activity
             android:name=".projecttrackerfi.ProjectTrackerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"

@@ -203,6 +203,10 @@ public class FirebaseChildKeys {
     public static String TXT_QCP_MATERIAL_FLUSHING = "txt_qcp_material_flushing";
     public static String INT_QCP_QUANTITY_FLUSHING = "int_qcp_quantity_flushing";
 
+    public static String INT_QCI_QUANTITY_BILASAN = "int_qci_quantity_bilasan";
+    public static String INT_QCI_TEST_PIECE = "int_qci_test_piece";
+    public static String INT_QCI_RESULT = "int_qci_result";
+
     public static String BIT_ACTIVE_DRAFT = "bit_active_draft";
 
     public static String INT_QCPF_CHARGES = "int_qcpf_charges";
@@ -220,6 +224,15 @@ public class FirebaseChildKeys {
     public static String INT_QCPF_SOLUBILITY = "int_qcpf_solubility";
     public static String INT_QCPF_SINKERS = "int_qcpf_sinkers";
     public static String INT_QCPF_FLOATERS = "int_qcpf_floaters";
+
+    public static String ARR_QCPF_CHARGES = "arr_qcpf_charges";
+
+    public static String RADIO_BUTTON_COMPLETE = "Complete";
+    public static String RADIO_BUTTON_REPEAT = "Repeat";
+    public static String RADIO_BUTTON_CONFORM = "Conform";
+    public static String RADIO_BUTTON_NOT_CONFORM = "Not Conform";
+    public static String RADIO_BUTTON_NEGATIVE = "Negatif";
+    public static String RADIO_BUTTON_POSITIVE = "Positif";
 
 
 }
