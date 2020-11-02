@@ -298,24 +298,6 @@
 
                                 </LinearLayout>
 
-                                <Button
-                                    android:id="@+id/button_show_all_bo_packing"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="48dp"
-                                    android:layout_gravity="center"
-                                    android:layout_margin="5dp"
-                                    android:layout_weight="1"
-                                    android:background="@color/colorPrimaryDark"
-                                    android:drawableStart="@drawable/ic_spellcheck_white_24dp"
-                                    android:paddingStart="10dp"
-                                    android:paddingEnd="10dp"
-                                    android:text="Show All BO"
-                                    android:textAlignment="center"
-                                    android:textColor="@android:color/white"
-                                    android:textStyle="bold"
-                                    tools:ignore="ButtonStyle,TooDeepLayout"
-                                    tools:targetApi="lollipop" />
-
                             </LinearLayout>
 
                         </androidx.cardview.widget.CardView>

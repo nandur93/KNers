@@ -1,18 +1,18 @@
 package com.ndu.sanghiang.kners.smartqap.inline;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,7 +28,7 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.Objects;
 
-import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.BIT_ACTIVE_DRAFT;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.BIT_ACTIVE_DRAFT_PACKING;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.DTM_QCP_EXPIRED_DATE;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.INT_QCI_QUANTITY_BILASAN;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.INT_QCI_RESULT;
@@ -49,6 +49,8 @@ import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKey
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.TXT_QCP_LINE;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.TXT_QCP_MATERIAL_FLUSHING;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.USERS;
+import static com.ndu.sanghiang.kners.smartqap.inline.QcInlineFragment.LIST_FROM_KEY;
+import static com.ndu.sanghiang.kners.smartqap.inline.QcInlineFragment.PACKING;
 
 public class EformPackingActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -237,7 +239,7 @@ public class EformPackingActivity extends AppCompatActivity implements View.OnCl
 
                         Log.d(TAG, "201 pid: " + firebasePidKey);
 
-                        long firebaseBitDraft = (long) snapEform.child(BIT_ACTIVE_DRAFT).getValue();
+                        long firebaseBitDraft = (long) snapEform.child(BIT_ACTIVE_DRAFT_PACKING).getValue();
                         for (DataSnapshot zoneSnapshot : snapEform.getChildren()) {
                             Log.i(TAG, String.valueOf(zoneSnapshot.child(PID).getValue()));
                         }
@@ -296,12 +298,12 @@ public class EformPackingActivity extends AppCompatActivity implements View.OnCl
             Log.d(TAG, "253 pid: tidak null " + pid);
             //load data from latest
             qcProcess = smartQapNodeRef.child(QC_INLINE).child(QC_PROCESS).child(QCP_EFORM).child(Objects.requireNonNull(pid));
-            //goToLine(pid);
+            goToLine(pid);
         } else {
             Log.d(TAG, "pid: null 257");
             //load data from latest
             qcProcess = smartQapNodeRef.child(QC_INLINE).child(QC_PROCESS).child(QCP_EFORM).child(Objects.requireNonNull(pidKey));
-            //goToLine(pidKey);
+            goToLine(pidKey);
         }
 
         qcProcess.child(TXT_QCP_LINE).setValue(editTextLineValue);
@@ -320,7 +322,7 @@ public class EformPackingActivity extends AppCompatActivity implements View.OnCl
         qcProcess.child(INT_QCI_TEST_PIECE).setValue(txtQtyTestPieceValue);
         qcProcess.child(INT_QCI_RESULT).setValue(txtResultValue);
 
-        qcProcess.child(BIT_ACTIVE_DRAFT).setValue(switchWipValue);
+        qcProcess.child(BIT_ACTIVE_DRAFT_PACKING).setValue(switchWipValue);
 
     }
 
@@ -336,9 +338,11 @@ public class EformPackingActivity extends AppCompatActivity implements View.OnCl
                 intTotalChargesValue + " Charges");
         intent.putExtra(TXT_QCP_LINE, editTextLineValue);
         intent.putExtra(INT_QCP_TOTAL_CHARGES, intTotalChargesValue);
+        intent.putExtra(LIST_FROM_KEY, PACKING);
         startActivity(intent);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

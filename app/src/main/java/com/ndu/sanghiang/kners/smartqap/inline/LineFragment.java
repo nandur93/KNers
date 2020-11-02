@@ -2,10 +2,6 @@ package com.ndu.sanghiang.kners.smartqap.inline;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +14,9 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -118,8 +117,8 @@ public class LineFragment extends Fragment {
 
         // Data dari lastSaved
         pid = requireActivity().getIntent().getStringExtra(PID);
-        headerDetail = getActivity().getIntent().getStringExtra(INT_QCP_BO);
-        totalCharges = getActivity().getIntent().getStringExtra(INT_QCP_TOTAL_CHARGES);
+        headerDetail = requireActivity().getIntent().getStringExtra(INT_QCP_BO);
+        totalCharges = requireActivity().getIntent().getStringExtra(INT_QCP_TOTAL_CHARGES);
         Log.d(TAG, "onCreateView: 115 " + totalCharges);
         Log.d(TAG, "onCreateView: 116 " + pid);
 
@@ -233,7 +232,7 @@ public class LineFragment extends Fragment {
             }
 
             dataToFirebase();
-            goToQCInline();
+            //goToQCInline();
             Toast.makeText(getActivity(), "Data submitted", Toast.LENGTH_SHORT).show();
         });
 

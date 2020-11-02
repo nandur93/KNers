@@ -20,6 +20,11 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 
 public class QcInlineFragment extends Fragment implements View.OnClickListener {
 
+    public static final String LIST_FROM_KEY = "list_from_key";
+    public static final String PACKING = "packing";
+    public static final String PACKING_WIP = "packing_wip";
+    public static final String PROCESS = "process";
+    public static final String PROCESS_WIP = "process_wip";
     private ExpandableLayout expandableLayout0;
     private ExpandableLayout expandableLayout1;
     private ExpandableLayout expandableLayout2;
@@ -29,7 +34,6 @@ public class QcInlineFragment extends Fragment implements View.OnClickListener {
     private Button showAllBo;
     private Button createNewPacking;
     private Button continueLastPacking;
-    private Button showAllBoPacking;
 
     @Nullable
     @Override
@@ -45,7 +49,6 @@ public class QcInlineFragment extends Fragment implements View.OnClickListener {
         showAllBo = rootView.findViewById(R.id.button_show_all_bo);
         createNewPacking = rootView.findViewById(R.id.button_create_new_packing);
         continueLastPacking = rootView.findViewById(R.id.button_continue_last_packing);
-        showAllBoPacking = rootView.findViewById(R.id.button_show_all_bo_packing);
 
         expandableLayout0.setOnExpansionUpdateListener((expansionFraction, state) -> Log.d("ExpandableLayout0", "State: " + state));
         expandableLayout1.setOnExpansionUpdateListener((expansionFraction, state) -> Log.d("ExpandableLayout1", "State: " + state));
@@ -73,15 +76,11 @@ public class QcInlineFragment extends Fragment implements View.OnClickListener {
         });
         createNewPacking.setOnClickListener(view -> {
             Toast.makeText(getContext(), "Create New", Toast.LENGTH_SHORT).show();
-            goToAllListBO();
+            goToDoneProcess();
         });
         continueLastPacking.setOnClickListener(view -> {
             Toast.makeText(getContext(), "Continue Last", Toast.LENGTH_SHORT).show();
             goToLastRecordPacking();
-        });
-        showAllBoPacking.setOnClickListener(view -> {
-            Toast.makeText(getContext(), "Show All BO", Toast.LENGTH_SHORT).show();
-            goToAllBoPacking();
         });
 
         return rootView;
@@ -94,37 +93,33 @@ public class QcInlineFragment extends Fragment implements View.OnClickListener {
     }
 
     private void goToLastRecord() {
-        Intent goToLastRecord = new
-                Intent(getActivity(), ListWipActivity.class);
-        startActivity(goToLastRecord);
+        Intent intent = new
+                Intent(getActivity(), ListAllBoActivity.class);
+        intent.putExtra(LIST_FROM_KEY, PROCESS_WIP);
+        startActivity(intent);
     }
 
     private void goToAllBo() {
-        Intent goToAllBo = new
+        Intent intent = new
                 Intent(getActivity(), ListAllBoActivity.class);
-        startActivity(goToAllBo);
+        intent.putExtra(LIST_FROM_KEY, PROCESS);
+        startActivity(intent);
     }
 
-    private void goToAllListBO() {
-        Intent goToEform = new
+    private void goToDoneProcess() {
+        Intent intent = new
                 //TODO:
-                Intent(getActivity(), EformPackingActivity.class);
-        startActivity(goToEform);
+                Intent(getActivity(), ListAllBoActivity.class);
+        intent.putExtra(LIST_FROM_KEY, PACKING);
+        startActivity(intent);
     }
 
     private void goToLastRecordPacking() {
-        Intent goToLastRecord = new
-                //TODO:
-                Intent(getActivity(), ListWipActivity.class);
-        startActivity(goToLastRecord);
-    }
-
-    private void goToAllBoPacking() {
-        Intent goToAllBo = new
+        Intent intent = new
                 //TODO:
                 Intent(getActivity(), ListAllBoActivity.class);
-        goToAllBo.putExtra("packing_key", "packing");
-        startActivity(goToAllBo);
+        intent.putExtra(LIST_FROM_KEY, PACKING_WIP);
+        startActivity(intent);
     }
 
     @SuppressLint("NonConstantResourceId")

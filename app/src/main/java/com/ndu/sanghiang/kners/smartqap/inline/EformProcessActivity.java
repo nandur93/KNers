@@ -1,11 +1,11 @@
 package com.ndu.sanghiang.kners.smartqap.inline;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -29,6 +29,7 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 import java.util.Objects;
 
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.BIT_ACTIVE_DRAFT;
+import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.BIT_ACTIVE_DRAFT_PACKING;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.DTM_QCP_EXPIRED_DATE;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.INT_QCP_BATCH_NUMB;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.INT_QCP_BO;
@@ -46,6 +47,8 @@ import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKey
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.TXT_QCP_LINE;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.TXT_QCP_MATERIAL_FLUSHING;
 import static com.ndu.sanghiang.kners.projecttrackerfi.fragment.FirebaseChildKeys.USERS;
+import static com.ndu.sanghiang.kners.smartqap.inline.QcInlineFragment.LIST_FROM_KEY;
+import static com.ndu.sanghiang.kners.smartqap.inline.QcInlineFragment.PROCESS;
 
 public class EformProcessActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -177,7 +180,7 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
-        switchWip.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) (buttonView, isChecked) -> {
+        switchWip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             // do something, the isChecked will be
             // true if the switch is in the On position
             if (isChecked) {
@@ -293,6 +296,7 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
         qcProcess.child(INT_QCP_QUANTITY_FLUSHING).setValue(txtQtyFlushingValue);
 
         qcProcess.child(BIT_ACTIVE_DRAFT).setValue(switchWipValue);
+        qcProcess.child(BIT_ACTIVE_DRAFT_PACKING).setValue(1);
 
     }
 
@@ -308,9 +312,11 @@ public class EformProcessActivity extends AppCompatActivity implements View.OnCl
                 intTotalChargesValue + " Charges");
         intent.putExtra(TXT_QCP_LINE, editTextLineValue);
         intent.putExtra(INT_QCP_TOTAL_CHARGES, intTotalChargesValue);
+        intent.putExtra(LIST_FROM_KEY, PROCESS);
         startActivity(intent);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

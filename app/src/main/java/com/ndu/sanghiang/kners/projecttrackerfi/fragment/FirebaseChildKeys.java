@@ -208,6 +208,7 @@ public class FirebaseChildKeys {
     public static String INT_QCI_RESULT = "int_qci_result";
 
     public static String BIT_ACTIVE_DRAFT = "bit_active_draft";
+    public static String BIT_ACTIVE_DRAFT_PACKING = "bit_active_draft_packing";
 
     public static String INT_QCPF_CHARGES = "int_qcpf_charges";
     public static String TXT_QCPF_SAMPLE_PEMBANDING = "txt_qcpf_sample_pembanding";
@@ -233,6 +234,41 @@ public class FirebaseChildKeys {
     public static String RADIO_BUTTON_NOT_CONFORM = "Not Conform";
     public static String RADIO_BUTTON_NEGATIVE = "Negatif";
     public static String RADIO_BUTTON_POSITIVE = "Positif";
+    public static String RADIO_BUTTON_OK = "Ok";
+    public static String RADIO_BUTTON_NOT_OK = "Not Ok";
+
+
+    public static String INT_QCI_NO_CARTON = "int_qci_no_carton";
+    public static String CHECK_QCI_MIKRO = "check_qci_mikro";
+    public static String CHECK_QCI_KIMIA = "check_qci_kimia";
+    public static String CHECK_QCI_RETAIN = "check_qci_retain";
+    public static String CHECK_QCI_INSTRUMENT = "check_qci_instrument";
+    public static String CHECK_QCI_THREE_DAYS = "check_qci_three_days";
+    public static String CHECK_QCI_ORGANO = "check_qci_organo";
+    public static String INT_QCI_HORIZONTAL_DEPAN = "int_qci_horizontal_depan";
+    public static String INT_QCI_HORIZONTAL_BELAKANG = "int_qci_horizontal_belakang";
+    public static String INT_QCI_VERTICAL_SEAL = "int_qci_vertical_seal";
+    public static String INT_QCI_OXYGEN = "int_qci_oxygen";
+    public static String INT_QCI_PRESSURE = "int_qci_pressure";
+    public static String INT_QCI_MEASURE = "int_qci_measure";
+    public static String INT_QCI_PANJANG_SACHET = "int_qci_panjang_sachet";
+    public static String INT_QCI_KEGEMBUNGAN = "int_qci_kegembungan";
+    public static String INT_QCI_BERAT_NETTO = "int_qci_berat_netto";
+    public static String INT_QCI_TOTAL_SAMPLE = "int_qci_total_sample";
+    public static String INT_QCI_JUMLAH_BONGKAR = "int_qci_jumlah_bongkar";
+    public static String TXT_QCI_ROOT_CAUSE = "txt_qci_root_cause";
+    public static String TXT_QCI_CORRECTIVE_ACTION = "txt_qci_corrective_action";
+    public static String INT_QCI_JUMLAH_NG = "int_qci_jumlah_ng";
+    public static String HRS_QCI_JAM_SAMPLE = "hrs_qci_jam_sample";
+    public static String HRS_QCI_JAM_SAMPLE2 = "hrs_qci_jam_sample2";
+
+    public static String TXT_QCI_LEAKING = "txt_qci_leaking";
+    public static String TXT_QCI_CRACKING = "txt_qci_cracking";
+    public static String TXT_QCI_ORGANO = "txt_qci_organo";
+    public static String TXT_QCI_METAL = "txt_qci_metal";
+    public static String TXT_QCI_NON_METAL = "txt_qci_non_metal";
+    public static String TXT_QCI_METAL_CATCHER = "txt_qci_metal_catcher";
+
 
 
 }
