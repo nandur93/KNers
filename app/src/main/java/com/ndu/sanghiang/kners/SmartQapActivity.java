@@ -35,7 +35,8 @@ public class SmartQapActivity extends AppCompatActivity {
                 myIntent = new Intent(view.getContext(), QcInlineActivity.class);
             }
             if (i == 1) {
-                myIntent = new Intent(view.getContext(), AboutActivity.class);
+ //               myIntent = new Intent(view.getContext(), AboutActivity.class);
+                toaster("Coming Soon");
             }
             if (i == 2) {
 //                myIntent = new Intent(view.getContext(), ProdukKnowledgeActivity.class);
@@ -56,7 +57,7 @@ public class SmartQapActivity extends AppCompatActivity {
             try {
                 startActivity(myIntent);
             } catch (Exception e) {
-                toaster("Tidak ada Intent");
+                toaster("Coming Soon -t");
                 e.printStackTrace();
             }
         });

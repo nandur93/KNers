@@ -220,6 +220,7 @@ public class PackingFragment extends Fragment {
         //Button
         buttonSubmit = rootView.findViewById(R.id.button_submit);
         buttonClearForm = rootView.findViewById(R.id.button_clear_form);
+        buttonClearForm.setOnClickListener(v -> clearForm());
 
         /*Data dari firebase*/
         // Firebase
@@ -247,6 +248,7 @@ public class PackingFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Toast.makeText(requireActivity(), "Changed", Toast.LENGTH_SHORT).show();
                 //TODO: Change text
+                clearForm();
             }
 
             @Override
@@ -362,6 +364,40 @@ public class PackingFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    private void clearForm() {
+        editTextHorizontalDepan.setText("");
+        editTextHorizontalBelakang.setText("");
+        editTextVertikalSeal.setText("");
+        editTextOxygen.setText("");
+        editTextPressure.setText("");
+        editTextMeasure.setText("");
+        editTextPanjangSachet.setText("");
+        editTextKegembungan.setText("");
+        editTextBeratNetto.setText("");
+        editTextTotalSample.setText("");
+        editTextJumlahBongkar.setText("");
+        editTextRootCause.setText("");
+        editTextCorrectiveAction.setText("");
+        editTextJumlahNg.setText("");
+        editTextJamSample.setText("");
+        editTextJamSample2.setText("");
+        //Checkbox
+        checkBoxMicro.setChecked(false);
+        checkBoxKimia.setChecked(false);
+        checkBoxRetain.setChecked(false);
+        checkBoxInstrument.setChecked(false);
+        checkBoxThreeDays.setChecked(false);
+        checkBoxOrgano.setChecked(false);
+        //RadioGroup
+        radioGroupLeaking.clearCheck();
+        radioGroupCracking.clearCheck();
+        radioGroupOrgano.clearCheck();
+        radioGroupMetal.clearCheck();
+        radioGroupNonMetal.clearCheck();
+        radioGroupMetalCathcer.clearCheck();
+
     }
 
     private void loadDataDetails() {

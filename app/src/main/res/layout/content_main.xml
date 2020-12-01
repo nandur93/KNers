@@ -80,37 +80,43 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
-                    android:text="@string/button_produk_knowledge" />
+                    android:text="@string/button_produk_knowledge"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/button_browser"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/button_kner_browser" />
+                    android:text="@string/button_kner_browser"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/button_history"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/button_history" />
+                    android:text="@string/button_history"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/button_project_tracker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/button_project_tracker" />
+                    android:text="@string/button_project_tracker"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/button_grid_menu"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/button_grid_menu" />
+                    android:text="@string/button_grid_menu"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/button_unmount_otg"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/button_unmount_otg" />
+                    android:text="@string/button_unmount_otg"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/button_profile"

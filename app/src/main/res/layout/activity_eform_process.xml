@@ -76,7 +76,8 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:inputType="textCapCharacters"
-                                        android:maxLength="2" />
+                                        android:maxLength="2"
+                                        tools:ignore="TooDeepLayout" />
                                 </com.google.android.material.textfield.TextInputLayout>
 
                                 <com.google.android.material.textfield.TextInputLayout
@@ -153,7 +154,7 @@
                                     android:id="@+id/edittext_batch_number"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:inputType="textCapCharacters" />
+                                    android:inputType="number" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
@@ -200,7 +201,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:el_duration="500"
-                        app:el_expanded="true">
+                        app:el_expanded="false">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -264,7 +265,7 @@
                                     android:id="@+id/edittext_qty_flushing"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:inputType="textCapCharacters" />
+                                    android:inputType="number" />
                             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -289,7 +290,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="@string/save_as_wip" />
+                android:text="@string/save_as_wip"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -34,7 +34,7 @@ public class QcInlineActivity extends AppCompatActivity {
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
-                .add(R.string.fui_email_link_email_sent, QcInlineFragment.class)
+                .add(R.string.title_qc_process, QcInlineFragment.class)
                 //.add(R.string.fui_verify_phone_number_title, LineA1Fragment.class)
                 .create());
 
